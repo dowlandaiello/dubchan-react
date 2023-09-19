@@ -1,0 +1,72 @@
+.post {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  border-radius: 5px;
+  border: 1px solid var(--accent);
+  background-color: var(--bg-lighter);
+
+  padding: 0.5em;
+}
+
+.post>*:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+
+.post h1, .post p {
+  margin: 0;
+}
+
+.titleLine {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.titleLine>*:not(:last-child) {
+  margin-right: 0.5em;
+}
+
+.tagList {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.tagList>*:not(:last-child) {
+  margin-right: 0.5em;
+}
+
+.titleLineRight {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  flex-grow: 1;
+}
+
+.titleLineRight>* {
+  margin-left: 1em;
+}
+
+.media {
+  width: 30%;
+  flex-grow: 1;
+  align-self: center;
+}
+
+.post.expanded {
+  height: 100vh;
+}
+
+.media.expanded {
+  display: block;
+  width: 60%;
+}

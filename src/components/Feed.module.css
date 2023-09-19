@@ -1,0 +1,14 @@
+.feed {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  max-height: 100%;
+  overflow: auto;
+}
+
+.feed>*:not(:first-child) {
+  margin-top: 1em;
+}

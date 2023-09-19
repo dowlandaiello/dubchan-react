@@ -1,0 +1,6 @@
+.tag {
+  padding: 0.5em;
+  border: 1px solid var(--accent);
+  border-radius: 10000px;
+  font-weight: 700;
+}
