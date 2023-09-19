@@ -5,4 +5,10 @@
   width: calc(100vw - 4em);
   padding: 2em;
   margin: 0;
+
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
 }

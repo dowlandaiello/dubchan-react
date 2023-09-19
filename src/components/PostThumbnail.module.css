@@ -70,3 +70,18 @@
   display: block;
   width: 60%;
 }
+
+.commentViewButton {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent);
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.commentViewButton img {
+  filter: var(--svg-accent);
+  margin-right: 0.5em;
+}

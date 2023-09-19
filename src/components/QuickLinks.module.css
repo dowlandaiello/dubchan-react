@@ -1,0 +1,25 @@
+.section {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 1em;
+}
+
+.qotd {
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.section a {
+  color: white;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  font-weight: bold;
+}
+
+.section a:not(:last-child) {
+  margin-right: 0.5em;
+}

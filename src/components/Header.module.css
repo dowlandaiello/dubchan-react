@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+  border-bottom: 1px solid var(--accent);
+
+  margin-bottom: 2em;
+
+  width: 100%;
+}
+
+.header h1, .header p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.headerText {
+  display: flex;
+
+  flex-flow: column;
+  justify-content: center;
+  align-items: flex-start;
+  align-self: center;
+
+  margin-left: 2em;
+
+  height: 100%;
+}
+
+.headerTitleLine {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.betaMarker {
+  background-color: var(--accent);
+  padding: 0.125em;
+  margin-left: 0.5em;
+  border-radius: 5px;
+}

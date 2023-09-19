@@ -1,5 +1,7 @@
 import { Post } from "../model/post";
+import Image from "next/image";
 import style from "./PostThumbnail.module.css";
+import clickable from "./Clickable.module.css";
 import { TimestampLabel } from "./TimestampLabel";
 import { uiRoute } from "../util/http";
 import { CopyLink } from "./CopyLink";
@@ -36,6 +38,10 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
           onClick={() => setExpanded(!expanded)}
         />
       )}
+      <div className={`${style.commentViewButton} ${clickable.clickable}`}>
+        <Image src="/forum.svg" alt="Forum icon" height={15} width={15} />
+        Comments ({post.n_comments})
+      </div>
     </div>
   );
 };
