@@ -1,10 +1,18 @@
 .main {
   background-color: var(--bg);
 
-  height: calc(100vh - 4em);
-  width: calc(100vw - 4em);
-  padding: 2em;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
+}
+
+.foreground {
+  width: calc(100% - 4em);
+  height: calc(100% - 2em);
+
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 2em;
 
   display: flex;
 

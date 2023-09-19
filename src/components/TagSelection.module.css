@@ -1,0 +1,15 @@
+.row {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.row>*:not(:last-child) {
+  margin-right: 0.5em;
+}
+
+.row .selected {
+  background-color: var(--accent);
+}

@@ -3,7 +3,6 @@ import Image from "next/image";
 import style from "./PostThumbnail.module.css";
 import clickable from "./Clickable.module.css";
 import { TimestampLabel } from "./TimestampLabel";
-import { uiRoute } from "../util/http";
 import { CopyLink } from "./CopyLink";
 import { Tag } from "./Tag";
 import { MediaViewer } from "./MediaViewer";
@@ -25,7 +24,7 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
         <h1>{post.title}</h1>
         <TimestampLabel timestamp={post.posted_at} />
         <div className={style.titleLineRight}>
-          <CopyLink link={uiRoute(`/posts/${post.id}`)} />
+          <CopyLink link={`/posts/${post.id}`} />
           <div className={style.tagList}>{tags}</div>
         </div>
       </div>

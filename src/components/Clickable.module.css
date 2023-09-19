@@ -1,6 +1,7 @@
 .clickable {
   transition: 0.3s;
   cursor: pointer;
+  user-select: none;
 }
 
 .clickable:hover {

@@ -1,0 +1,66 @@
+.section {
+  border: 1px solid var(--accent);
+  background-color: var(--bg-lightest);
+  padding: 1em;
+
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  border-radius: 5px;
+}
+
+.section>*:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.section h1, .section p {
+  margin: 0;
+}
+
+.titleLine {
+  display: flex;
+
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section .underlined {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1em;
+  width: 100%;
+  background-color: transparent;
+  font-family: Arial, Helvetica, "sans-serif";
+}
+
+.attachLine {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.fileUploadButton {
+  border-bottom: none;
+}
+
+.postButton {
+  border-radius: 10000px;
+  padding: 0.75em;
+}
+
+.mediaButtons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.mediaButtons>*:not(:first-child) {
+  margin-left: 0.5em;
+}

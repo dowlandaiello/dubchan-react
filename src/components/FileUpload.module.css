@@ -1,0 +1,32 @@
+.button {
+  position: relative;
+  cursor: pointer;
+}
+
+.button input {
+  opacity: 0;
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 2;
+}
+
+.buttonLabel {
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: bold;
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.buttonLabel img {
+  filter: var(--svg-accent);
+}

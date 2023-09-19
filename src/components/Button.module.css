@@ -1,0 +1,13 @@
+.button {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--accent);
+
+  font-weight: bold;
+  padding: 0.25em;
+  border-radius: 5px;
+}

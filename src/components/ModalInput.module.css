@@ -1,0 +1,70 @@
+.modal {
+  opacity: 0;
+  transition: 0.3s;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor-events: none;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  padding: 20%;
+
+  z-index: 3;
+  pointer-events: none;
+}
+
+.modal.active {
+  pointer-events: auto;
+}
+
+.modal h1, .modal p {
+  margin: 0;
+}
+
+.modalContainer {
+   display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  background-color: var(--bg);
+  border-radius: 5px;
+  border: 1px solid var(--accent);
+
+  padding: 2em;
+}
+
+.modalContainer input {
+  margin-top: 2em;
+
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1em;
+}
+
+.modalContainer>*:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+
+.active {
+  opacity: 100%;
+}
+
+.titleLine {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal>*:not(:last-child) {
+  margin-bottom: 0.5em;
+}

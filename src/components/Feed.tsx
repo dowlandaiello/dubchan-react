@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, Fragment } from "react";
 import { route } from "../util/http";
 import { PostThumbnail } from "./PostThumbnail";
 import style from "./Feed.module.css";
+import { NewPost } from "./NewPost";
 
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
@@ -90,6 +91,7 @@ export const Feed = () => {
 
   return (
     <div className={style.feed} ref={feedRef}>
+      <NewPost />
       {postEntries}
     </div>
   );

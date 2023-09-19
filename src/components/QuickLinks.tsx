@@ -1,7 +1,7 @@
 import style from "./QuickLinks.module.css";
 import Link from "next/link";
 import clickable from "./Clickable.module.css";
-import { uiRoute, route } from "../util/http";
+import { route } from "../util/http";
 import { useState, useEffect } from "react";
 
 export const QuickLinks = () => {
@@ -16,7 +16,7 @@ export const QuickLinks = () => {
       <Link
         className={clickable.clickable}
         key={link.text}
-        href={uiRoute(`/posts/${link.postId}`)}
+        href={`/posts/${link.postId}`}
       >
         {link.text}
       </Link>
