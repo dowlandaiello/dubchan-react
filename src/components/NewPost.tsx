@@ -7,6 +7,7 @@ import { UrlVidUpload } from "./UrlVidUpload";
 import { Button } from "./Button";
 import { Captcha } from "./Captcha";
 import { route } from "../util/http";
+import { MediaPreview } from "./MediaPreview";
 
 /// A form for creating new posts.
 export const NewPost = () => {
@@ -21,6 +22,13 @@ export const NewPost = () => {
   const [captchaCallback, setCaptchaCallback] = useState<
     null | ((e: any) => void)
   >(null);
+  const [previewSrc, setPreviewSrc] = useState<null | string>(null);
+
+  // Used for calculating preview window size
+  const windowRef = useRef<HTMLDivElement | null>(null);
+  const [[previewWidth, previewHeight], setPreviewDims] = useState<
+    [number, number]
+  >([0, 0]);
 
   const gotFile = (event: ChangeEvent<HTMLInputElement>) => {
     const e = event.target as HTMLInputElement;
@@ -32,6 +40,13 @@ export const NewPost = () => {
         formData.append("data", file);
         return formData;
       });
+
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        if (typeof reader.result == "string") setPreviewSrc(reader.result);
+      };
     }
   };
 
@@ -39,6 +54,7 @@ export const NewPost = () => {
     setFormData((formData) => {
       formData.delete("data");
       formData.append("src", url);
+      setPreviewSrc(url);
       return formData;
     });
   };
@@ -84,8 +100,42 @@ export const NewPost = () => {
     });
   };
 
+  const removeMedia = () => {
+    formData.delete("src");
+    formData.delete("data");
+    setPreviewSrc(null);
+  };
+
+  useEffect(() => {
+    if (!windowRef.current || windowRef.current == null) return;
+
+    const elem = windowRef.current;
+    const computedStyle = getComputedStyle(elem);
+
+    let elementHeight = elem.clientHeight;
+    let elementWidth = elem.clientWidth;
+
+    elementHeight -=
+      parseFloat(computedStyle.paddingTop) +
+      parseFloat(computedStyle.paddingBottom);
+    elementWidth -=
+      parseFloat(computedStyle.paddingLeft) +
+      parseFloat(computedStyle.paddingRight);
+
+    setPreviewDims([elementWidth * 0.3, elementHeight]);
+  }, [windowRef.current, windowRef.current?.clientHeight ?? 0]);
+
   return (
-    <div className={style.section}>
+    <div className={style.section} ref={windowRef}>
+      {previewSrc && (
+        <MediaPreview
+          src={previewSrc}
+          className={style.preview}
+          onRemove={removeMedia}
+          width={previewWidth == 0 ? undefined : previewWidth}
+          height={previewHeight == 0 ? undefined : previewHeight}
+        />
+      )}
       <div className={style.fields}>
         <div className={style.titleLine}>
           <h1>New Post</h1>
