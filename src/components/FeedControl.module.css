@@ -1,0 +1,86 @@
+.section {
+  display: flex;
+
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.searchBar {
+  background-color: var(--bg-lightest);
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  padding: 0.5em;
+
+  flex-grow: 1;
+}
+
+.searchBar img {
+  filter: invert(1);
+}
+
+.searchBar input {
+  font-size: 1em;
+  background-color: transparent;
+  color: white;
+  border: none;
+  margin-left: 0.5em;
+  width: 100%;
+}
+
+.contents {
+  opacity: 0.6;
+
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.gridToggle {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: var(--bg-lightest);
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+
+  margin-right: 0.5em;
+}
+
+.leftToggle {
+  border-right: 0.5px solid var(--accent);
+}
+
+.rightToggle {
+  border-left: 0.5px solid var(--accent);
+}
+
+.gridToggle>* {
+  height: 100%;
+
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.gridToggle img {
+  filter: invert(1);
+  margin: 0.25em;
+}
+
+.leftToggle.active {
+  background-color: var(--accent);
+  border-radius: 5px 0px 0px 5px;
+}
+
+.rightToggle.active {
+  background-color: var(--accent);
+  border-radius: 0px 5px 5px 0px;
+}

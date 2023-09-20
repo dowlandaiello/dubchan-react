@@ -93,8 +93,8 @@ export const Feed = () => {
 
   return (
     <div className={style.feed} ref={feedRef}>
-      <FeedControl />
       <NewPost />
+      <FeedControl />
       {postEntries}
     </div>
   );
