@@ -6,6 +6,7 @@ import { QuickLinks } from "../components/QuickLinks";
 import { ModalInput } from "../components/ModalInput";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState } from "react";
+import Script from "next/script";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -27,6 +28,11 @@ export default function Home() {
       </Head>
       <ModalContext.Provider value={{ modal: modalProps, setModal: setProps }}>
         <main className={styles.main}>
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            async={true}
+            defer={true}
+          />
           <ModalInput {...modalProps} />
           <div className={styles.foreground}>
             <Header />

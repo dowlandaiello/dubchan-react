@@ -18,6 +18,7 @@ export const formatTimestamp = (timestamp: Timestamp) => {
     "Dec",
   ];
   const date = new Date(unix);
+  date.setTime(date.getTime() - 8 * 60000);
 
   return `${
     months[date.getMonth()]
@@ -27,6 +28,7 @@ export const formatTimestamp = (timestamp: Timestamp) => {
 export const formatTimestampTime = (timestamp: Timestamp) => {
   const unix = timestamp.secs_since_epoch * 1000;
   const date = new Date(unix);
+  date.setTime(date.getTime() - 8 * 60000);
 
   // Make sure 0 is 12
   let hours = date.getHours() % 12;
@@ -37,7 +39,7 @@ export const formatTimestampTime = (timestamp: Timestamp) => {
 
   let half = "AM";
 
-  if (hours >= 12) {
+  if (date.getHours() >= 12) {
     half = "PM";
   }
 

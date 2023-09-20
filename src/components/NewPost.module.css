@@ -3,16 +3,30 @@
   background-color: var(--bg-lightest);
   padding: 1em;
 
+  border-radius: 5px;
+
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.fields {
   display: flex;
 
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
 
-  border-radius: 5px;
+  flex-grow: 1;
 }
 
-.section>*:not(:last-child) {
+.fields input {
+  width: calc(100% - 4px) !important;
+}
+
+.fields>*:not(:last-child) {
   margin-bottom: 1em;
 }
 
@@ -50,8 +64,8 @@
 }
 
 .postButton {
-  border-radius: 10000px;
-  padding: 0.75em;
+  border-radius: 10000px !important;
+  padding: 0.75em !important;
 }
 
 .mediaButtons {
