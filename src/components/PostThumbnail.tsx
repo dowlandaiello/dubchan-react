@@ -7,7 +7,7 @@ import { CopyLink } from "./CopyLink";
 import { Tag } from "./Tag";
 import { MediaViewer } from "./MediaViewer";
 import { UsernameLabel } from "./UsernameLabel";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export const PostThumbnail = ({ post }: { post: Post }) => {
   const tags =
@@ -17,9 +17,25 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
     [];
 
   const [expanded, setExpanded] = useState<Boolean>(false);
+  const thumbnailRef = useRef<HTMLDivElement | null>(null);
+  const [[previewWidth, previewHeight], setPreviewDims] = useState<
+    [number, number]
+  >([0, 0]);
+
+  useEffect(() => {
+    if (!thumbnailRef.current || thumbnailRef.current == null) return;
+
+    const elem = thumbnailRef.current;
+    let elementWidth = elem.clientWidth;
+
+    setPreviewDims([expanded ? elementWidth * 0.6 : elementWidth * 0.3, 0]);
+  }, [thumbnailRef.current, thumbnailRef.current?.clientHeight ?? 0]);
 
   return (
-    <div className={`${style.post} ${expanded ? style.expanded : ""}`}>
+    <div
+      className={`${style.post} ${expanded ? style.expanded : ""}`}
+      ref={thumbnailRef}
+    >
       <div className={style.titleLine}>
         <h1>{post.title}</h1>
         <TimestampLabel timestamp={post.posted_at} />
@@ -35,6 +51,8 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
           className={`${style.media} ${expanded ? style.expanded : ""}`}
           src={post.src}
           onClick={() => setExpanded(!expanded)}
+          height={previewHeight == 0 ? undefined : previewHeight}
+          width={previewWidth == 0 ? undefined : previewWidth}
         />
       )}
       <div className={`${style.commentViewButton} ${clickable.clickable}`}>

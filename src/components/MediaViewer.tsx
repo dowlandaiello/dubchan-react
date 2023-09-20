@@ -26,6 +26,7 @@ export const MediaViewer = ({
     content = (
       <iframe
         src={getYtEmbed(src)}
+        frameBorder="0"
         width={width ?? 560}
         height={height ?? 315}
       />
