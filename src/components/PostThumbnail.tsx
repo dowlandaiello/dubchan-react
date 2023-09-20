@@ -9,18 +9,24 @@ import { MediaViewer } from "./MediaViewer";
 import { UsernameLabel } from "./UsernameLabel";
 import { useState, useRef, useEffect } from "react";
 
-export const PostThumbnail = ({ post }: { post: Post }) => {
+export const PostThumbnail = ({
+  post,
+  blurred: initBlurred,
+}: {
+  post: Post;
+  blurred: Boolean;
+}) => {
   const tags =
     post.tags
       ?.filter((tag) => tag !== null)
       .map((tag) => (tag === null ? <> </> : <Tag key={tag} tag={tag} />)) ??
     [];
 
-  const [expanded, setExpanded] = useState<Boolean>(false);
   const thumbnailRef = useRef<HTMLDivElement | null>(null);
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
+  const [blurred, setBlurred] = useState<Boolean>(initBlurred);
 
   useEffect(() => {
     if (!thumbnailRef.current || thumbnailRef.current == null) return;
@@ -28,14 +34,11 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
     const elem = thumbnailRef.current;
     let elementWidth = elem.clientWidth;
 
-    setPreviewDims([expanded ? elementWidth * 0.6 : elementWidth * 0.3, 0]);
+    setPreviewDims([elementWidth * 0.3, 0]);
   }, [thumbnailRef.current, thumbnailRef.current?.clientHeight ?? 0]);
 
   return (
-    <div
-      className={`${style.post} ${expanded ? style.expanded : ""}`}
-      ref={thumbnailRef}
-    >
+    <div className={`${style.post}`} ref={thumbnailRef}>
       <div className={style.titleLine}>
         <h1>{post.title}</h1>
         <TimestampLabel timestamp={post.posted_at} />
@@ -47,13 +50,28 @@ export const PostThumbnail = ({ post }: { post: Post }) => {
       {post.user_id && <UsernameLabel username={post.user_id} />}
       <p>{post.text} </p>
       {post.src && (
-        <MediaViewer
-          className={`${style.media} ${expanded ? style.expanded : ""}`}
-          src={post.src}
-          onClick={() => setExpanded(!expanded)}
-          height={previewHeight == 0 ? undefined : previewHeight}
-          width={previewWidth == 0 ? undefined : previewWidth}
-        />
+        <div
+          className={`${style.media} ${style.mediaContainer}`}
+          onClick={() => setBlurred(!blurred)}
+        >
+          {blurred && (
+            <div className={style.iconContainer}>
+              <Image
+                className={style.hideIcon}
+                src="/hide.svg"
+                height={30}
+                width={30}
+                alt="Hide icon."
+              />
+            </div>
+          )}
+          <MediaViewer
+            className={`${style.media} ${blurred ? style.blurred : ""}`}
+            src={post.src}
+            height={previewHeight == 0 ? undefined : previewHeight}
+            width={previewWidth == 0 ? undefined : previewWidth}
+          />
+        </div>
       )}
       <div className={`${style.commentViewButton} ${clickable.clickable}`}>
         <Image src="/forum.svg" alt="Forum icon" height={15} width={15} />

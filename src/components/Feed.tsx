@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, Fragment } from "react";
 import { route } from "../util/http";
 import { PostThumbnail } from "./PostThumbnail";
 import style from "./Feed.module.css";
+import { FeedControl } from "./FeedControl";
 import { NewPost } from "./NewPost";
 
 /// Renders a configurable feed/grid of posts.
@@ -10,6 +11,7 @@ export const Feed = () => {
   const [posts, setPosts] = useState<Map<number, Post>>(new Map());
   const [snapshot, setSnapshot] = useState<number[]>([]);
   const [loadOngoing, setLoadOngoing] = useState<Boolean>(false);
+  const [blurred, setBlurred] = useState<Boolean>(true);
   const feedRef = useRef<HTMLDivElement>(null);
 
   const stateRef = useRef<Map<number, Post>>();
@@ -85,12 +87,13 @@ export const Feed = () => {
     )
     .map((post: Post) => (
       <Fragment key={post.id}>
-        <PostThumbnail post={post} key={post.id} />
+        <PostThumbnail post={post} key={post.id} blurred={blurred} />
       </Fragment>
     ));
 
   return (
     <div className={style.feed} ref={feedRef}>
+      <FeedControl />
       <NewPost />
       {postEntries}
     </div>
