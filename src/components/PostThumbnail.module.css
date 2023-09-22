@@ -80,7 +80,7 @@
   align-items: center;
   color: var(--accent);
   font-weight: bold;
-  margin-top: 1em;
+  margin-top: auto;
 }
 
 .commentViewButton img {

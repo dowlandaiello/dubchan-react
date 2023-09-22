@@ -5,17 +5,23 @@ import { PostThumbnail } from "./PostThumbnail";
 import style from "./Feed.module.css";
 import { FeedControl } from "./FeedControl";
 import { NewPost } from "./NewPost";
+import { QuickLinks } from "../components/QuickLinks";
 
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
   const [posts, setPosts] = useState<Map<number, Post>>(new Map());
   const [snapshot, setSnapshot] = useState<number[]>([]);
   const [loadOngoing, setLoadOngoing] = useState<Boolean>(false);
+  const [gridToggled, setGridToggled] = useState<Boolean>(true);
   const [blurred, setBlurred] = useState<Boolean>(true);
   const feedRef = useRef<HTMLDivElement>(null);
 
   const stateRef = useRef<Map<number, Post>>();
   stateRef.current = posts;
+
+  const toggleGrid = (toggled: Boolean) => {
+    setGridToggled(toggled);
+  };
 
   const loadBatch = async () => {
     const posts = stateRef.current;
@@ -92,9 +98,12 @@ export const Feed = () => {
     ));
 
   return (
-    <div className={style.feed} ref={feedRef}>
-      <NewPost />
-      <FeedControl />
+    <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>
+      <div className={style.gridHeader}>
+        <QuickLinks />
+        <NewPost />
+        <FeedControl onGridToggled={toggleGrid} />
+      </div>
       {postEntries}
     </div>
   );

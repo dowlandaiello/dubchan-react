@@ -2,7 +2,6 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { Feed } from "../components/Feed";
 import { Header } from "../components/Header";
-import { QuickLinks } from "../components/QuickLinks";
 import { ModalInput } from "../components/ModalInput";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState } from "react";
@@ -36,7 +35,6 @@ export default function Home() {
           <ModalInput {...modalProps} />
           <div className={styles.foreground}>
             <Header />
-            <QuickLinks />
             <Feed />
           </div>
         </main>

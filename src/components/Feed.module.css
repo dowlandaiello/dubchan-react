@@ -12,3 +12,31 @@
 .feed>*:not(:first-child) {
   margin-top: 1em;
 }
+
+.grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+
+  overflow: auto;
+
+  gap: 1em;
+}
+
+.gridHeader {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+
+  margin-top: 2em;
+}
+
+.gridHeader>*:last-child {
+  margin-top: 0.5em;
+}
