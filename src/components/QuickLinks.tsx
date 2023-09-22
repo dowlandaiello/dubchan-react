@@ -25,7 +25,7 @@ export const QuickLinks = () => {
 
   useEffect(() => {
     (async () => {
-      const qotd = await (await fetch(route("/qotd"))).json();
+      const qotd = await (await fetch(route("/qotd"))).json().catch(() => "");
       setQotd(qotd);
     })();
   }, []);

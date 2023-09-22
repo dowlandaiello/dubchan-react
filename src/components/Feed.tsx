@@ -43,16 +43,27 @@ export const Feed = () => {
     setLoadOngoing(false);
   };
 
+  const search = async (term: string) => {
+    const postIds = await (await fetch(route(`/posts?like=${term}`)))
+      .json()
+      .catch(() => []);
+    setPosts(new Map());
+    setSnapshot(postIds);
+  };
+
+  const loadInit = async () => {
+    setPosts(new Map());
+
+    // Fetch 50 post ID's
+    const postIds = await (await fetch(route("/feed/snapshot")))
+      .json()
+      .catch(() => []);
+    setSnapshot(postIds);
+  };
+
   // Load initial post ID's
   useEffect(() => {
-    (async () => {
-      // Fetch 50 post ID's
-      const postIds = await (await fetch(route("/feed/snapshot")))
-        .json()
-        .catch(() => []);
-      setSnapshot(postIds);
-      loadBatch();
-    })();
+    loadInit();
   }, []);
 
   useEffect(() => {
@@ -109,7 +120,11 @@ export const Feed = () => {
       <div className={style.gridHeader}>
         <QuickLinks />
         <NewPost />
-        <FeedControl onGridToggled={toggleGrid} />
+        <FeedControl
+          onGridToggled={toggleGrid}
+          onSearch={search}
+          onClear={loadInit}
+        />
       </div>
       {postEntries}
     </div>

@@ -8,22 +8,17 @@ const AVAILABLE_TAGS = ["UW", "Fitness", "LGBT", "NSFW"];
 /// A selection of tags which the user can select.
 export const TagSelection = ({
   onChange,
-  initSelected,
+  selected,
 }: {
   onChange: (e: string[]) => void;
-  initSelected: string[];
+  selected: string[];
 }) => {
-  // Which tags are selected
-  const [selected, setSelected] = useState<string[]>(initSelected);
-
   const toggleTag = (tag: string, selected: string[]) => {
     if (selected.includes(tag)) {
       let newSelected = selected.filter((t) => t !== tag);
-      setSelected(newSelected);
       onChange(newSelected);
     } else {
       let newSelected = [tag, ...selected];
-      setSelected(newSelected);
       onChange(newSelected);
     }
   };

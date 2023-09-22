@@ -7,6 +7,8 @@
 
   flex-grow: 1;
   overflow: auto;
+
+  padding-bottom: 1em;
 }
 
 .feed>*:not(:first-child) {
@@ -23,6 +25,8 @@
   overflow: auto;
 
   gap: 1em;
+
+  padding-bottom: 2em;
 }
 
 .gridHeader {

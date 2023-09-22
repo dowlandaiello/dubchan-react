@@ -160,18 +160,20 @@ export const NewPost = () => {
                 return { ...post, tags: tags };
               })
             }
-            initSelected={[]}
+            selected={postBody.tags ?? []}
           />
         </div>
         <input
           className={style.underlined}
           placeholder="Post Title (max 100 chars)"
           onChange={updateTitle}
+          value={postBody.title}
         />
         <textarea
           className={style.underlined}
           placeholder="Post Text (max 1000 chars)"
           onChange={updateText}
+          value={postBody.text}
         />
         <div className={style.attachLine}>
           <div className={style.mediaButtons}>

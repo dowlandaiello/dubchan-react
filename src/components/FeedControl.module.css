@@ -15,7 +15,7 @@
   flex-grow: 1;
 }
 
-.searchBar img {
+.searchBar img:first-child {
   filter: invert(1);
 }
 
@@ -83,4 +83,9 @@
 .rightToggle.active {
   background-color: var(--accent);
   border-radius: 0px 5px 5px 0px;
+}
+
+.returnButton {
+  filter: var(--svg-accent);
+  opacity: 1;
 }
