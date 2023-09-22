@@ -47,7 +47,9 @@ export const Feed = () => {
   useEffect(() => {
     (async () => {
       // Fetch 50 post ID's
-      const postIds = await (await fetch(route("/feed/snapshot"))).json();
+      const postIds = await (await fetch(route("/feed/snapshot")))
+        .json()
+        .catch(() => []);
       setSnapshot(postIds);
       loadBatch();
     })();

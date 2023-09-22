@@ -1,6 +1,6 @@
 import style from "./NewPost.module.css";
 import { TagSelection } from "./TagSelection";
-import { NewPostBody } from "../model/post";
+import { NewPostBody, emptyPost } from "../model/post";
 import { useState, useEffect, useRef } from "react";
 import { FileUpload, ChangeEvent } from "./FileUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
@@ -8,21 +8,17 @@ import { Button } from "./Button";
 import { Captcha } from "./Captcha";
 import { route } from "../util/http";
 import { MediaPreview } from "./MediaPreview";
+import { ErrorLabel } from "./ErrorLabel";
 
 /// A form for creating new posts.
 export const NewPost = () => {
-  const [postBody, setPostBody] = useState<NewPostBody>({
-    title: "",
-    text: "",
-    author: undefined,
-    tags: undefined,
-    captcha_response: undefined,
-  });
+  const [postBody, setPostBody] = useState<NewPostBody>(emptyPost);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const [captchaCallback, setCaptchaCallback] = useState<
     null | ((e: any) => void)
   >(null);
   const [previewSrc, setPreviewSrc] = useState<null | string>(null);
+  const [errorMsg, setErrorMsg] = useState<null | string>(null);
 
   // Used for calculating preview window size
   const windowRef = useRef<HTMLDivElement | null>(null);
@@ -68,6 +64,15 @@ export const NewPost = () => {
     });
   };
 
+  // Clears post info
+  const clear = () => {
+    setPostBody(emptyPost);
+    setFormData(new FormData());
+    setPreviewSrc(null);
+    setCaptchaCallback(null);
+    setErrorMsg(null);
+  };
+
   // Submit the post upon receiving a complete captcha
   useEffect(() => {
     if (!postBody.captcha_response || postBody.captcha_response == "") return;
@@ -78,7 +83,17 @@ export const NewPost = () => {
     );
 
     (async () => {
-      await fetch(route("/posts"), { method: "POST", body: formData });
+      const resp = await fetch(route("/posts"), {
+        method: "POST",
+        body: formData,
+      });
+
+      if (resp.status === 200) {
+        clear();
+      } else {
+        setErrorMsg(await resp.text());
+        setCaptchaCallback(null);
+      }
     })();
   }, [postBody]);
 
@@ -163,6 +178,9 @@ export const NewPost = () => {
             <FileUpload onChange={gotFile} />
             <UrlVidUpload onChange={gotVid} />
           </div>
+          {errorMsg && (
+            <ErrorLabel className={style.errorLabel} text={errorMsg} />
+          )}
           {captchaCallback !== null ? (
             <Captcha onSuccess={captchaCallback} />
           ) : (

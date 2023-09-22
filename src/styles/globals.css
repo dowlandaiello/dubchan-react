@@ -1,9 +1,11 @@
 :root {
   --bg-lightest: #1a1837;
   --bg: #09071c;
-  --accent:  #6358FF;
+  --accent: #6358FF;
   --svg-accent: invert(45%) sepia(95%) saturate(5136%) hue-rotate(234deg) brightness(102%) contrast(101%);
   --bg-lighter: #110f25;
+  --bg-error: #371818;
+  --accent-error: #ff5858;
 
   color: white;
   font-family: "Arial", "Helvetica", "sans-serif";

@@ -1,0 +1,7 @@
+.label {
+  background-color: var(--bg-error);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.5em;
+  border: 1px solid var(--accent-error);
+  border-radius: 5px;
+}

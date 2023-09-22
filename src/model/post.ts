@@ -13,6 +13,14 @@ export interface Post {
   last_updated: Timestamp;
 }
 
+export const emptyPost = {
+  title: "",
+  text: "",
+  author: undefined,
+  tags: undefined,
+  captcha_response: undefined,
+};
+
 /// A request creating a new post.
 export interface NewPostBody {
   title: string;
