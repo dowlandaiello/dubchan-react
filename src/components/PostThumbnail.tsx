@@ -41,13 +41,15 @@ export const PostThumbnail = ({
     <div className={`${style.post}`} ref={thumbnailRef}>
       <div className={style.titleLine}>
         <h1>{post.title}</h1>
-        <TimestampLabel timestamp={post.posted_at} />
         <div className={style.titleLineRight}>
           <CopyLink link={`/posts/${post.id}`} />
           <div className={style.tagList}>{tags}</div>
         </div>
       </div>
-      {post.user_id && <UsernameLabel username={post.user_id} />}
+      <div className={style.authorLine}>
+        {post.user_id && <UsernameLabel username={post.user_id} />}
+        <TimestampLabel timestamp={post.posted_at} />
+      </div>
       <p>{post.text} </p>
       {post.src && (
         <div
