@@ -8,6 +8,7 @@ import { Tag } from "./Tag";
 import { MediaViewer } from "./MediaViewer";
 import { UsernameLabel } from "./UsernameLabel";
 import { useState, useRef, useEffect } from "react";
+import { uiRoute } from "../util/http";
 
 export const PostThumbnail = ({
   post,
@@ -44,7 +45,7 @@ export const PostThumbnail = ({
       <div className={style.titleLine}>
         <h1>{post.title}</h1>
         <div className={style.titleLineRight}>
-          <CopyLink link={`/posts/${post.id}`} />
+          <CopyLink link={uiRoute(`/posts/${post.id}`)} />
           <div className={style.tagList}>{tags}</div>
         </div>
       </div>
