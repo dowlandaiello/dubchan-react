@@ -111,7 +111,17 @@
   position: relative;
 }
 
-.hideIcon {
+.bigMediaContainer {
+  overflow: clip;
+  border-radius: 5px;
+
+  position: relative;
+
+  min-height: 0;
+  flex-shrink: 1;
+}
+
+.hideIcopn {
   height: 20%;
   width: 20%;
 
@@ -134,4 +144,6 @@
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+
+  z-index: 1;
 }

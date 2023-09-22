@@ -12,9 +12,11 @@ import { useState, useRef, useEffect } from "react";
 export const PostThumbnail = ({
   post,
   blurred: initBlurred,
+  compact,
 }: {
   post: Post;
   blurred: Boolean;
+  compact?: Boolean;
 }) => {
   const tags =
     post.tags
@@ -34,7 +36,7 @@ export const PostThumbnail = ({
     const elem = thumbnailRef.current;
     let elementWidth = elem.clientWidth;
 
-    setPreviewDims([elementWidth * 0.3, 0]);
+    setPreviewDims(compact ? [elementWidth * 1, 0] : [elementWidth * 0.3, 0]);
   }, [thumbnailRef.current, thumbnailRef.current?.clientHeight ?? 0]);
 
   return (
@@ -53,7 +55,9 @@ export const PostThumbnail = ({
       <p>{post.text} </p>
       {post.src && (
         <div
-          className={`${style.media} ${style.mediaContainer}`}
+          className={`${style.media} ${
+            compact ? style.bigMediaContainer : style.mediaContainer
+          }`}
           onClick={() => setBlurred(!blurred)}
         >
           {blurred && (

@@ -93,7 +93,12 @@ export const Feed = () => {
     )
     .map((post: Post) => (
       <Fragment key={post.id}>
-        <PostThumbnail post={post} key={post.id} blurred={blurred} />
+        <PostThumbnail
+          post={post}
+          key={post.id}
+          blurred={blurred}
+          compact={gridToggled}
+        />
       </Fragment>
     ));
 
