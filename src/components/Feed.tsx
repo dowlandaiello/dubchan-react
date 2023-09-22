@@ -119,7 +119,7 @@ export const Feed = () => {
     <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>
       <div className={style.gridHeader}>
         <QuickLinks />
-        <NewPost />
+        <NewPost onSubmitted={loadInit} />
         <FeedControl
           onGridToggled={toggleGrid}
           onSearch={search}

@@ -11,7 +11,7 @@ import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
 
 /// A form for creating new posts.
-export const NewPost = () => {
+export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
   const [postBody, setPostBody] = useState<NewPostBody>(emptyPost);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const [captchaCallback, setCaptchaCallback] = useState<
@@ -90,6 +90,8 @@ export const NewPost = () => {
 
       if (resp.status === 200) {
         clear();
+
+        if (onSubmitted) onSubmitted();
       } else {
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
