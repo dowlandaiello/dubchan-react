@@ -1,5 +1,7 @@
 import { getYtEmbed } from "../util/http";
 import style from "./MediaViewer.module.css";
+import Image from "next/image";
+import clickable from "./Clickable.module.css";
 
 /// A component rendering videos, images, and embeds.
 export const MediaViewer = ({
@@ -39,6 +41,13 @@ export const MediaViewer = ({
       onClick={onClick}
     >
       {content}
+      <Image
+        className={`${style.fullscreen} ${clickable.clickable}`}
+        src="/fullscreen.svg"
+        height={40}
+        width={40}
+        alt="Fullscreen button"
+      />
     </div>
   );
 };

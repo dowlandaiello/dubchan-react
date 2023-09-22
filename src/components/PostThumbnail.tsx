@@ -64,7 +64,7 @@ export const PostThumbnail = ({
           {blurred && (
             <div className={style.iconContainer}>
               <Image
-                className={style.hideIcon}
+                className={`${style.hideIcon} ${clickable.clickable}`}
                 src="/hide.svg"
                 height={30}
                 width={30}
