@@ -29,7 +29,9 @@ export const PostThumbnail = ({
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
-  const [blurred, setBlurred] = useState<Boolean>(initBlurred);
+  const [startingBlurred] = useState<Boolean>(initBlurred);
+  const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
+  const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
 
   useEffect(() => {
     if (!thumbnailRef.current || thumbnailRef.current == null) return;

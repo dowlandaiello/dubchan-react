@@ -9,11 +9,13 @@ export const FeedControl = ({
   onSearch,
   onClear,
   onChangeTags,
+  onBlurToggled,
 }: {
   onGridToggled: (stat: boolean) => void;
   onSearch: (term: string) => void;
   onClear: () => void;
   onChangeTags: (tags: string[]) => void;
+  onBlurToggled: (stat: boolean) => void;
 }) => {
   const [gridActive, setGridActive] = useState<Boolean>(true);
   const [searchText, setSearchText] = useState<string>("");
@@ -24,10 +26,16 @@ export const FeedControl = ({
     "LGBT",
     "NSFW",
   ]);
+  const [blurActive, setBlurActive] = useState<Boolean>(true);
 
   const toggle = (stat: boolean) => {
     setGridActive(stat);
     onGridToggled(stat);
+  };
+
+  const toggleBlur = (stat: boolean) => {
+    setBlurActive(stat);
+    onBlurToggled(stat);
   };
 
   const search = () => {
@@ -48,6 +56,34 @@ export const FeedControl = ({
 
   return (
     <div className={style.section}>
+      <div className={style.gridToggle}>
+        <div
+          className={`${clickable.clickable} ${style.leftToggle} ${
+            blurActive ? style.active : ""
+          }`}
+          onClick={() => toggleBlur(true)}
+        >
+          <Image
+            src="/preview.svg"
+            height={20}
+            width={20}
+            alt="Preview on icon."
+          />
+        </div>
+        <div
+          className={`${clickable.clickable} ${style.rightToggle} ${
+            !blurActive ? style.active : ""
+          }`}
+          onClick={() => toggleBlur(false)}
+        >
+          <Image
+            src="/preview_off.svg"
+            height={20}
+            width={20}
+            alt="Preview off icon."
+          />
+        </div>
+      </div>
       <div className={style.gridToggle}>
         <div
           className={`${clickable.clickable} ${style.leftToggle} ${

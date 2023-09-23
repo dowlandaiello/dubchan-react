@@ -30,6 +30,10 @@ export const Feed = () => {
     setGridToggled(toggled);
   };
 
+  const toggleBlur = (blurred: Boolean) => {
+    setBlurred(blurred);
+  };
+
   const loadBatch = async () => {
     const posts = stateRef.current;
 
@@ -167,6 +171,7 @@ export const Feed = () => {
         <NewPost onSubmitted={loadInit} />
         <FeedControl
           onGridToggled={toggleGrid}
+          onBlurToggled={toggleBlur}
           onSearch={search}
           onClear={loadInit}
           onChangeTags={changeTags}
