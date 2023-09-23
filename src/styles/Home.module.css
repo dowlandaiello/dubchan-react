@@ -7,16 +7,31 @@
 }
 
 .foreground {
-  width: calc(100% - 4em);
-  height: calc(100% - 2em);
+  width: 100%;
+  height: 100%;
 
-  padding-left: 2em;
-  padding-right: 2em;
-  padding-top: 2em;
+  display: flex;
 
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.foreground>*:first-child {
+  padding: 3em;
+  margin-right: 5em;
+
+  flex-grow: 1;
+}
+
+.workspace {
   display: flex;
 
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
+
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 2em;
 }

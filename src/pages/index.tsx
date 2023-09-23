@@ -11,6 +11,7 @@ import {
   ModalProps as GeneralModalProps,
   ModalDisplay,
 } from "../components/ModalDisplay";
+import { SideBar } from "../components/SideBar";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -46,8 +47,11 @@ export default function Home() {
             <ModalInput {...modalProps} />
             <ModalDisplay {...generalModalProps} />
             <div className={styles.foreground}>
-              <Header />
-              <Feed />
+              <SideBar />
+              <div className={styles.workspace}>
+                <Header />
+                <Feed />
+              </div>
             </div>
           </main>
         </GeneralModalContext.Provider>

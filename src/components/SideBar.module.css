@@ -1,0 +1,62 @@
+.section {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.section>*:last-child {
+  margin-top: auto;
+}
+
+.pageButton {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  color: white;
+}
+
+.pageButton h3 {
+  margin-left: 0.5em;
+}
+
+.pageButton {
+  transition: 0.3s;
+  border-radius: 10000px;
+  padding: 0.5em;
+  padding-right: 7em;
+  padding-left: 1.5em;
+
+  cursor: pointer;
+}
+
+.pageButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.section a {
+  text-decoration: none;
+}
+
+.loginLabel {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.loginLabel>* {
+  margin: 0;
+}
+
+.loginLabel {
+  margin-left: 0.5em;
+}
+
+.loginLabel h3 {
+  margin-left: 0;
+}
