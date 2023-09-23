@@ -11,7 +11,11 @@ import {
   ModalProps as GeneralModalProps,
   ModalDisplay,
 } from "../components/ModalDisplay";
-import { SideBar } from "../components/SideBar";
+import {
+  SideBar,
+  AuthenticationContext,
+  AuthenticationState,
+} from "../components/SideBar";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -25,6 +29,7 @@ export default function Home() {
   const [generalModalProps, setGeneralModalProps] = useState<GeneralModalProps>(
     { children: [], onClose: () => {}, active: false }
   );
+  const authState = useState<AuthenticationState>({ users: {} });
 
   return (
     <>
@@ -38,22 +43,24 @@ export default function Home() {
         <GeneralModalContext.Provider
           value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
         >
-          <main className={styles.main}>
-            <Script
-              src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-              async={true}
-              defer={true}
-            />
-            <ModalInput {...modalProps} />
-            <ModalDisplay {...generalModalProps} />
-            <div className={styles.foreground}>
-              <SideBar />
-              <div className={styles.workspace}>
-                <Header />
-                <Feed />
+          <AuthenticationContext.Provider value={authState}>
+            <main className={styles.main}>
+              <Script
+                src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                async={true}
+                defer={true}
+              />
+              <ModalInput {...modalProps} />
+              <ModalDisplay {...generalModalProps} />
+              <div className={styles.foreground}>
+                <SideBar />
+                <div className={styles.workspace}>
+                  <Header />
+                  <Feed />
+                </div>
               </div>
-            </div>
-          </main>
+            </main>
+          </AuthenticationContext.Provider>
         </GeneralModalContext.Provider>
       </ModalContext.Provider>
     </>
