@@ -1,5 +1,8 @@
 import { Timestamp } from "../model/timestamp";
 
+export const timestampToUnix = (timestamp: Timestamp): number =>
+  timestamp.secs_since_epoch * 1000;
+
 export const formatTimestamp = (timestamp: Timestamp) => {
   const unix = timestamp.secs_since_epoch * 1000;
 

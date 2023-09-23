@@ -4,6 +4,7 @@ import { route } from "../util/http";
 import { PostThumbnail } from "./PostThumbnail";
 import style from "./Feed.module.css";
 import { FeedControl } from "./FeedControl";
+import { timestampToUnix } from "../util/format";
 import { NewPost } from "./NewPost";
 import { QuickLinks } from "../components/QuickLinks";
 
@@ -35,6 +36,27 @@ export const Feed = () => {
     if (!posts) return;
 
     const startingSize = posts.size;
+
+    // If no posts are left, trigger a before:date load
+    if (startingSize + 7 - startingSize == 0) {
+      const postIds = await (
+        await fetch(
+          route(
+            `/feed/snapshot?before=${timestampToUnix(
+              posts.get(snapshot[snapshot.length - 1])?.last_updated ?? {
+                secs_since_epoch: 0,
+                nanos_since_epoch: 0,
+              }
+            )}`
+          )
+        )
+      )
+        .json()
+        .catch(() => []);
+      setSnapshot((snapshot) => [...snapshot, ...postIds]);
+
+      return;
+    }
 
     // Load all posts
     await Promise.all(
