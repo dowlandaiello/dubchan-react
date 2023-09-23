@@ -73,6 +73,7 @@ export const PostThumbnail = ({
             </div>
           )}
           <MediaViewer
+            title={post.title}
             className={`${style.media} ${blurred ? style.blurred : ""}`}
             src={post.src}
             height={previewHeight == 0 ? undefined : previewHeight}

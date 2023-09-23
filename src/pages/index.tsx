@@ -6,6 +6,11 @@ import { ModalInput } from "../components/ModalInput";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState } from "react";
 import Script from "next/script";
+import {
+  ModalContext as GeneralModalContext,
+  ModalProps as GeneralModalProps,
+  ModalDisplay,
+} from "../components/ModalDisplay";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -16,6 +21,9 @@ export default function Home() {
     onClose: () => {},
     active: false,
   });
+  const [generalModalProps, setGeneralModalProps] = useState<GeneralModalProps>(
+    { children: [], onClose: () => {}, active: false }
+  );
 
   return (
     <>
@@ -26,18 +34,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ModalContext.Provider value={{ modal: modalProps, setModal: setProps }}>
-        <main className={styles.main}>
-          <Script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async={true}
-            defer={true}
-          />
-          <ModalInput {...modalProps} />
-          <div className={styles.foreground}>
-            <Header />
-            <Feed />
-          </div>
-        </main>
+        <GeneralModalContext.Provider
+          value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
+        >
+          <main className={styles.main}>
+            <Script
+              src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+              async={true}
+              defer={true}
+            />
+            <ModalInput {...modalProps} />
+            <ModalDisplay {...generalModalProps} />
+            <div className={styles.foreground}>
+              <Header />
+              <Feed />
+            </div>
+          </main>
+        </GeneralModalContext.Provider>
       </ModalContext.Provider>
     </>
   );
