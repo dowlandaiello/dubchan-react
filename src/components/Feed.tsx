@@ -153,21 +153,24 @@ export const Feed = () => {
     if (snapshot !== []) loadBatch();
   }, [snapshot]);
 
-  const postEntries = Array.from(posts.values())
-    .sort(
-      (a: Post, b: Post) =>
-        b.last_updated.secs_since_epoch - a.last_updated.secs_since_epoch
-    )
-    .map((post: Post) => (
-      <Fragment key={post.id}>
-        <PostThumbnail
-          post={post}
-          key={post.id}
-          blurred={blurred}
-          compact={gridToggled}
-        />
-      </Fragment>
-    ));
+  const postEntries =
+    posts.size > 0
+      ? Array.from(posts.values())
+          .sort(
+            (a: Post, b: Post) =>
+              b.last_updated.secs_since_epoch - a.last_updated.secs_since_epoch
+          )
+          .map((post: Post) => (
+            <Fragment key={post.id}>
+              <PostThumbnail
+                post={post}
+                key={post.id}
+                blurred={blurred}
+                compact={gridToggled}
+              />
+            </Fragment>
+          ))
+      : Array(5).fill(<PostThumbnail blurred={blurred} />);
 
   return (
     <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>

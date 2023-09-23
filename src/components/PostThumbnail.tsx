@@ -10,7 +10,7 @@ export const PostThumbnail = ({
   blurred: initBlurred,
   compact,
 }: {
-  post: Post;
+  post?: Post;
   blurred: Boolean;
   compact?: Boolean;
 }) => {
@@ -18,9 +18,9 @@ export const PostThumbnail = ({
     <div className={`${style.post}`}>
       <PostBody post={post} blurred={initBlurred} compact={compact} />
       <div className={`${style.commentViewButton} ${clickable.clickable}`}>
-        <Link href={{ pathname: "/", query: { post: post.id } }}>
+        <Link href={{ pathname: "/", query: { post: post?.id ?? 0 } }}>
           <Image src="/forum.svg" alt="Forum icon" height={15} width={15} />
-          Comments ({post.n_comments})
+          Comments ({post?.n_comments ?? 0})
         </Link>
       </div>
     </div>

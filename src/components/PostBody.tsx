@@ -74,33 +74,36 @@ export const PostBody = ({
         )}
       </div>
       {post ? <p>{post.text} </p> : <Skeleton count={3} />}
-      {(post && post.src && (
-        <div
-          className={`${style.media} ${
-            compact ? style.bigMediaContainer : style.mediaContainer
-          }`}
-          onClick={() => setBlurred(!blurred)}
-        >
-          {blurred && (
-            <div className={style.iconContainer}>
-              <Image
-                className={`${style.hideIcon} ${clickable.clickable}`}
-                src="/hide.svg"
-                height={30}
-                width={30}
-                alt="Hide icon."
-              />
-            </div>
-          )}
-          <MediaViewer
-            title={post.title}
-            className={`${style.media} ${blurred ? style.blurred : ""}`}
-            src={post.src}
-            height={previewHeight == 0 ? undefined : previewHeight}
-            width={previewWidth == 0 ? undefined : previewWidth}
-          />
-        </div>
-      )) || <Skeleton containerClassName={style.imageSkeleton} height="100%" />}
+      {(post &&
+        ((post.src && (
+          <div
+            className={`${style.media} ${
+              compact ? style.bigMediaContainer : style.mediaContainer
+            }`}
+            onClick={() => setBlurred(!blurred)}
+          >
+            {blurred && (
+              <div className={style.iconContainer}>
+                <Image
+                  className={`${style.hideIcon} ${clickable.clickable}`}
+                  src="/hide.svg"
+                  height={30}
+                  width={30}
+                  alt="Hide icon."
+                />
+              </div>
+            )}
+            <MediaViewer
+              title={post.title}
+              className={`${style.media} ${blurred ? style.blurred : ""}`}
+              src={post.src}
+              height={previewHeight == 0 ? undefined : previewHeight}
+              width={previewWidth == 0 ? undefined : previewWidth}
+            />
+          </div>
+        )) || <></>)) || (
+        <Skeleton containerClassName={style.imageSkeleton} height="100%" />
+      )}
     </div>
   );
 };
