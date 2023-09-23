@@ -14,6 +14,12 @@ export const Feed = () => {
   const [loadOngoing, setLoadOngoing] = useState<Boolean>(false);
   const [gridToggled, setGridToggled] = useState<Boolean>(true);
   const [blurred, setBlurred] = useState<Boolean>(true);
+  const [activeTags, setActiveTags] = useState<string[]>([
+    "UW",
+    "Fitness",
+    "LGBT",
+    "NSFW",
+  ]);
   const feedRef = useRef<HTMLDivElement>(null);
 
   const stateRef = useRef<Map<number, Post>>();
@@ -51,11 +57,23 @@ export const Feed = () => {
     setSnapshot(postIds);
   };
 
+  const changeTags = async (tags: string[]) => {
+    setActiveTags(tags);
+  };
+
   const loadInit = async () => {
     setPosts(new Map());
 
     // Fetch 50 post ID's
-    const postIds = await (await fetch(route("/feed/snapshot")))
+    const postIds = await (
+      await fetch(
+        route(
+          activeTags.length < 4
+            ? `/feed/snapshot?tags=${JSON.stringify(activeTags)}`
+            : "/feed/snapshot"
+        )
+      )
+    )
       .json()
       .catch(() => []);
     setSnapshot(postIds);
@@ -65,6 +83,11 @@ export const Feed = () => {
   useEffect(() => {
     loadInit();
   }, []);
+
+  // Load post ID's when tags change
+  useEffect(() => {
+    loadInit();
+  }, [activeTags]);
 
   useEffect(() => {
     // Whenever the user reaches 80% of the scroll height, load more posts
@@ -124,6 +147,7 @@ export const Feed = () => {
           onGridToggled={toggleGrid}
           onSearch={search}
           onClear={loadInit}
+          onChangeTags={changeTags}
         />
       </div>
       {postEntries}

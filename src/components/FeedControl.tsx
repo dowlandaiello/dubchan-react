@@ -2,19 +2,28 @@ import style from "./FeedControl.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import clickable from "./Clickable.module.css";
+import { TagSelection } from "./TagSelection";
 
 export const FeedControl = ({
   onGridToggled,
   onSearch,
   onClear,
+  onChangeTags,
 }: {
   onGridToggled: (stat: boolean) => void;
   onSearch: (term: string) => void;
   onClear: () => void;
+  onChangeTags: (tags: string[]) => void;
 }) => {
   const [gridActive, setGridActive] = useState<Boolean>(true);
   const [searchText, setSearchText] = useState<string>("");
   const [searchActive, setSearchActive] = useState<Boolean>(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([
+    "UW",
+    "Fitness",
+    "LGBT",
+    "NSFW",
+  ]);
 
   const toggle = (stat: boolean) => {
     setGridActive(stat);
@@ -30,6 +39,11 @@ export const FeedControl = ({
     onClear();
     setSearchText("");
     setSearchActive(false);
+  };
+
+  const changeTags = (tags: string[]) => {
+    setSelectedTags(tags);
+    onChangeTags(tags);
   };
 
   return (
@@ -81,6 +95,7 @@ export const FeedControl = ({
           )}
         </div>
       </div>
+      <TagSelection onChange={changeTags} selected={selectedTags} />
     </div>
   );
 };

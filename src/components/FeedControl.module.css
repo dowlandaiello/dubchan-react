@@ -13,6 +13,8 @@
   padding: 0.5em;
 
   flex-grow: 1;
+
+  margin-right: 0.5em;
 }
 
 .searchBar img:first-child {
