@@ -64,10 +64,10 @@ export const FeedControl = ({
           onClick={() => toggleBlur(true)}
         >
           <Image
-            src="/preview.svg"
+            src="/preview_off.svg"
             height={20}
             width={20}
-            alt="Preview on icon."
+            alt="Preview off icon."
           />
         </div>
         <div
@@ -77,10 +77,10 @@ export const FeedControl = ({
           onClick={() => toggleBlur(false)}
         >
           <Image
-            src="/preview_off.svg"
+            src="/preview.svg"
             height={20}
             width={20}
-            alt="Preview off icon."
+            alt="Preview on icon."
           />
         </div>
       </div>

@@ -2,6 +2,7 @@ import { ReactElement, createContext, Dispatch, SetStateAction } from "react";
 import style from "./ModalDisplay.module.css";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
+import { ErrorLabel } from "./ErrorLabel";
 
 export interface ModalProps {
   title?: string;

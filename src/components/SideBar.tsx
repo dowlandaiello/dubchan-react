@@ -1,6 +1,7 @@
 import style from "./SideBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { addIdentity } from "../util/cookie";
 import { ModalContext } from "./ModalDisplay";
 import {
   createContext,
@@ -11,6 +12,7 @@ import {
 } from "react";
 import { User } from "../model/user";
 import { AuthenticationModal, AuthSubmission } from "./AuthenticationModal";
+import { route } from "../util/http";
 
 interface Page {
   label: string;
@@ -39,7 +41,9 @@ export const AuthenticationContext = createContext<
 >([{ users: {} }, () => {}]);
 
 export const SideBar = () => {
-  const [{ activeUser, users }] = useContext(AuthenticationContext);
+  const [{ activeUser, users }, setAuthState] = useContext(
+    AuthenticationContext
+  );
   const activeRoute =
     typeof window !== "undefined" ? window.location?.pathname ?? "/" : "/";
   const [loginDrawerActive, setLoginDrawerActive] = useState<boolean>(false);
@@ -65,12 +69,104 @@ export const SideBar = () => {
   };
 
   const userButtons = Object.values(users).map(({ username }) => (
-    <p key={username}>{username}</p>
+    <div
+      className={style.pageButton}
+      onClick={() => {
+        setLoginDrawerActive(false);
+        setAuthState((state) => {
+          return { ...state, activeUser: username };
+        });
+      }}
+    >
+      <p key={username}>@{username}</p>
+    </div>
   ));
 
-  const login = (sub: AuthSubmission) => {};
+  const registerIdentity = (username: string, token: string) => {
+    setAuthState((state) => {
+      return {
+        activeUser: username,
+        users: {
+          ...state.users,
+          [username]: { username: username, token: token },
+        },
+      };
+    });
+    addIdentity(username, token);
+  };
 
-  const signup = (sub: AuthSubmission) => {};
+  const login = async (sub: AuthSubmission) => {
+    setModal({
+      title: "Log In",
+      children: [<AuthenticationModal onSubmit={login} key="login" />],
+      onClose: closeModal,
+      active: true,
+    });
+
+    const resp = await fetch(route("/users/login"), {
+      method: "POST",
+      body: JSON.stringify(sub),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (resp.status === 200) {
+      registerIdentity(sub.username, await resp.json());
+      setModal({ children: [], onClose: () => {}, active: false });
+    } else {
+      setModal({
+        title: "Log In",
+        children: [
+          <AuthenticationModal
+            errorMsg={await resp.text()}
+            onSubmit={login}
+            key="login"
+          />,
+        ],
+        onClose: closeModal,
+        active: true,
+      });
+    }
+  };
+
+  const goAnon = () => {
+    setAuthState((state) => {
+      return { ...state, activeUser: undefined };
+    });
+    setLoginDrawerActive(false);
+  };
+
+  const signup = async (sub: AuthSubmission) => {
+    setModal({
+      title: "Sign Up",
+      children: [<AuthenticationModal onSubmit={signup} key="signup" />],
+      onClose: closeModal,
+      active: true,
+    });
+
+    const resp = await fetch(route("/users"), {
+      method: "POST",
+      body: JSON.stringify(sub),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (resp.status === 200) {
+      registerIdentity(sub.username, await resp.json());
+      setModal({ children: [], onClose: () => {}, active: false });
+    } else {
+      setModal({
+        title: "Sign Up",
+        children: [
+          <AuthenticationModal
+            errorMsg={await resp.text()}
+            onSubmit={signup}
+            key="signup"
+          />,
+        ],
+        onClose: closeModal,
+        active: true,
+      });
+    }
+  };
 
   const closeModal = () => {
     setModal({ children: [], onClose: () => {}, active: false });
@@ -103,6 +199,11 @@ export const SideBar = () => {
             loginDrawerActive ? style.active : ""
           }`}
         >
+          {userButtons}
+          <div className={style.pageButton} onClick={goAnon}>
+            <p>Anonymous</p>
+          </div>
+
           <div className={style.pageButton} onClick={openLoginModal}>
             <Image src="/login.svg" height={25} width={25} alt="Log in icon" />
             <h3>Log In</h3>
@@ -116,7 +217,6 @@ export const SideBar = () => {
             />
             <h3>Sign Up</h3>
           </div>
-          {userButtons}
         </div>
         <div className={style.pageButton} onClick={toggleLoginDrawer}>
           <Image src="/expand.svg" height={25} width={25} alt="Expand icon." />

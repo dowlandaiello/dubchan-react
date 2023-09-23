@@ -23,3 +23,7 @@
 .section>*:last-child {
   margin-top: 3em;
 }
+
+.errorLabel {
+  margin-top: 1em !important;
+}
