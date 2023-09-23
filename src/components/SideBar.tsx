@@ -1,6 +1,7 @@
 import style from "./SideBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { ModalContext } from "./ModalDisplay";
 import {
   createContext,
   Dispatch,
@@ -9,6 +10,7 @@ import {
   useState,
 } from "react";
 import { User } from "../model/user";
+import { AuthenticationModal, AuthSubmission } from "./AuthenticationModal";
 
 interface Page {
   label: string;
@@ -41,6 +43,7 @@ export const SideBar = () => {
   const activeRoute =
     typeof window !== "undefined" ? window.location?.pathname ?? "/" : "/";
   const [loginDrawerActive, setLoginDrawerActive] = useState<boolean>(false);
+  const { setModal } = useContext(ModalContext);
 
   const pageButtons = pages.map(({ label, activeIcon, icon, href }) => (
     <Link href={href} key={label}>
@@ -65,6 +68,32 @@ export const SideBar = () => {
     <p key={username}>{username}</p>
   ));
 
+  const login = (sub: AuthSubmission) => {};
+
+  const signup = (sub: AuthSubmission) => {};
+
+  const closeModal = () => {
+    setModal({ children: [], onClose: () => {}, active: false });
+  };
+
+  const openLoginModal = () => {
+    setModal({
+      title: "Log In",
+      children: [<AuthenticationModal onSubmit={login} key="login" />],
+      onClose: closeModal,
+      active: true,
+    });
+  };
+
+  const openSignupModal = () => {
+    setModal({
+      title: "Sign Up",
+      children: [<AuthenticationModal onSubmit={signup} key="signup" />],
+      onClose: closeModal,
+      active: true,
+    });
+  };
+
   return (
     <div className={style.section}>
       {pageButtons}
@@ -74,11 +103,11 @@ export const SideBar = () => {
             loginDrawerActive ? style.active : ""
           }`}
         >
-          <div className={style.pageButton}>
+          <div className={style.pageButton} onClick={openLoginModal}>
             <Image src="/login.svg" height={25} width={25} alt="Log in icon" />
             <h3>Log In</h3>
           </div>
-          <div className={style.pageButton}>
+          <div className={style.pageButton} onClick={openSignupModal}>
             <Image
               src="/create_account.svg"
               height={25}

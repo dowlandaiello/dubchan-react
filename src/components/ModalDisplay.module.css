@@ -45,6 +45,8 @@
   max-height: 100%;
   max-width: 100%;
 
+  min-width: 40%;
+
   padding: 2em;
 }
 

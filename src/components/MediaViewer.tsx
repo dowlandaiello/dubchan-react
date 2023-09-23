@@ -21,7 +21,7 @@ export const MediaViewer = ({
   className?: string | undefined;
   onClick?: () => void | undefined;
 }) => {
-  const { modal, setModal } = useContext(GeneralModalContext);
+  const { setModal } = useContext(GeneralModalContext);
 
   let content = <video src={src} />;
   let modalContent = <video className={style.modalContent} src={src} />;

@@ -4,4 +4,22 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
-} 
+
+  height: 100%;
+}
+
+.section>* {
+  margin-top: 2em;
+}
+
+.section input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1em;
+}
+
+.section>*:last-child {
+  margin-top: 3em;
+}
