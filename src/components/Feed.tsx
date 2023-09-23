@@ -26,6 +26,9 @@ export const Feed = () => {
   const stateRef = useRef<Map<number, Post>>();
   stateRef.current = posts;
 
+  const snapshotRef = useRef<number[]>();
+  snapshotRef.current = snapshot;
+
   const toggleGrid = (toggled: Boolean) => {
     setGridToggled(toggled);
   };
@@ -36,8 +39,10 @@ export const Feed = () => {
 
   const loadBatch = async () => {
     const posts = stateRef.current;
+    const snapshot = snapshotRef.current;
 
     if (!posts) return;
+    if (!snapshot) return;
 
     const startingSize = posts.size;
 
