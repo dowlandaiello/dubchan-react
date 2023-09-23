@@ -85,13 +85,18 @@
 }
 
 .commentViewButton {
+  color: var(--accent);
+  font-weight: bold;
+  margin-top: auto;
+}
+
+.commentViewButton a {
+  text-decoration: none;
+  color: var(--accent);
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  color: var(--accent);
-  font-weight: bold;
-  margin-top: auto;
 }
 
 .commentViewButton img {

@@ -7,6 +7,7 @@ import { loadIdentities } from "../util/cookie";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState, useEffect } from "react";
 import Script from "next/script";
+import { useRouter } from "next/router";
 import {
   ModalContext as GeneralModalContext,
   ModalProps as GeneralModalProps,
@@ -38,6 +39,10 @@ export default function Home() {
     const identities = loadIdentities();
     setAuthState(identities);
   }, []);
+
+  const router = useRouter();
+
+  console.log(router.route);
 
   return (
     <>

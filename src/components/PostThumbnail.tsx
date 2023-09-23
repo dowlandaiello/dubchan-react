@@ -1,5 +1,6 @@
 import { Post } from "../model/post";
 import Image from "next/image";
+import Link from "next/link";
 import style from "./PostThumbnail.module.css";
 import clickable from "./Clickable.module.css";
 import { TimestampLabel } from "./TimestampLabel";
@@ -8,7 +9,7 @@ import { Tag } from "./Tag";
 import { MediaViewer } from "./MediaViewer";
 import { UsernameLabel } from "./UsernameLabel";
 import { useState, useRef, useEffect } from "react";
-import { uiRoute } from "../util/http";
+import { useUiRoute } from "../util/http";
 
 export const PostThumbnail = ({
   post,
@@ -32,6 +33,7 @@ export const PostThumbnail = ({
   const [startingBlurred] = useState<Boolean>(initBlurred);
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
   const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
+  const postUrl = useUiRoute(`/posts/${post.id}`);
 
   useEffect(() => {
     if (!thumbnailRef.current || thumbnailRef.current == null) return;
@@ -47,7 +49,7 @@ export const PostThumbnail = ({
       <div className={style.titleLine}>
         <h1>{post.title}</h1>
         <div className={style.titleLineRight}>
-          <CopyLink link={uiRoute(`/posts/${post.id}`)} />
+          <CopyLink link={postUrl} />
           <div className={style.tagList}>{tags}</div>
         </div>
       </div>
@@ -84,8 +86,10 @@ export const PostThumbnail = ({
         </div>
       )}
       <div className={`${style.commentViewButton} ${clickable.clickable}`}>
-        <Image src="/forum.svg" alt="Forum icon" height={15} width={15} />
-        Comments ({post.n_comments})
+        <Link href={postUrl}>
+          <Image src="/forum.svg" alt="Forum icon" height={15} width={15} />
+          Comments ({post.n_comments})
+        </Link>
       </div>
     </div>
   );
