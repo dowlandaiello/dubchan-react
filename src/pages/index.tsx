@@ -3,8 +3,9 @@ import styles from "@/styles/Home.module.css";
 import { Feed } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
+import { loadIdentities } from "../util/cookie";
 import { ModalContext, ModalProps } from "../components/ModalInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Script from "next/script";
 import {
   ModalContext as GeneralModalContext,
@@ -29,7 +30,14 @@ export default function Home() {
   const [generalModalProps, setGeneralModalProps] = useState<GeneralModalProps>(
     { children: [], onClose: () => {}, active: false }
   );
-  const authState = useState<AuthenticationState>({ users: {} });
+  const [authState, setAuthState] = useState<AuthenticationState>({
+    users: {},
+  });
+
+  useEffect(() => {
+    const identities = loadIdentities();
+    setAuthState(identities);
+  }, []);
 
   return (
     <>
@@ -43,7 +51,7 @@ export default function Home() {
         <GeneralModalContext.Provider
           value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
         >
-          <AuthenticationContext.Provider value={authState}>
+          <AuthenticationContext.Provider value={[authState, setAuthState]}>
             <main className={styles.main}>
               <Script
                 src="https://challenges.cloudflare.com/turnstile/v0/api.js"

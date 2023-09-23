@@ -76,3 +76,11 @@
   opacity: 100%;
   cursor-events: auto;
 }
+
+.userButton {
+  opacity: 0.6;
+}
+
+.userButton.active {
+  font-weight: bold;
+}

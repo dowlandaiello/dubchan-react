@@ -70,7 +70,10 @@ export const SideBar = () => {
 
   const userButtons = Object.values(users).map(({ username }) => (
     <div
-      className={style.pageButton}
+      className={`${style.pageButton} ${style.userButton} ${
+        activeUser === username ? style.active : ""
+      }`}
+      key={username}
       onClick={() => {
         setLoginDrawerActive(false);
         setAuthState((state) => {
@@ -78,7 +81,7 @@ export const SideBar = () => {
         });
       }}
     >
-      <p key={username}>@{username}</p>
+      <p>@{username}</p>
     </div>
   ));
 
@@ -200,7 +203,12 @@ export const SideBar = () => {
           }`}
         >
           {userButtons}
-          <div className={style.pageButton} onClick={goAnon}>
+          <div
+            className={`${style.pageButton} ${style.userButton} ${
+              !activeUser ? style.active : ""
+            }`}
+            onClick={goAnon}
+          >
             <p>Anonymous</p>
           </div>
 

@@ -1,7 +1,7 @@
 import style from "./NewPost.module.css";
 import { TagSelection } from "./TagSelection";
 import { NewPostBody, emptyPost } from "../model/post";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { FileUpload, ChangeEvent } from "./FileUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
 import { Button } from "./Button";
@@ -9,9 +9,11 @@ import { Captcha } from "./Captcha";
 import { route } from "../util/http";
 import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
+import { AuthenticationContext } from "./SideBar";
 
 /// A form for creating new posts.
 export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
+  const [{ activeUser, users }] = useContext(AuthenticationContext);
   const [postBody, setPostBody] = useState<NewPostBody>(emptyPost);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const [captchaCallback, setCaptchaCallback] = useState<
@@ -79,13 +81,21 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
 
     formData.append(
       "body",
-      new Blob([JSON.stringify(postBody)], { type: "application/json" })
+      new Blob([JSON.stringify({ ...postBody, author: activeUser })], {
+        type: "application/json",
+      })
     );
 
     (async () => {
+      const headers = activeUser
+        ? {
+            Authorization: users[activeUser]?.token ?? "",
+          }
+        : undefined;
       const resp = await fetch(route("/posts"), {
         method: "POST",
         body: formData,
+        headers: headers,
       });
 
       if (resp.status === 200) {
