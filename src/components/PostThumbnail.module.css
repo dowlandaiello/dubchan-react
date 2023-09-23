@@ -173,3 +173,19 @@
 
   z-index: 1;
 }
+
+.flex1 {
+  flex: 1;
+}
+
+.authorSkeleton {
+  width: 20%;
+}
+
+.dateSkeleton {
+  width: 30%;
+}
+
+.imageSkeleton {
+  flex-grow: 1;
+}

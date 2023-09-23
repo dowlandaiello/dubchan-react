@@ -14,6 +14,7 @@ import {
   ModalProps as GeneralModalProps,
   ModalDisplay,
 } from "../components/ModalDisplay";
+import { SkeletonTheme } from "react-loading-skeleton";
 import {
   SideBar,
   AuthenticationContext,
@@ -56,25 +57,27 @@ export default function Home() {
           value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
         >
           <AuthenticationContext.Provider value={[authState, setAuthState]}>
-            <main className={styles.main}>
-              <Script
-                src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                async={true}
-                defer={true}
-              />
-              <ModalInput {...modalProps} />
-              <ModalDisplay {...generalModalProps} />
-              {router.query?.post && !Array.isArray(router.query.post) && (
-                <PostPage postId={parseInt(router.query.post)} />
-              )}
-              <div className={styles.foreground}>
-                <SideBar />
-                <div className={styles.workspace}>
-                  <Header />
-                  <Feed />
+            <SkeletonTheme baseColor="#1a1837" highlightColor="#272452">
+              <main className={styles.main}>
+                <Script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                  async={true}
+                  defer={true}
+                />
+                <ModalInput {...modalProps} />
+                <ModalDisplay {...generalModalProps} />
+                {router.query?.post && !Array.isArray(router.query.post) && (
+                  <PostPage postId={parseInt(router.query.post)} />
+                )}
+                <div className={styles.foreground}>
+                  <SideBar />
+                  <div className={styles.workspace}>
+                    <Header />
+                    <Feed />
+                  </div>
                 </div>
-              </div>
-            </main>
+              </main>
+            </SkeletonTheme>
           </AuthenticationContext.Provider>
         </GeneralModalContext.Provider>
       </ModalContext.Provider>
