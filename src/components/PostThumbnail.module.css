@@ -11,12 +11,22 @@
   padding: 0.5em;
 }
 
-.post>*:not(:last-child) {
-  margin-bottom: 0.5em;
+.postBody {
+  flex-shrink: 1;
+  min-height: 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
-.post h1, .post p {
+.postBody h1, .postBody p {
   margin: 0;
+}
+
+.postBody>* {
+  margin-bottom: 0.5em !important;
 }
 
 .authorLine {

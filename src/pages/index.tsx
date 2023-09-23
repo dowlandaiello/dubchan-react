@@ -4,6 +4,7 @@ import { Feed } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
 import { loadIdentities } from "../util/cookie";
+import { PostPage } from "../components/PostPage";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState, useEffect } from "react";
 import Script from "next/script";
@@ -42,8 +43,6 @@ export default function Home() {
 
   const router = useRouter();
 
-  console.log(router.route);
-
   return (
     <>
       <Head>
@@ -65,6 +64,9 @@ export default function Home() {
               />
               <ModalInput {...modalProps} />
               <ModalDisplay {...generalModalProps} />
+              {router.query?.post && !Array.isArray(router.query.post) && (
+                <PostPage postId={parseInt(router.query.post)} />
+              )}
               <div className={styles.foreground}>
                 <SideBar />
                 <div className={styles.workspace}>

@@ -1,0 +1,41 @@
+.container {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 4;
+}
+
+.section {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  height: calc(100% - 4em);
+  width: 80%;
+  margin: auto;
+
+  padding: 2em;
+
+  background-color: var(--bg-lighter);
+}
+
+.navSection {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
