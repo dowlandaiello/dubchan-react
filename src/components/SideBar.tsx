@@ -85,17 +85,17 @@ export const SideBar = () => {
     </div>
   ));
 
-  const registerIdentity = (username: string, token: string) => {
+  const registerIdentity = (username: string, token: [number]) => {
     setAuthState((state) => {
       return {
         activeUser: username,
         users: {
           ...state.users,
-          [username]: { username: username, token: token },
+          [username]: { username: username, token: JSON.stringify(token) },
         },
       };
     });
-    addIdentity(username, token);
+    addIdentity(username, JSON.stringify(token));
   };
 
   const login = async (sub: AuthSubmission) => {

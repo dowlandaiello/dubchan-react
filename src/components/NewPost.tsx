@@ -7,6 +7,7 @@ import { UrlVidUpload } from "./UrlVidUpload";
 import { Button } from "./Button";
 import { Captcha } from "./Captcha";
 import { route } from "../util/http";
+import { removeIdentity } from "../util/cookie";
 import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
 import { AuthenticationContext } from "./SideBar";
@@ -102,6 +103,10 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
         clear();
 
         if (onSubmitted) onSubmitted();
+      } else if (resp.status === 401) {
+        setErrorMsg(await resp.text());
+        setCaptchaCallback(null);
+        removeIdentity(activeUser ?? "");
       } else {
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
