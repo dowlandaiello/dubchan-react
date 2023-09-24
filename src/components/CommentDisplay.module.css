@@ -57,3 +57,11 @@
 .replyArea {
   margin-top: 1em !important;
 }
+
+.removeIcon {
+  opacity: 0.6;
+}
+
+.removeIcon:hover {
+  opacity: 0.4;
+}

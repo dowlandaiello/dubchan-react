@@ -15,11 +15,15 @@ export const CommentDisplay = ({
   tree,
   currentlyReplying,
   onReply,
+  deletable,
+  onClickDelete,
 }: {
   comment: ThreadNode;
   tree: { [id: number]: ThreadNode };
   currentlyReplying: number | null;
   onReply: (comment: number | null) => void;
+  deletable?: Boolean;
+  onClickDelete?: () => void;
 }) => {
   const [, setLastUpdated] = useContext(FeedContext);
   const children = comment.children
@@ -31,6 +35,8 @@ export const CommentDisplay = ({
         key={child.id}
         comment={tree[child.id]}
         tree={tree}
+        deletable={deletable}
+        onClickDelete={onClickDelete}
       />
     ));
 
@@ -53,6 +59,16 @@ export const CommentDisplay = ({
           alt="Reply icon."
           onClick={() => onReply(comment.comment.id)}
         />
+        {deletable && (
+          <Image
+            src="/trash.svg"
+            className={`${clickable.clickable} ${style.removeIcon}`}
+            height={15}
+            width={15}
+            alt="Delete icon."
+            onClick={onClickDelete}
+          />
+        )}
       </div>
       <div className={style.commentText}>
         <GreenText>{comment.comment.text}</GreenText>

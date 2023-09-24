@@ -10,6 +10,7 @@ import { useState, useEffect, useContext } from "react";
 import { NewComment } from "./NewComment";
 import { CommentDisplay } from "./CommentDisplay";
 import { FeedContext } from "./Feed";
+import { AuthenticationContext } from "./AccountSelection";
 
 export const PostPage = ({
   className,
@@ -19,6 +20,7 @@ export const PostPage = ({
   postId?: number;
 }) => {
   const router = useRouter();
+  const [{ activeUser, users }] = useContext(AuthenticationContext);
   const [lastUpdated, setLastUpdated] = useContext(FeedContext);
   const [post, setPost] = useState<Post | null>(null);
   const [tree, setTree] = useState<{ [id: number]: ThreadNode }>({});
@@ -66,6 +68,24 @@ export const PostPage = ({
     setTree(built);
   };
 
+  const reload = () => {
+    setLastUpdated(Date.now());
+  };
+
+  const deleteComment = async (id: number) => {
+    const headers = activeUser
+      ? {
+          Authorization: users[activeUser]?.token ?? "",
+        }
+      : undefined;
+
+    await fetch(route(`/comments/${id}`), {
+      method: "DELETE",
+      headers: headers,
+    });
+    reload();
+  };
+
   const threads = Object.values(tree)
     .filter((comment) => !comment.comment.parent_comment)
     .sort(
@@ -79,12 +99,10 @@ export const PostPage = ({
         key={thread.comment.id}
         comment={thread}
         tree={tree}
+        deletable={activeUser === "dev"}
+        onClickDelete={() => deleteComment(thread.comment.id)}
       />
     ));
-
-  const reload = () => {
-    setLastUpdated(Date.now());
-  };
 
   return (
     <div className={`${style.container} ${className}`}>
