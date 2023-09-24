@@ -102,6 +102,7 @@ export const AccountSelection = () => {
     if (resp.status === 200) {
       registerIdentity(sub.username, await resp.json());
       setModal({ children: [], onClose: () => {}, active: false });
+      setLoginDrawerActive(false);
     } else {
       setModal({
         title: "Log In",
@@ -142,6 +143,7 @@ export const AccountSelection = () => {
     if (resp.status === 200) {
       registerIdentity(sub.username, await resp.json());
       setModal({ children: [], onClose: () => {}, active: false });
+      setLoginDrawerActive(false);
     } else {
       setModal({
         title: "Sign Up",
