@@ -24,7 +24,7 @@
   align-items: stretch;
 
   flex-shrink: 1;
-  max-height: calc(100% - 4em);
+  height: calc(100% - 4em);
 
   width: 80%;
   margin: auto;
