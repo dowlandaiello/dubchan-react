@@ -101,6 +101,9 @@
   flex-flow: row nowrap;
   justify-content: flex-end;
   align-items: center;
+
+  text-align: end;
+  justify-content: end;
 }
 
 .authorDisplay>*:first-child {
