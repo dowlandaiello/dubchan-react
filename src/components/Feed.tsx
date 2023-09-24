@@ -1,5 +1,14 @@
 import { Post } from "../model/post";
-import { useEffect, useState, useRef, Fragment } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  Fragment,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+} from "react";
 import { route } from "../util/http";
 import { PostThumbnail } from "./PostThumbnail";
 import style from "./Feed.module.css";
@@ -8,8 +17,13 @@ import { timestampToUnix } from "../util/format";
 import { NewPost } from "./NewPost";
 import { QuickLinks } from "../components/QuickLinks";
 
+export const FeedContext = createContext<
+  [number, Dispatch<SetStateAction<number>>]
+>([0, () => {}]);
+
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
+  const [lastUpdated] = useContext(FeedContext);
   const [posts, setPosts] = useState<Map<number, Post>>(new Map());
   const [snapshot, setSnapshot] = useState<number[]>([]);
   const [loadOngoing, setLoadOngoing] = useState<Boolean>(false);
@@ -118,7 +132,7 @@ export const Feed = () => {
   // Load post ID's when tags change
   useEffect(() => {
     loadInit();
-  }, [activeTags]);
+  }, [activeTags, lastUpdated]);
 
   useEffect(() => {
     // Whenever the user reaches 80% of the scroll height, load more posts
@@ -185,6 +199,7 @@ export const Feed = () => {
           onSearch={search}
           onClear={loadInit}
           onChangeTags={changeTags}
+          onRefresh={loadInit}
         />
       </div>
       {postEntries}

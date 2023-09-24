@@ -10,6 +10,11 @@ export interface Comment {
   user_id?: string;
 }
 
+export interface ThreadNode {
+  comment: Comment;
+  children: Comment[];
+}
+
 export interface NewCommentBody {
   parent_comment?: string;
   text: string;

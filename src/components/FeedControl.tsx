@@ -10,12 +10,14 @@ export const FeedControl = ({
   onClear,
   onChangeTags,
   onBlurToggled,
+  onRefresh,
 }: {
   onGridToggled: (stat: boolean) => void;
   onSearch: (term: string) => void;
   onClear: () => void;
   onChangeTags: (tags: string[]) => void;
   onBlurToggled: (stat: boolean) => void;
+  onRefresh: () => void;
 }) => {
   const [gridActive, setGridActive] = useState<Boolean>(true);
   const [searchText, setSearchText] = useState<string>("");
@@ -132,6 +134,14 @@ export const FeedControl = ({
         </div>
       </div>
       <TagSelection onChange={changeTags} selected={selectedTags} />
+      <Image
+        className={`${style.refreshIcon} ${clickable.clickable}`}
+        src="/refresh.svg"
+        height={20}
+        width={20}
+        alt="Refresh icon."
+        onClick={onRefresh}
+      />
     </div>
   );
 };

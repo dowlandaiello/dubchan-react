@@ -91,3 +91,9 @@
   filter: var(--svg-accent);
   opacity: 1;
 }
+
+.refreshIcon {
+  filter: var(--svg-accent);
+  margin: auto;
+  margin-left: 0.5em;
+}

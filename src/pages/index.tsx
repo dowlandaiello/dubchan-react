@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import { Feed } from "../components/Feed";
+import { Feed, FeedContext } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
 import { loadIdentities } from "../util/cookie";
@@ -35,6 +35,7 @@ export default function Home() {
   const [authState, setAuthState] = useState<AuthenticationState>({
     users: {},
   });
+  const feedContext = useState<number>(0);
 
   useEffect(() => {
     const identities = loadIdentities();
@@ -56,33 +57,35 @@ export default function Home() {
           value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
         >
           <AuthenticationContext.Provider value={[authState, setAuthState]}>
-            <SkeletonTheme baseColor="#1a1837" highlightColor="#272452">
-              <main className={styles.main}>
-                <Script
-                  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                  async={true}
-                  defer={true}
-                />
-                <ModalInput {...modalProps} />
-                <ModalDisplay {...generalModalProps} />
-                <PostPage
-                  className={`${
-                    router.query?.post ? styles.activePostViewer : ""
-                  } ${styles.postViewer}`}
-                  postId={
-                    router.query?.post && !Array.isArray(router.query.post)
-                      ? parseInt(router.query.post)
-                      : undefined
-                  }
-                />
-                <div className={styles.foreground}>
-                  <div className={styles.workspace}>
-                    <Header />
-                    <Feed />
+            <FeedContext.Provider value={feedContext}>
+              <SkeletonTheme baseColor="#1a1837" highlightColor="#272452">
+                <main className={styles.main}>
+                  <Script
+                    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                    async={true}
+                    defer={true}
+                  />
+                  <ModalInput {...modalProps} />
+                  <ModalDisplay {...generalModalProps} />
+                  <PostPage
+                    className={`${
+                      router.query?.post ? styles.activePostViewer : ""
+                    } ${styles.postViewer}`}
+                    postId={
+                      router.query?.post && !Array.isArray(router.query.post)
+                        ? parseInt(router.query.post)
+                        : undefined
+                    }
+                  />
+                  <div className={styles.foreground}>
+                    <div className={styles.workspace}>
+                      <Header />
+                      <Feed />
+                    </div>
                   </div>
-                </div>
-              </main>
-            </SkeletonTheme>
+                </main>
+              </SkeletonTheme>
+            </FeedContext.Provider>
           </AuthenticationContext.Provider>
         </GeneralModalContext.Provider>
       </ModalContext.Provider>

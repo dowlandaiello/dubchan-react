@@ -1,0 +1,34 @@
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.section p {
+  margin: 0;
+}
+
+.replyIcon {
+  opacity: 0.6;
+}
+
+.replyIcon:hover {
+  opacity: 0.4;
+}
+
+.section>*:not(:first-child) {
+  margin-top: 0.25em;
+}
+
+.timestampRow {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.timestampRow>*:not(:first-child) {
+  margin-left: 0.5em;
+}
