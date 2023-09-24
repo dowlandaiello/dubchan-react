@@ -1,9 +1,11 @@
 .section {
   display: flex;
 
-  flex-flow: column nowrap;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+
+  justify-content: center;
 
   margin-bottom: 1em;
 }
@@ -22,4 +24,10 @@
 
 .section a:not(:last-child) {
   margin-right: 0.5em;
+}
+
+@media screen and (max-width: 547px) {
+  .section {
+    margin-bottom: 0;
+  }
 }

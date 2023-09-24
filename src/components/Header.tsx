@@ -5,7 +5,7 @@ import { AccountSelection } from "./AccountSelection";
 export const Header = () => {
   return (
     <div className={style.header}>
-      <div></div>
+      <div className={style.leftPadder}></div>
       <div className={style.logoSection}>
         <Image src="/logo.png" width={156} height={74.883} alt="DubChan logo" />
         <div className={style.headerText}>
@@ -16,7 +16,7 @@ export const Header = () => {
           <p>Anonymous. Unmoderated.</p>
         </div>
       </div>
-      <div></div>
+      <div className={style.rightPadder}></div>
       <div className={style.accounts}>
         <AccountSelection />
       </div>

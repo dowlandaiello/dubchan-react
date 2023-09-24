@@ -27,3 +27,9 @@
 .errorLabel {
   margin-top: 1em !important;
 }
+
+@media screen and (max-width: 779px) {
+  .section>*:last-child {
+    margin-top: auto;
+  }
+}

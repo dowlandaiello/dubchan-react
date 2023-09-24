@@ -75,3 +75,20 @@
   right: 0;
   width: auto;
 }
+
+@media screen and (max-width: 715px) {
+  .leftPadder {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 547px) {
+  .rightPadder {
+    display: none;
+  }
+
+  .accounts {
+    display: none;
+  }
+}
+

@@ -72,3 +72,9 @@
 .comments>*:not(:first-child) {
   margin-top: 1.5em;
 }
+
+@media screen and (max-width: 695px) {
+  .section {
+    width: 100%;
+  }
+}

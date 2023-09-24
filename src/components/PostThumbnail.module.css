@@ -23,6 +23,19 @@
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
+  overflow: clip;
+
+  position: relative;
+}
+
+.postBody:before {
+  content: '';
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(transparent 5px, var(--bg-lighter));
 }
 
 .postBody h1, .postBody p {
@@ -193,4 +206,10 @@
 
 .imageSkeleton {
   flex-grow: 1;
+}
+
+@media screen and (max-width: 486px) {
+  .titleLine h1 {
+    font-size: 1.5em;
+  }
 }

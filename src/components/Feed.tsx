@@ -15,7 +15,8 @@ import style from "./Feed.module.css";
 import { FeedControl } from "./FeedControl";
 import { timestampToUnix } from "../util/format";
 import { NewPost } from "./NewPost";
-import { QuickLinks } from "../components/QuickLinks";
+import { QuickLinks } from "./QuickLinks";
+import { AccountSelection } from "./AccountSelection";
 
 export const FeedContext = createContext<
   [number, Dispatch<SetStateAction<number>>]
@@ -192,6 +193,9 @@ export const Feed = () => {
     <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>
       <div className={style.gridHeader}>
         <QuickLinks />
+        <div className={style.accounts}>
+          <AccountSelection />
+        </div>
         <NewPost onSubmitted={loadInit} />
         <FeedControl
           onGridToggled={toggleGrid}

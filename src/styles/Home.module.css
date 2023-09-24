@@ -43,3 +43,17 @@
   transition: 0.1s;
   pointer-events: none;
 }
+
+@media screen and (max-width: 423px) {
+  .workspace {
+    padding-left: 0;
+    padding-right: 0;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    flex-grow: 0;
+
+    width: 95%;
+  }
+}
