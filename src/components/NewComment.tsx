@@ -10,15 +10,21 @@ import { route } from "../util/http";
 import { removeIdentity } from "../util/cookie";
 import { AuthenticationContext } from "./AccountSelection";
 import { MediaPreview } from "./MediaPreview";
+import Image from "next/image";
+import clickable from "./Clickable.module.css";
 
 export const NewComment = ({
   parentPost,
   parentComment,
   onSubmitted,
+  className,
+  onClear,
 }: {
+  className?: string;
   parentPost: number;
   parentComment?: number;
   onSubmitted?: () => void;
+  onClear?: () => void;
 }) => {
   const [{ activeUser, users }] = useContext(AuthenticationContext);
   const [commentBody, setCommentBody] = useState<NewCommentBody>(emptyComment);
@@ -85,6 +91,12 @@ export const NewComment = ({
     setPreviewSrc(null);
     setCaptchaCallback(null);
     setErrorMsg(null);
+  };
+
+  const deleteAll = () => {
+    clear();
+
+    if (onClear) onClear();
   };
 
   // Submit the post upon receiving a complete captcha
@@ -161,7 +173,7 @@ export const NewComment = ({
   };
 
   return (
-    <div className={style.section} ref={windowRef}>
+    <div className={`${style.section} ${className}`} ref={windowRef}>
       {previewSrc && (
         <MediaPreview
           src={previewSrc}
@@ -181,6 +193,14 @@ export const NewComment = ({
         />
         <div className={style.attachLine}>
           <div className={style.mediaButtons}>
+            <Image
+              className={`${clickable.clickable} ${style.trashIcon}`}
+              src="/trash.svg"
+              height={15}
+              width={15}
+              alt="Trash icon."
+              onClick={deleteAll}
+            />
             <FileUpload onChange={gotFile} />
             <UrlVidUpload onChange={gotVid} />
           </div>

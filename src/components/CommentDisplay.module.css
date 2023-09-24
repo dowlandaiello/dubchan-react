@@ -36,3 +36,24 @@
 .media {
   width: 30%;
 }
+
+.children {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  padding-left: 1em;
+  border-left: 0.5px solid rgba(255, 255, 255, 0.5);
+
+  margin-top: 0.75em !important;
+}
+
+.children>*:not(:first-child) {
+  margin-top: 0.75em;
+}
+
+.replyArea {
+  margin-top: 1em !important;
+}

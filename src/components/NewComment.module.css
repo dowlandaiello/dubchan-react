@@ -73,3 +73,9 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
+.trashIcon {
+  background-color: var(--accent-error);
+  padding: 0.25em;
+  border-radius: 5px;
+}

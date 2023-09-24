@@ -22,6 +22,9 @@ export const PostPage = ({
   const [lastUpdated, setLastUpdated] = useContext(FeedContext);
   const [post, setPost] = useState<Post | null>(null);
   const [tree, setTree] = useState<{ [id: number]: ThreadNode }>({});
+  const [currentlyReplying, setCurrentlyReplying] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
     if (!postId) return;
@@ -44,8 +47,9 @@ export const PostPage = ({
         ...accum,
         [comment.parent_comment]: {
           ...accum[comment.parent_comment],
-          chidlren: [...accum[comment.parent_comment].children, comment],
+          children: [...accum[comment.parent_comment].children, comment],
         },
+        [comment.id]: { comment: comment, children: [] },
       };
     }
 
@@ -62,9 +66,17 @@ export const PostPage = ({
     setTree(built);
   };
 
-  const threads = Object.values(tree).map((thread) => (
-    <CommentDisplay key={thread.comment.id} comment={thread} tree={tree} />
-  ));
+  const threads = Object.values(tree)
+    .filter((comment) => !comment.comment.parent_comment)
+    .map((thread) => (
+      <CommentDisplay
+        currentlyReplying={currentlyReplying}
+        onReply={(id) => setCurrentlyReplying(id)}
+        key={thread.comment.id}
+        comment={thread}
+        tree={tree}
+      />
+    ));
 
   const reload = () => {
     setLastUpdated(Date.now());
@@ -97,12 +109,17 @@ export const PostPage = ({
             blurred={false}
           />
         )}
-        <NewComment
-          key={postId}
-          parentPost={postId ?? 0}
-          onSubmitted={reload}
-        />
-        <div className={style.comments}>{threads}</div>
+        {!currentlyReplying && (
+          <NewComment
+            key={postId}
+            parentPost={postId ?? 0}
+            onSubmitted={reload}
+          />
+        )}
+        <div className={style.comments}>
+          {threads}
+          <div style={{ minHeight: "1em" }}></div>
+        </div>
       </div>
     </div>
   );

@@ -23,13 +23,11 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  height: calc(100% - 2em);
+  height: calc(100% - 4em);
   width: 80%;
   margin: auto;
 
-  padding-top: 2em;
-  padding-left: 2em;
-  padding-right: 2em;
+  padding: 2em;
 
   background-color: var(--bg-lighter);
 

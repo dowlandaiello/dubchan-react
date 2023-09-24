@@ -5,14 +5,36 @@ import { UsernameLabel } from "./UsernameLabel";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
 import { MediaViewer } from "./MediaViewer";
+import { NewComment } from "./NewComment";
+import { useContext } from "react";
+import { FeedContext } from "./Feed";
 
 export const CommentDisplay = ({
   comment,
   tree,
+  currentlyReplying,
+  onReply,
 }: {
   comment: ThreadNode;
   tree: { [id: number]: ThreadNode };
+  currentlyReplying: number | null;
+  onReply: (comment: number | null) => void;
 }) => {
+  const [, setLastUpdated] = useContext(FeedContext);
+  const children = comment.children.map((child) => (
+    <CommentDisplay
+      onReply={onReply}
+      currentlyReplying={currentlyReplying}
+      key={child.id}
+      comment={tree[child.id]}
+      tree={tree}
+    />
+  ));
+
+  const reload = () => {
+    setLastUpdated(Date.now());
+  };
+
   return (
     <div className={style.section}>
       <div className={style.timestampRow}>
@@ -26,6 +48,7 @@ export const CommentDisplay = ({
           height={15}
           width={15}
           alt="Reply icon."
+          onClick={() => onReply(comment.comment.id)}
         />
       </div>
       <p>{comment.comment.text}</p>
@@ -36,6 +59,20 @@ export const CommentDisplay = ({
           expandable
         />
       )}
+      {currentlyReplying === comment.comment.id && (
+        <NewComment
+          className={style.replyArea}
+          key={comment.comment.id}
+          parentPost={comment.comment.post_id}
+          parentComment={comment.comment.id}
+          onSubmitted={() => {
+            reload();
+            onReply(null);
+          }}
+          onClear={() => onReply(null)}
+        />
+      )}
+      <div className={style.children}>{children}</div>
     </div>
   );
 };
