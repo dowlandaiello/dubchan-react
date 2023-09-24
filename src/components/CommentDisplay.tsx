@@ -8,6 +8,7 @@ import { MediaViewer } from "./MediaViewer";
 import { NewComment } from "./NewComment";
 import { useContext } from "react";
 import { FeedContext } from "./Feed";
+import { GreenText } from "./GreenText";
 
 export const CommentDisplay = ({
   comment,
@@ -51,7 +52,9 @@ export const CommentDisplay = ({
           onClick={() => onReply(comment.comment.id)}
         />
       </div>
-      <p>{comment.comment.text}</p>
+      <div className={style.commentText}>
+        <GreenText>{comment.comment.text}</GreenText>
+      </div>
       {comment.comment.src && (
         <MediaViewer
           className={style.media}

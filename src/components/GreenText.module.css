@@ -1,0 +1,11 @@
+.greenLine {
+  color: #789922;
+}
+
+.greenLine:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+.line:not(:last-child) {
+  margin-bottom: 1em;
+}

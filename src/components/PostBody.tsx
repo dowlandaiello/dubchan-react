@@ -9,6 +9,7 @@ import { TimestampLabel } from "./TimestampLabel";
 import { MediaViewer } from "./MediaViewer";
 import clickable from "./Clickable.module.css";
 import Image from "next/image";
+import { GreenText } from "./GreenText";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -73,7 +74,7 @@ export const PostBody = ({
           <Skeleton containerClassName={`${style.dateSkeleton}`} />
         )}
       </div>
-      {post ? <p>{post.text} </p> : <Skeleton count={3} />}
+      {post ? <GreenText>{post.text}</GreenText> : <Skeleton count={3} />}
       {(post &&
         ((post.src && (
           <div
