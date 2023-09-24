@@ -10,8 +10,16 @@
   z-index: 3;
 }
 
+.drawerContainer .loginDrawer {
+  pointer-events: none;
+}
+
 .drawerContainer h4 {
   margin: 0;
+}
+
+.drawerContainer.active .loginDrawer {
+  pointer-events: auto;
 }
 
 .loginDrawer {
