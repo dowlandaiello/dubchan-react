@@ -68,6 +68,11 @@ export default function Home() {
                   <ModalInput {...modalProps} />
                   <ModalDisplay {...generalModalProps} />
                   <PostPage
+                    key={
+                      router.query?.post && !Array.isArray(router.query.post)
+                        ? parseInt(router.query.post)
+                        : undefined
+                    }
                     className={`${
                       router.query?.post ? styles.activePostViewer : ""
                     } ${styles.postViewer}`}
