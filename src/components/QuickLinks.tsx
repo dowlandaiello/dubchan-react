@@ -9,14 +9,16 @@ export const QuickLinks = () => {
 
   const links = [
     { text: "About", postId: 1 },
-    { text: "Contact", postId: 2 },
+    { text: "Terms of Service", postId: 2 },
+    { text: "TOR", postId: 3 },
+    { text: "Bug Reports / Features", postId: 4 },
   ];
   const linkLabels = links.map((link) => {
     return (
       <Link
         className={clickable.clickable}
         key={link.text}
-        href={`/posts/${link.postId}`}
+        href={`/?post=${link.postId}`}
       >
         {link.text}
       </Link>
