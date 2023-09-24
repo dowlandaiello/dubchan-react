@@ -1,8 +1,9 @@
 import style from "./SideBar.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { addIdentity } from "../util/cookie";
+import { addIdentity, removeIdentity } from "../util/cookie";
 import { ModalContext } from "./ModalDisplay";
+import clickable from "./Clickable.module.css";
 import {
   createContext,
   Dispatch,
@@ -68,20 +69,41 @@ export const SideBar = () => {
     setLoginDrawerActive(!loginDrawerActive);
   };
 
+  const removeUser = (username: string) => {
+    setAuthState((state) => {
+      delete state.users[username];
+      return {
+        ...state,
+        users: { ...state.users },
+      };
+    });
+    removeIdentity(username);
+  };
+
   const userButtons = Object.values(users).map(({ username }) => (
-    <div
-      className={`${style.pageButton} ${style.userButton} ${
-        activeUser === username ? style.active : ""
-      }`}
-      key={username}
-      onClick={() => {
-        setLoginDrawerActive(false);
-        setAuthState((state) => {
-          return { ...state, activeUser: username };
-        });
-      }}
-    >
-      <p>@{username}</p>
+    <div className={style.userButtonContainer}>
+      <div
+        className={`${style.pageButton} ${style.userButton} ${
+          activeUser === username ? style.active : ""
+        }`}
+        key={username}
+        onClick={() => {
+          setLoginDrawerActive(false);
+          setAuthState((state) => {
+            return { ...state, activeUser: username };
+          });
+        }}
+      >
+        <p>@{username}</p>
+      </div>
+      <Image
+        className={clickable.clickable}
+        src="/close.svg"
+        height={20}
+        width={20}
+        onClick={() => removeUser(username)}
+        alt="Close icon."
+      />
     </div>
   ));
 

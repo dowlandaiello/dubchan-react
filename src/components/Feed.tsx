@@ -170,7 +170,9 @@ export const Feed = () => {
               />
             </Fragment>
           ))
-      : Array(5).fill(<PostThumbnail blurred={blurred} />);
+      : Array(5)
+          .fill(0)
+          .map((_, i) => <PostThumbnail key={i} blurred={blurred} />);
 
   return (
     <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>

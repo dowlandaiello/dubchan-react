@@ -36,3 +36,7 @@
   margin: auto;
   border-radius: 5px;
 }
+
+.skeleton {
+  flex-grow: 1;
+}

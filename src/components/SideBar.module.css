@@ -88,3 +88,19 @@
 .userButton.active {
   font-weight: bold;
 }
+
+.userButtonContainer {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userButtonContainer>*:last-child {
+  opacity: 0.6;
+}
+
+.userButtonContainer>*:last-child:hover {
+  opacity: 0.3;
+}

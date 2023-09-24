@@ -2,8 +2,10 @@ import { getYtEmbed } from "../util/http";
 import style from "./MediaViewer.module.css";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ModalContext as GeneralModalContext } from "./ModalDisplay";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 /// A component rendering videos, images, and embeds.
 export const MediaViewer = ({
@@ -22,13 +24,14 @@ export const MediaViewer = ({
   onClick?: () => void | undefined;
 }) => {
   const { setModal } = useContext(GeneralModalContext);
+  const [loaded, setLoaded] = useState<boolean>(false);
 
-  let content = <video src={src} />;
+  let content = <video onLoad={() => setLoaded(true)} src={src} />;
   let modalContent = <video className={style.modalContent} src={src} />;
 
   // This is a normal-ass image.
   if (src.includes("imagedelivery.net") || src.includes("base64")) {
-    content = <img src={src} alt="An image." />;
+    content = <img onLoad={() => setLoaded(true)} src={src} alt="An image." />;
     modalContent = (
       <img className={style.modalContent} src={src} alt="An image." />
     );
@@ -37,6 +40,7 @@ export const MediaViewer = ({
   if (src.includes("youtube.com") || src.includes("youtu.be")) {
     content = (
       <iframe
+        onLoad={() => setLoaded(true)}
         src={getYtEmbed(src)}
         frameBorder="0"
         width={width ?? 560}
@@ -76,7 +80,11 @@ export const MediaViewer = ({
       className={`${style.viewer} ${className ? className : ""}`}
       onClick={onClick}
     >
-      {content}
+      {loaded ? (
+        content
+      ) : (
+        <Skeleton containerClassName={style.skeleton} height="100%" />
+      )}
       <Image
         className={`${style.fullscreen} ${clickable.clickable}`}
         src="/fullscreen.svg"
