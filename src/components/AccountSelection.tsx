@@ -185,9 +185,8 @@ export const AccountSelection = () => {
       className={`${style.drawerContainer} ${
         loginDrawerActive ? style.active : ""
       }`}
-      onClick={toggleLoginDrawer}
     >
-      <div className={style.loginButton}>
+      <div className={style.loginButton} onClick={toggleLoginDrawer}>
         <Image src="/expand.svg" height={20} width={20} alt="Expand icon." />
         <div className={style.loginLabel}>
           <p>Logged in as</p>
