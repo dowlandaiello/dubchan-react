@@ -26,20 +26,32 @@ export const MediaViewer = ({
   const { setModal } = useContext(GeneralModalContext);
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  let content = <video onLoad={() => setLoaded(true)} src={src} />;
+  let content = (
+    <video
+      className={loaded ? style.loaded : style.unloaded}
+      onLoad={() => setLoaded(true)}
+      src={src}
+    />
+  );
   let modalContent = <video className={style.modalContent} src={src} />;
 
   // This is a normal-ass image.
   if (src.includes("imagedelivery.net") || src.includes("base64")) {
-    content = <img onLoad={() => setLoaded(true)} src={src} alt="An image." />;
-    modalContent = (
-      <img className={style.modalContent} src={src} alt="An image." />
+    content = (
+      <img
+        className={loaded ? style.loaded : style.unloaded}
+        onLoad={() => setLoaded(true)}
+        src={src}
+        alt=""
+      />
     );
+    modalContent = <img className={style.modalContent} src={src} alt="" />;
   }
 
   if (src.includes("youtube.com") || src.includes("youtu.be")) {
     content = (
       <iframe
+        className={loaded ? style.loaded : style.unloaded}
         onLoad={() => setLoaded(true)}
         src={getYtEmbed(src)}
         frameBorder="0"
@@ -80,9 +92,8 @@ export const MediaViewer = ({
       className={`${style.viewer} ${className ? className : ""}`}
       onClick={onClick}
     >
-      {loaded ? (
-        content
-      ) : (
+      {content}
+      {!loaded && (
         <Skeleton containerClassName={style.skeleton} height="100%" />
       )}
       <Image
