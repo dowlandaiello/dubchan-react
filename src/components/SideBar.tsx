@@ -81,7 +81,7 @@ export const SideBar = () => {
   };
 
   const userButtons = Object.values(users).map(({ username }) => (
-    <div className={style.userButtonContainer}>
+    <div key={username} className={style.userButtonContainer}>
       <div
         className={`${style.pageButton} ${style.userButton} ${
           activeUser === username ? style.active : ""

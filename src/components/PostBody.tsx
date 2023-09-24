@@ -34,10 +34,10 @@ export const PostBody = ({
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
-  const [startingBlurred] = useState<Boolean>(initBlurred);
+  const [startingBlurred, _] = useState<Boolean>(initBlurred);
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
   const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
-  const postUrl = post ? useUiRoute(`?post=${post.id}`) : "";
+  const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
 
   useEffect(() => {
     if (!thumbnailRef.current || thumbnailRef.current == null) return;

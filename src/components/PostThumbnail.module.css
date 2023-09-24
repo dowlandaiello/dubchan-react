@@ -11,9 +11,12 @@
   padding: 0.5em;
 }
 
+.post .postBody {
+  height: 100%;
+}
+
 .postBody {
   flex-shrink: 1;
-  height: 100%;
   min-height: 0;
 
   display: flex;

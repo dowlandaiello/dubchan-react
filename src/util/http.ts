@@ -17,7 +17,7 @@ export const useUiRoute = (route: string): string => {
       setBase(
         `${window.location.protocol}//${window.location.hostname}:${window.location.port}`
       );
-  }, [window.location]);
+  }, [typeof window]);
 
   return `${base}${route}`;
 };
