@@ -2,15 +2,11 @@ import { useEffect, useState } from "react";
 
 /// Formats a route under the current page's API.
 export const route = (route: string): string => {
-  if (window.location) {
-    if (window.location.hostname.includes("dubchan")) {
-      return `https://api.dubchan.net${route}`;
-    }
-
-    return `${window.location.protocol}//${window.location.hostname}${route}`;
+  if (window.location && window.location.hostname.includes("dubchan")) {
+    return `https://api.dubchan.net${route}`;
   }
 
-  return "http://localhost";
+  return `http://localhost:8080${route}`;
 };
 
 export const useUiRoute = (route: string): string => {

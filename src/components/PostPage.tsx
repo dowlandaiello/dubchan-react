@@ -68,6 +68,10 @@ export const PostPage = ({
 
   const threads = Object.values(tree)
     .filter((comment) => !comment.comment.parent_comment)
+    .sort(
+      (a, b) =>
+        b.comment.posted.secs_since_epoch - a.comment.posted.secs_since_epoch
+    )
     .map((thread) => (
       <CommentDisplay
         currentlyReplying={currentlyReplying}

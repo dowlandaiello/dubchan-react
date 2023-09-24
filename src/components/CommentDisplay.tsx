@@ -22,15 +22,17 @@ export const CommentDisplay = ({
   onReply: (comment: number | null) => void;
 }) => {
   const [, setLastUpdated] = useContext(FeedContext);
-  const children = comment.children.map((child) => (
-    <CommentDisplay
-      onReply={onReply}
-      currentlyReplying={currentlyReplying}
-      key={child.id}
-      comment={tree[child.id]}
-      tree={tree}
-    />
-  ));
+  const children = comment.children
+    .sort((a, b) => b.posted.secs_since_epoch - a.posted.secs_since_epoch)
+    .map((child) => (
+      <CommentDisplay
+        onReply={onReply}
+        currentlyReplying={currentlyReplying}
+        key={child.id}
+        comment={tree[child.id]}
+        tree={tree}
+      />
+    ));
 
   const reload = () => {
     setLastUpdated(Date.now());
