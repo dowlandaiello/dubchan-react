@@ -94,6 +94,7 @@ export const PostBody = ({
               </div>
             )}
             <MediaViewer
+              expandable
               title={post.title}
               className={`${style.media} ${blurred ? style.blurred : ""}`}
               src={post.src}

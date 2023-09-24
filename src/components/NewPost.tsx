@@ -189,6 +189,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
         <textarea
           className={style.underlined}
           placeholder="Post Text (max 1000 chars)"
+          rows={5}
           onChange={updateText}
           value={postBody.text}
         />

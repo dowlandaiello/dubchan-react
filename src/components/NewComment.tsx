@@ -1,6 +1,6 @@
 import style from "./NewComment.module.css";
 import { NewCommentBody, emptyComment } from "../model/comment";
-import { useState, ChangeEvent, useEffect, useContext } from "react";
+import { useState, ChangeEvent, useEffect, useContext, useRef } from "react";
 import { ErrorLabel } from "./ErrorLabel";
 import { FileUpload } from "./FileUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
@@ -9,6 +9,7 @@ import { Button } from "./Button";
 import { route } from "../util/http";
 import { removeIdentity } from "../util/cookie";
 import { AuthenticationContext } from "./AccountSelection";
+import { MediaPreview } from "./MediaPreview";
 
 export const NewComment = ({
   parentPost,
@@ -27,6 +28,12 @@ export const NewComment = ({
   >(null);
   const [previewSrc, setPreviewSrc] = useState<null | string>(null);
   const [errorMsg, setErrorMsg] = useState<null | string>(null);
+
+  // Used for calculating preview window size
+  const windowRef = useRef<HTMLDivElement | null>(null);
+  const [[previewWidth, previewHeight], setPreviewDims] = useState<
+    [number, number]
+  >([0, 0]);
 
   const updateText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCommentBody((comment) => {
@@ -128,32 +135,69 @@ export const NewComment = ({
     })();
   }, [commentBody]);
 
+  useEffect(() => {
+    if (!windowRef.current || windowRef.current == null) return;
+
+    const elem = windowRef.current;
+    const computedStyle = getComputedStyle(elem);
+
+    let elementHeight = elem.clientHeight;
+    let elementWidth = elem.clientWidth;
+
+    elementHeight -=
+      parseFloat(computedStyle.paddingTop) +
+      parseFloat(computedStyle.paddingBottom);
+    elementWidth -=
+      parseFloat(computedStyle.paddingLeft) +
+      parseFloat(computedStyle.paddingRight);
+
+    setPreviewDims([elementWidth * 0.3, elementHeight]);
+  }, [windowRef.current, windowRef.current?.clientHeight ?? 0]);
+
+  const removeMedia = () => {
+    formData.delete("src");
+    formData.delete("data");
+    setPreviewSrc(null);
+  };
+
   return (
-    <div className={style.section}>
-      <textarea
-        className={style.underlined}
-        placeholder="Post a reply"
-        onChange={updateText}
-        value={commentBody.text}
-      />
-      <div className={style.attachLine}>
-        <div className={style.mediaButtons}>
-          <FileUpload onChange={gotFile} />
-          <UrlVidUpload onChange={gotVid} />
-        </div>
-        {errorMsg && (
-          <ErrorLabel className={style.errorLabel} text={errorMsg} />
-        )}
-        {captchaCallback !== null ? (
-          <Captcha onSuccess={captchaCallback} />
-        ) : (
-          <div className={style.authorDisplay}>
-            <p>
-              Posting as <b>{activeUser ? `@${activeUser}` : "Anonymous"}</b>
-            </p>
-            <Button className={style.postButton} text="Post" onClick={post} />
+    <div className={style.section} ref={windowRef}>
+      {previewSrc && (
+        <MediaPreview
+          src={previewSrc}
+          className={style.preview}
+          onRemove={removeMedia}
+          width={previewWidth == 0 ? undefined : previewWidth}
+          height={previewHeight == 0 ? undefined : previewHeight}
+        />
+      )}
+      <div className={style.fields}>
+        <textarea
+          className={style.underlined}
+          rows={6}
+          placeholder="Post a reply"
+          onChange={updateText}
+          value={commentBody.text}
+        />
+        <div className={style.attachLine}>
+          <div className={style.mediaButtons}>
+            <FileUpload onChange={gotFile} />
+            <UrlVidUpload onChange={gotVid} />
           </div>
-        )}
+          {errorMsg && (
+            <ErrorLabel className={style.errorLabel} text={errorMsg} />
+          )}
+          {captchaCallback !== null ? (
+            <Captcha onSuccess={captchaCallback} />
+          ) : (
+            <div className={style.authorDisplay}>
+              <p>
+                Posting as <b>{activeUser ? `@${activeUser}` : "Anonymous"}</b>
+              </p>
+              <Button className={style.postButton} text="Post" onClick={post} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

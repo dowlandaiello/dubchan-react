@@ -56,7 +56,7 @@ export const PostPage = ({
             blurred={false}
           />
         )}
-        <NewComment />
+        <NewComment key={postId} parentPost={postId ?? 0} />
       </div>
     </div>
   );

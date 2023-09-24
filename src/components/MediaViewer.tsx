@@ -15,6 +15,7 @@ export const MediaViewer = ({
   onClick,
   width,
   height,
+  expandable,
 }: {
   title?: string;
   src: string;
@@ -22,6 +23,7 @@ export const MediaViewer = ({
   height?: number;
   className?: string | undefined;
   onClick?: () => void | undefined;
+  expandable?: boolean;
 }) => {
   const { setModal } = useContext(GeneralModalContext);
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -96,14 +98,16 @@ export const MediaViewer = ({
       {!loaded && (
         <Skeleton containerClassName={style.skeleton} height="100%" />
       )}
-      <Image
-        className={`${style.fullscreen} ${clickable.clickable}`}
-        src="/fullscreen.svg"
-        height={40}
-        width={40}
-        alt="Fullscreen button"
-        onClick={toggleFullscreen}
-      />
+      {expandable && (
+        <Image
+          className={`${style.fullscreen} ${clickable.clickable}`}
+          src="/fullscreen.svg"
+          height={40}
+          width={40}
+          alt="Fullscreen button"
+          onClick={toggleFullscreen}
+        />
+      )}
     </div>
   );
 };
