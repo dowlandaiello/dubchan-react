@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 export const route = (route: string): string => {
   if (window.location) {
     if (window.location.hostname.includes("dubchan")) {
-      return `${window.location.protocol}//api.${window.location.hostname}:8080${route}`;
+      return `${window.location.protocol}//api.${window.location.hostname}${route}`;
     }
 
-    return `${window.location.protocol}//${window.location.hostname}:8080${route}`;
+    return `${window.location.protocol}//${window.location.hostname}${route}`;
   }
 
   return "http://localhost";
