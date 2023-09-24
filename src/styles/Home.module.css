@@ -17,11 +17,6 @@
   align-items: stretch;
 }
 
-.foreground>*:first-child {
-  padding: 3em;
-  margin-right: 5em;
-}
-
 .workspace {
   display: flex;
 
@@ -34,4 +29,17 @@
   padding-top: 2em;
 
   flex-grow: 1;
+}
+
+.postViewer.activePostViewer {
+  opacity: 100%;
+  pointer-events: auto;
+
+  z-index: 2;
+}
+
+.postViewer {
+  opacity: 0;
+  transition: 0.1s;
+  pointer-events: none;
 }

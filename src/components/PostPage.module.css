@@ -48,4 +48,6 @@
 
 .body {
   border-bottom: 1px solid var(--accent);
+
+  margin-bottom: 4em;
 }

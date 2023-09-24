@@ -10,7 +10,7 @@ import { route } from "../util/http";
 import { removeIdentity } from "../util/cookie";
 import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
-import { AuthenticationContext } from "./SideBar";
+import { AuthenticationContext } from "./AccountSelection";
 
 /// A form for creating new posts.
 export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
@@ -203,7 +203,12 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
           {captchaCallback !== null ? (
             <Captcha onSuccess={captchaCallback} />
           ) : (
-            <Button className={style.postButton} text="Post" onClick={post} />
+            <div className={style.authorDisplay}>
+              <p>
+                Posting as <b>{activeUser ? `@${activeUser}` : "Anonymous"}</b>
+              </p>
+              <Button className={style.postButton} text="Post" onClick={post} />
+            </div>
           )}
         </div>
       </div>

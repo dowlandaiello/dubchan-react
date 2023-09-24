@@ -16,10 +16,9 @@ import {
 } from "../components/ModalDisplay";
 import { SkeletonTheme } from "react-loading-skeleton";
 import {
-  SideBar,
   AuthenticationContext,
   AuthenticationState,
-} from "../components/SideBar";
+} from "../components/AccountSelection";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -66,11 +65,17 @@ export default function Home() {
                 />
                 <ModalInput {...modalProps} />
                 <ModalDisplay {...generalModalProps} />
-                {router.query?.post && !Array.isArray(router.query.post) && (
-                  <PostPage postId={parseInt(router.query.post)} />
-                )}
+                <PostPage
+                  className={`${
+                    router.query?.post ? styles.activePostViewer : ""
+                  } ${styles.postViewer}`}
+                  postId={
+                    router.query?.post && !Array.isArray(router.query.post)
+                      ? parseInt(router.query.post)
+                      : undefined
+                  }
+                />
                 <div className={styles.foreground}>
-                  <SideBar />
                   <div className={styles.workspace}>
                     <Header />
                     <Feed />

@@ -7,6 +7,34 @@
   border-bottom: 1px solid var(--accent);
 
   width: 100%;
+
+  position: relative;
+}
+
+.header>* {
+  width: 100%;
+}
+
+.header>*:first-child {
+  margin-right: 1em;
+}
+
+.header>*:last-child {
+  margin-left: 1em;
+}
+
+.logoSection {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: stretch;
+
+  width: 100%;
+}
+
+.logoSection img {
+  align-self: flex-end;
 }
 
 .header h1, .header p {
@@ -40,4 +68,10 @@
   padding: 0.125em;
   margin-left: 0.5em;
   border-radius: 5px;
+}
+
+.accounts {
+  position: absolute;
+  right: 0;
+  width: auto;
 }

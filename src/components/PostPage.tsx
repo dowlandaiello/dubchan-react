@@ -6,12 +6,21 @@ import { useRouter } from "next/router";
 import { route } from "../util/http";
 import { PostBody } from "./PostBody";
 import { useState, useEffect } from "react";
+import { NewComment } from "./NewComment";
 
-export const PostPage = ({ postId }: { postId: number }) => {
+export const PostPage = ({
+  className,
+  postId,
+}: {
+  className?: string;
+  postId?: number;
+}) => {
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
+    if (!postId) return;
+
     (async () => {
       // Load the post
       const post = await (await fetch(route(`/posts/${postId}`))).json();
@@ -21,7 +30,7 @@ export const PostPage = ({ postId }: { postId: number }) => {
   }, [postId]);
 
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${className}`}>
       <div className={style.section}>
         <div className={style.navSection}>
           <Image
@@ -47,6 +56,7 @@ export const PostPage = ({ postId }: { postId: number }) => {
             blurred={false}
           />
         )}
+        <NewComment />
       </div>
     </div>
   );

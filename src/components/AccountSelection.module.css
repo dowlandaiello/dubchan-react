@@ -1,0 +1,152 @@
+.drawerContainer {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  border-radius: 20px;
+
+  z-index: 3;
+}
+
+.drawerContainer h4 {
+  margin: 0;
+}
+
+.loginDrawer {
+  margin-top: auto;
+
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.drawerContainer.active {
+  background-color: var(--bg-lighter);
+}
+
+.drawerContainer>*:last-child {
+  border-radius: 0px 0px 20px 20px;
+}
+
+.loginButton {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  color: white;
+
+  transition: 0.3s;
+  padding: 0.5em;
+
+  cursor: pointer;
+
+  border-radius: 20px;
+
+  width: calc(100% - 1em);
+}
+
+.loginButton:hover {
+  background-color: var(--bg-lightest);
+}
+
+.pageButton {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  background-color: var(--bg-lighter);
+
+  color: white;
+}
+
+.drawerContainer>*:last-child {
+  margin-left: 0.5em;
+}
+
+.pageButton {
+  transition: 0.3s;
+  padding: 0.5em;
+
+  cursor: pointer;
+}
+
+.pageButton p {
+  white-space: nowrap;
+}
+
+.pageButton>*:first-child {
+  margin-right: 0.5em;
+}
+
+.pageButton:hover {
+  background-color: var(--bg-lightest);
+}
+
+.loginLabel {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  padding: 0.75em;
+}
+
+.loginLabel>* {
+  margin: 0;
+}
+
+.loginActions {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  opacity: 0;
+  transition: 0.3s;
+  cursor-events: none;
+}
+
+.loginActions.active {
+  opacity: 100%;
+  cursor-events: auto;
+}
+
+.userButton {
+  color: rgba(255, 255, 255, 0.6);
+  width: 100%;
+}
+
+.userButton p {
+  width: 100%;
+  text-align: end;
+}
+
+.userButton.active {
+  font-weight: bold;
+}
+
+.userButtonContainer {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  padding: 0.5em;
+}
+
+.userButtonContainer>*:last-child {
+  opacity: 0.6;
+}
+
+.userButtonContainer>*:last-child:hover {
+  opacity: 0.3;
+}
