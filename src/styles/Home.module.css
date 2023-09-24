@@ -35,7 +35,7 @@
   opacity: 100%;
   pointer-events: auto;
 
-  z-index: 2;
+  z-index: 3;
 }
 
 .postViewer {

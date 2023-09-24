@@ -75,6 +75,8 @@
     position: relative;
 
     min-height: 6em;
+
+    z-index: 2;
   }
 
   .accounts>* {
