@@ -92,7 +92,10 @@ export const PostPage = ({
             height={30}
             width={30}
             alt="Back button."
-            onClick={router.back}
+            onClick={() => {
+              router.back();
+              router.push("/");
+            }}
           />
         </div>
         {post ? (
