@@ -1,6 +1,7 @@
 import style from "./AccountSelection.module.css";
 import Image from "next/image";
 import { addIdentity, removeIdentity } from "../util/cookie";
+import { useServerStartTime } from "../util/hooks";
 import { ModalContext } from "./ModalDisplay";
 import clickable from "./Clickable.module.css";
 import {
@@ -29,6 +30,7 @@ export const AccountSelection = () => {
   );
   const [loginDrawerActive, setLoginDrawerActive] = useState<boolean>(false);
   const { setModal } = useContext(ModalContext);
+  const serverStartTime = useServerStartTime();
 
   const toggleLoginDrawer = () => {
     setLoginDrawerActive(!loginDrawerActive);
@@ -82,7 +84,7 @@ export const AccountSelection = () => {
         },
       };
     });
-    addIdentity(username, JSON.stringify(token));
+    addIdentity(serverStartTime, username, JSON.stringify(token));
   };
 
   const login = async (sub: AuthSubmission) => {

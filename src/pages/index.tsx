@@ -4,6 +4,7 @@ import { Feed, FeedContext } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
 import { loadIdentities } from "../util/cookie";
+import { useServerStartTime } from "../util/hooks";
 import { PostPage } from "../components/PostPage";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState, useEffect } from "react";
@@ -37,10 +38,14 @@ export default function Home() {
   });
   const feedContext = useState<number>(0);
 
+  const serverStartTime = useServerStartTime();
+
   useEffect(() => {
-    const identities = loadIdentities();
+    if (serverStartTime.secs_since_epoch === 0) return;
+
+    const identities = loadIdentities(serverStartTime);
     setAuthState(identities);
-  }, []);
+  }, [serverStartTime.secs_since_epoch]);
 
   const router = useRouter();
 
