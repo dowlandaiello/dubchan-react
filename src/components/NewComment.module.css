@@ -68,7 +68,7 @@
   align-items: center;
 
   text-align: end;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .authorDisplay>*:first-child {
