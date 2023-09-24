@@ -18,11 +18,15 @@ export const PostBody = ({
   post,
   blurred: initBlurred,
   compact,
+  deletable,
+  onClickDelete,
 }: {
   className?: string;
   post?: Post;
   blurred: Boolean;
   compact?: Boolean;
+  deletable?: Boolean;
+  onClickDelete?: () => void;
 }) => {
   const tags = post
     ? post.tags
@@ -59,6 +63,16 @@ export const PostBody = ({
         )}
         <div className={style.titleLineRight}>
           <CopyLink link={postUrl} />
+          {deletable && (
+            <Image
+              src="/trash.svg"
+              className={`${clickable.clickable} ${style.removeIcon}`}
+              height={15}
+              width={15}
+              alt="Delete icon."
+              onClick={onClickDelete}
+            />
+          )}
           <div className={style.tagList}>{tags}</div>
         </div>
       </div>

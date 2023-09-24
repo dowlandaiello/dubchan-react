@@ -16,7 +16,7 @@ import { FeedControl } from "./FeedControl";
 import { timestampToUnix } from "../util/format";
 import { NewPost } from "./NewPost";
 import { QuickLinks } from "./QuickLinks";
-import { AccountSelection } from "./AccountSelection";
+import { AccountSelection, AuthenticationContext } from "./AccountSelection";
 
 export const FeedContext = createContext<
   [number, Dispatch<SetStateAction<number>>]
@@ -24,6 +24,7 @@ export const FeedContext = createContext<
 
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
+  const [{ activeUser, users }] = useContext(AuthenticationContext);
   const [lastUpdated] = useContext(FeedContext);
   const [posts, setPosts] = useState<Map<number, Post>>(new Map());
   const [snapshot, setSnapshot] = useState<number[]>([]);
@@ -125,6 +126,17 @@ export const Feed = () => {
     setSnapshot(postIds);
   };
 
+  const deletePost = async (id: number) => {
+    const headers = activeUser
+      ? {
+          Authorization: users[activeUser]?.token ?? "",
+        }
+      : undefined;
+
+    await fetch(route(`/posts/${id}`), { method: "DELETE", headers: headers });
+    loadInit();
+  };
+
   // Load initial post ID's
   useEffect(() => {
     loadInit();
@@ -182,6 +194,8 @@ export const Feed = () => {
                 key={post.id}
                 blurred={blurred}
                 compact={gridToggled}
+                deletable={activeUser === "dev"}
+                onClickDelete={() => deletePost(post.id)}
               />
             </Fragment>
           ))

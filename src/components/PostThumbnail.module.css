@@ -208,6 +208,12 @@
   flex-grow: 1;
 }
 
+.removeIcon {
+  background-color: var(--accent-error);
+  padding: 0.25em;
+  border-radius: 5px;
+}
+
 @media screen and (max-width: 486px) {
   .titleLine h1 {
     font-size: 1.5em;
