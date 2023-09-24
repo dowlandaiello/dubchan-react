@@ -165,7 +165,7 @@ export const Feed = () => {
 
   // Load initial posts
   useEffect(() => {
-    if (snapshot !== []) loadBatch();
+    if (snapshot.length !== 0) loadBatch();
   }, [snapshot]);
 
   const postEntries =
