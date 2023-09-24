@@ -74,6 +74,7 @@
   position: absolute;
   right: 0;
   width: auto;
+  z-index: 3;
 }
 
 @media screen and (max-width: 715px) {
