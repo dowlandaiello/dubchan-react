@@ -32,3 +32,7 @@
 .timestampRow>*:not(:first-child) {
   margin-left: 0.5em;
 }
+
+.media {
+  width: 30%;
+}

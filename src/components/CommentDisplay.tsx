@@ -4,6 +4,7 @@ import { TimestampLabel } from "./TimestampLabel";
 import { UsernameLabel } from "./UsernameLabel";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
+import { MediaViewer } from "./MediaViewer";
 
 export const CommentDisplay = ({
   comment,
@@ -28,6 +29,13 @@ export const CommentDisplay = ({
         />
       </div>
       <p>{comment.comment.text}</p>
+      {comment.comment.src && (
+        <MediaViewer
+          className={style.media}
+          src={comment.comment.src}
+          expandable
+        />
+      )}
     </div>
   );
 };

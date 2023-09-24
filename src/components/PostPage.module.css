@@ -23,13 +23,17 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  height: calc(100% - 4em);
+  height: calc(100% - 2em);
   width: 80%;
   margin: auto;
 
-  padding: 2em;
+  padding-top: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
 
   background-color: var(--bg-lighter);
+
+  overflow: auto;
 }
 
 .loadingBody {
@@ -50,6 +54,8 @@
   border-bottom: 1px solid var(--accent);
 
   margin-bottom: 4em;
+
+  flex-shrink: 0 !important;
 }
 
 .comments {
@@ -60,6 +66,9 @@
   align-items: stretch;
 
   margin-top: 2em;
+  margin-bottom: 2em;
+  min-height: 0;
+  flex-shrink: 1;
 }
 
 .comments>*:not(:first-child) {

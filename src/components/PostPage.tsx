@@ -19,7 +19,7 @@ export const PostPage = ({
   postId?: number;
 }) => {
   const router = useRouter();
-  const [, setLastUpdated] = useContext(FeedContext);
+  const [lastUpdated, setLastUpdated] = useContext(FeedContext);
   const [post, setPost] = useState<Post | null>(null);
   const [tree, setTree] = useState<{ [id: number]: ThreadNode }>({});
 
@@ -33,7 +33,7 @@ export const PostPage = ({
       setPost(post);
       await loadComments();
     })();
-  }, [postId]);
+  }, [postId, lastUpdated]);
 
   const insertTree = (
     accum: { [id: number]: ThreadNode },
