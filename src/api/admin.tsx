@@ -4,18 +4,15 @@ import { GetServerSideProps } from "next";
 import { AnalyticsWindow } from "../model/analytics";
 import { routeSsr } from "../util/http";
 
-export interface AnalyticsOverview {
-  hourAnalytics: AnalyticsWindow;
-  dayAnalytics: AnalyticsWindow;
-  weekAnalytics: AnalyticsWindow;
-  monthAnalytics: AnalyticsWindow;
+export interface AnalyticsProps {
+  data?: { [frame: string]: AnalyticsWindow };
 }
 
 export default () => {
   return <></>;
 };
 
-export const getServerSideProps: GetServerSideProps<AnalyticsOverview> = async (
+export const getServerSideProps: GetServerSideProps<AnalyticsProps> = async (
   context
 ) => {
   const { users } = useIdentitiesSsr(context.req);
@@ -25,14 +22,14 @@ export const getServerSideProps: GetServerSideProps<AnalyticsOverview> = async (
     res.setHeader("location", "/");
     res.statusCode = 302;
     res.end();
-    return;
+    return { props: {} };
   }
 
   const analRequest: { [timeFrame: string]: [number, number] } = {
-    hourAnalytics: [Date.now() - 3600 * 1000, Date.now()],
-    dayAnalytics: [Date.now() - 86400 * 1000, Date.now()],
-    weekAnalytics: [Date.now() - 604800 * 1000, Date.now()],
-    monthAnalytics: [Date.now() - 2592000 * 1000, Date.now()],
+    hour: [Date.now() - 3600 * 1000, Date.now()],
+    day: [Date.now() - 86400 * 1000, Date.now()],
+    week: [Date.now() - 604800 * 1000, Date.now()],
+    month: [Date.now() - 2592000 * 1000, Date.now()],
   };
 
   const results: { [window: string]: AnalyticsWindow } = (
@@ -48,6 +45,6 @@ export const getServerSideProps: GetServerSideProps<AnalyticsOverview> = async (
   }, {});
 
   return {
-    props: { ...results },
+    props: { data: results },
   };
 };
