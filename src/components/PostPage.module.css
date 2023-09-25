@@ -24,7 +24,7 @@
   align-items: stretch;
 
   flex-shrink: 1;
-  height: 100%;
+  height: calc(100% - 4em);
 
   width: 80%;
   margin: auto;

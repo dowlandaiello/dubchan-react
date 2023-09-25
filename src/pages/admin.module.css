@@ -1,0 +1,123 @@
+.section {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  height: calc(100vh - 8em);
+  padding: 4em;
+}
+
+.bgContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+
+  overflow: clip;
+
+  z-index: -1;
+}
+
+.bg {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 200%;
+  height: 200%;
+
+  margin-left: -5em;
+  margin-top: -5em;
+
+  overflow: clip;
+}
+
+.gadsden {
+  transform: rotate(20deg);
+
+  margin: 5em;
+}
+
+.titleLine {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  font-style: italic;
+  font-family: "Georgia", serif;
+  text-transform: uppercase;
+}
+
+.titleLine>*:first-child {
+  margin-right: 1em;
+}
+
+.statArea {
+  background-color: var(--bg-lightest);
+}
+
+.dataSection {
+  color: rgba(255, 255, 255, 0.7);
+
+  background-color: var(--bg-lighter);
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+
+  margin-bottom: 2em;
+
+  padding: 1em;
+}
+
+.dataSection h2 {
+  margin: 0;
+}
+
+.dataList {
+  margin-top: 1em;
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  gap: 1em;
+}
+
+.stat {
+  display: flex;
+
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--bg-lightest);
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.dataLabel {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 1em;
+}
+
+.dataLabel>*:first-child {
+  color: white;
+}
+
+.active {
+  color: white;
+  border-bottom: 1px solid var(--accent);
+}

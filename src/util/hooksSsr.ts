@@ -1,40 +1,27 @@
 import { routeSsr } from "./http";
 import { User } from "../model/user";
 import { IncomingMessage } from "http";
-import { useState, useEffect } from "react";
-import { Timestamp } from "../model/timestamp";
-import { cookies } from "next/headers";
 
-export const useServerStartTimeSsr = (req: IncomingMessage) => {
-  const [serverStartTime, setServerStartTime] = useState<Timestamp>({
-    secs_since_epoch: 0,
-    nanos_since_epoch: 0,
-  });
+export const useServerStartTimeSsr = async (req: IncomingMessage) => {
+  const startedAt = await (await fetch(routeSsr("/admin/started_at", req)))
+    .json()
+    .catch(() => {
+      return { secs_since_epoch: 0, nanos_since_epoch: 0 };
+    });
 
-  useEffect(() => {
-    (async () => {
-      const startedAt = await (await fetch(routeSsr("/admin/started_at", req)))
-        .json()
-        .catch(() => {
-          return { secs_since_epoch: 0, nanos_since_epoch: 0 };
-        });
-      setServerStartTime(startedAt);
-    })();
-  }, []);
-
-  return serverStartTime;
+  return startedAt;
 };
 
-export const useIdentitiesSsr = (
+export const useIdentitiesSsr = async (
   req: IncomingMessage
-): { users: { [username: string]: User } } => {
-  const cookieStore = cookies();
-  const serverStartTime = useServerStartTimeSsr(req);
+): Promise<{ users: { [username: string]: User } }> => {
+  const cookies = req.headers.cookie ?? "";
+  const serverStartTime = await useServerStartTimeSsr(req);
 
-  return cookieStore
-    .getAll()
-    .filter((s) => s.value.length > 0)
-    .map((pair) => [pair.name, pair.value])
+  return cookies
+    .split("; ")
+    .filter((s) => s.length > 0)
+    .map((pair) => pair.split("="))
     .map(([username, token]) => [username, token.split(":") as string[]])
     .reduce(
       (map, [username, token]) => {
