@@ -11,7 +11,7 @@ export const route = (route: string): string => {
 };
 
 export const routeSsr = (route: string, req: IncomingMessage) => {
-  if (req.url && req.url.includes("dubchan")) {
+  if (req.headers.host?.includes("dubchan") ?? false) {
     return `https://api.dubchan.net${route}`;
   }
 
