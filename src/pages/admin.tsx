@@ -43,6 +43,7 @@ export default ({ data }: AnalyticsProps) => {
         <h2>Stats:</h2>
         {Object.entries(properNames).map(([id, name]) => (
           <h2
+            key={id}
             onClick={() => setActiveStat(id)}
             className={`${activeStat === id ? style.active : ""} ${
               clickable.clickable
