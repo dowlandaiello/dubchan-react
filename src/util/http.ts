@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
+import { IncomingMessage } from "http";
 
 /// Formats a route under the current page's API.
 export const route = (route: string): string => {
   if (window.location && window.location.hostname.includes("dubchan")) {
+    return `https://api.dubchan.net${route}`;
+  }
+
+  return `http://localhost:8080${route}`;
+};
+
+export const routeSsr = (route: string, req: IncomingMessage) => {
+  if (req.url && req.url.includes("dubchan")) {
     return `https://api.dubchan.net${route}`;
   }
 

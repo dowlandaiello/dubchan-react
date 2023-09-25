@@ -2,10 +2,12 @@ import style from "./QuickLinks.module.css";
 import Link from "next/link";
 import clickable from "./Clickable.module.css";
 import { route } from "../util/http";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthenticationContext } from "./AccountSelection";
 
 export const QuickLinks = () => {
   const [qotd, setQotd] = useState<string>("");
+  const [{ activeUser }] = useContext(AuthenticationContext);
 
   const links = [
     { text: "About", postId: 1 },
@@ -34,7 +36,18 @@ export const QuickLinks = () => {
 
   return (
     <div className={style.section}>
-      <div className={style.links}>{linkLabels}</div>
+      <div className={style.links}>
+        {linkLabels}{" "}
+        {activeUser === "dev" && (
+          <Link
+            className={clickable.clickable}
+            key={"analytics"}
+            href={"/admin"}
+          >
+            Admin
+          </Link>
+        )}
+      </div>
       {qotd !== "" && <p className={style.qotd}>{qotd}</p>}
     </div>
   );
