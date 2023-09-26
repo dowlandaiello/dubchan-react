@@ -107,9 +107,23 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
         removeIdentity(activeUser ?? "");
+        setPostBody((body) => {
+          return { ...body, captcha_response: undefined };
+        });
+        setFormData((form) => {
+          form.delete("body");
+          return form;
+        });
       } else {
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
+        setPostBody((body) => {
+          return { ...body, captcha_response: undefined };
+        });
+        setFormData((form) => {
+          form.delete("body");
+          return form;
+        });
       }
     })();
   }, [postBody]);

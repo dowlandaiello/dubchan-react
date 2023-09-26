@@ -140,9 +140,23 @@ export const NewComment = ({
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
         removeIdentity(activeUser ?? "");
+        setCommentBody((c) => {
+          return { ...c, captcha_response: undefined };
+        });
+        setFormData((form) => {
+          form.delete("body");
+          return form;
+        });
       } else {
         setErrorMsg(await resp.text());
         setCaptchaCallback(null);
+        setCommentBody((c) => {
+          return { ...c, captcha_response: undefined };
+        });
+        setFormData((form) => {
+          form.delete("body");
+          return form;
+        });
       }
     })();
   }, [commentBody]);
