@@ -11,6 +11,7 @@ import { removeIdentity } from "../util/cookie";
 import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
 import { AuthenticationContext } from "./AccountSelection";
+import Compressor from "compressorjs";
 
 /// A form for creating new posts.
 export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
@@ -34,10 +35,18 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
 
     if (e.files && e.files.length) {
       const file = e.files[0];
-      setFormData((formData) => {
-        formData.delete("src");
-        formData.append("data", file);
-        return formData;
+      new Compressor(file, {
+        quality: 0.8,
+        success(result) {
+          setFormData((formData) => {
+            formData.delete("src");
+            formData.append("data", result);
+            return formData;
+          });
+        },
+        error(err) {
+          setErrorMsg(err.message);
+        },
       });
 
       const reader = new FileReader();

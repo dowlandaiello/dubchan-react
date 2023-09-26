@@ -12,6 +12,7 @@ import { AuthenticationContext } from "./AccountSelection";
 import { MediaPreview } from "./MediaPreview";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
+import Compressor from "compressorjs";
 
 export const NewComment = ({
   parentPost,
@@ -52,10 +53,18 @@ export const NewComment = ({
 
     if (e.files && e.files.length) {
       const file = e.files[0];
-      setFormData((formData) => {
-        formData.delete("src");
-        formData.append("data", file);
-        return formData;
+      new Compressor(file, {
+        quality: 0.8,
+        success(result) {
+          setFormData((formData) => {
+            formData.delete("src");
+            formData.append("data", result);
+            return formData;
+          });
+        },
+        error(err) {
+          setErrorMsg(err.message);
+        },
       });
 
       const reader = new FileReader();
