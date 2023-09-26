@@ -45,9 +45,12 @@
   align-items: stretch;
 
   padding-left: 1em;
-  border-left: 0.5px solid rgba(255, 255, 255, 0.5);
 
   margin-top: 0.75em !important;
+
+  position: relative;
+
+  min-height: 20px;
 }
 
 .children>*:not(:first-child) {
@@ -64,4 +67,14 @@
 
 .removeIcon:hover {
   opacity: 0.4;
+}
+
+.thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: 1em;
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
 }

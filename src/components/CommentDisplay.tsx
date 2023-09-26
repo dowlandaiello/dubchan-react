@@ -6,7 +6,7 @@ import Image from "next/image";
 import clickable from "./Clickable.module.css";
 import { MediaViewer } from "./MediaViewer";
 import { NewComment } from "./NewComment";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FeedContext } from "./Feed";
 import { GreenText } from "./GreenText";
 
@@ -39,6 +39,7 @@ export const CommentDisplay = ({
         onClickDelete={onClickDelete}
       />
     ));
+  const [minimized, setMinimized] = useState<boolean>(false);
 
   const reload = () => {
     setLastUpdated(Date.now());
@@ -93,7 +94,15 @@ export const CommentDisplay = ({
           onClear={() => onReply(null)}
         />
       )}
-      <div className={style.children}>{children}</div>
+      {children.length > 0 && (
+        <div className={style.children}>
+          <span
+            className={`${style.thread} ${clickable.clickable}`}
+            onClick={() => setMinimized(!minimized)}
+          />
+          {!minimized && children}
+        </div>
+      )}
     </div>
   );
 };
