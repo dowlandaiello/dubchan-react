@@ -36,7 +36,7 @@ export default ({ data }: AnalyticsProps) => {
 
   const selectedData = data
     ? data[activeStat]
-    : { n_users: 0, n_posts: 0, n_comments: 0 };
+    : { n_users: 0, n_posts: 0, n_comments: 0, n_views: 0 };
   const datas = (
     <div className={style.dataSection}>
       <div className={style.dataLabel}>
