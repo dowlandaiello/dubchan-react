@@ -17,6 +17,7 @@ export const CommentDisplay = ({
   onReply,
   deletable,
   onClickDelete,
+  mostRecent,
 }: {
   comment: ThreadNode;
   tree: { [id: number]: ThreadNode };
@@ -24,6 +25,7 @@ export const CommentDisplay = ({
   onReply: (comment: number | null) => void;
   deletable?: Boolean;
   onClickDelete?: () => void;
+  mostRecent?: number;
 }) => {
   const [, setLastUpdated] = useContext(FeedContext);
   const children = comment.children
@@ -37,6 +39,7 @@ export const CommentDisplay = ({
         tree={tree}
         deletable={deletable}
         onClickDelete={onClickDelete}
+        mostRecent={mostRecent}
       />
     ));
   const [minimized, setMinimized] = useState<boolean>(false);
@@ -46,7 +49,11 @@ export const CommentDisplay = ({
   };
 
   return (
-    <div className={style.section}>
+    <div
+      className={`${style.section} ${
+        mostRecent === comment.comment.id ? style.highlighted : ""
+      }`}
+    >
       <div className={style.timestampRow}>
         <TimestampLabel timestamp={comment.comment.posted} />
         {comment.comment.user_id && (

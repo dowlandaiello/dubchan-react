@@ -24,6 +24,7 @@ export const PostPage = ({
   const [lastUpdated, setLastUpdated] = useContext(FeedContext);
   const [post, setPost] = useState<Post | null>(null);
   const [tree, setTree] = useState<{ [id: number]: ThreadNode }>({});
+  const [mostRecent, setMostRecent] = useState<number | undefined>(undefined);
   const [currentlyReplying, setCurrentlyReplying] = useState<number | null>(
     null
   );
@@ -66,6 +67,11 @@ export const PostPage = ({
       .catch(() => []);
     const built: { [id: number]: ThreadNode } = comments.reduce(insertTree, {});
     setTree(built);
+
+    const mostRecent = comments.sort(
+      (a, b) => b.posted.secs_since_epoch - a.posted.secs_since_epoch
+    )[0].id;
+    setMostRecent(mostRecent);
   };
 
   const reload = () => {
@@ -95,6 +101,7 @@ export const PostPage = ({
     .map((thread) => (
       <CommentDisplay
         currentlyReplying={currentlyReplying}
+        mostRecent={mostRecent}
         onReply={(id) => setCurrentlyReplying(id)}
         key={thread.comment.id}
         comment={thread}
