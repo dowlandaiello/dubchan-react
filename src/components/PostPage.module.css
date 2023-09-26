@@ -84,8 +84,3 @@
   }
 }
 
-@media screen and (max-width: 827px) {
-  .bodyMedia {
-    width: 80% !important;
-  }
-}
