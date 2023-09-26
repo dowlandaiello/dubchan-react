@@ -11,7 +11,7 @@ export const QuickLinks = () => {
 
   const links = [
     { text: "About", postId: 1 },
-    { text: "Terms of Service", postId: 10 },
+    { text: "Moderation", postId: 10 },
     { text: "TOR", postId: 3 },
     { text: "Bug Reports / Features", postId: 4 },
   ];
