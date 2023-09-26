@@ -68,9 +68,10 @@ export const PostPage = ({
     const built: { [id: number]: ThreadNode } = comments.reduce(insertTree, {});
     setTree(built);
 
-    const mostRecent = comments.sort(
-      (a, b) => b.posted.secs_since_epoch - a.posted.secs_since_epoch
-    )[0].id;
+    const mostRecent =
+      comments.sort(
+        (a, b) => b.posted.secs_since_epoch - a.posted.secs_since_epoch
+      )[0]?.id ?? undefined;
     setMostRecent(mostRecent);
   };
 

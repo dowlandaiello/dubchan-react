@@ -11,6 +11,7 @@ export interface Post {
   tags: [string | null] | null;
   n_comments: number;
   last_updated: Timestamp;
+  views: number;
 }
 
 export const emptyPost = {
