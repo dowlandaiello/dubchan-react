@@ -15,6 +15,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 export const PostBody = ({
   className,
+  mediaClassName,
   post,
   blurred: initBlurred,
   compact,
@@ -22,6 +23,7 @@ export const PostBody = ({
   onClickDelete,
 }: {
   className?: string;
+  mediaClassName?: string;
   post?: Post;
   blurred: Boolean;
   compact?: Boolean;
@@ -117,7 +119,9 @@ export const PostBody = ({
             <MediaViewer
               expandable
               title={post.title}
-              className={`${style.media} ${blurred ? style.blurred : ""}`}
+              className={`${mediaClassName} ${style.media} ${
+                blurred ? style.blurred : ""
+              }`}
               src={post.src}
               height={previewHeight == 0 ? undefined : previewHeight}
               width={previewWidth == 0 ? undefined : previewWidth}

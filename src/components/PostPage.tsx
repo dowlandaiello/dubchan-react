@@ -132,6 +132,7 @@ export const PostPage = ({
           <PostBody
             key="loaded"
             className={style.body}
+            mediaClassName={style.bodyMedia}
             blurred={true}
             post={post}
           />
@@ -139,6 +140,7 @@ export const PostPage = ({
           <PostBody
             key="loading"
             className={style.loadingBody}
+            mediaClassName={style.media}
             blurred={false}
           />
         )}

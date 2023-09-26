@@ -20,16 +20,17 @@
 
 .drawerContainer.active .loginDrawer {
   pointer-events: auto;
-}
-
-.loginDrawer {
-  margin-top: auto;
-
   display: flex;
 
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
+}
+
+.loginDrawer {
+  margin-top: auto;
+
+  display: none;
 }
 
 .drawerContainer.active {
