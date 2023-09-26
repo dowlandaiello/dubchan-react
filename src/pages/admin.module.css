@@ -72,6 +72,8 @@
   margin-bottom: 2em;
 
   padding: 1em;
+
+  width: 100%;
 }
 
 .dataSection h2 {
@@ -84,7 +86,7 @@
 
   grid-template-columns: repeat(3, 1fr);
 
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   justify-content: flex-start;
   align-items: stretch;
 

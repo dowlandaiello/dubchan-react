@@ -66,6 +66,10 @@ export default ({ data }: AnalyticsProps) => {
           <h1>{selectedData.n_comments}</h1>
           New Comments
         </div>
+        <div className={style.stat}>
+          <h1>{selectedData.n_views}</h1>
+          Total Views
+        </div>
       </div>
     </div>
   );
