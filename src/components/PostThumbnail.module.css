@@ -71,13 +71,10 @@
 
 .tagList {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
+  flex-flow: row wrap;
+  justify-content: flex-end;
   align-items: center;
-}
-
-.tagList>*:not(:last-child) {
-  margin-right: 0.5em;
+  gap: 0.5em;
 }
 
 .titleLineRight {
