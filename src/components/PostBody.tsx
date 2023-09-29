@@ -82,8 +82,8 @@ export const PostBody = ({
             />
           )}
         </div>
-        <div className={style.tagList}>{tags}</div>
       </div>
+      <div className={style.tagList}>{tags}</div>
       <div className={style.authorLine}>
         {post ? (
           post.user_id && <UsernameLabel username={post.user_id} />
