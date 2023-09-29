@@ -63,7 +63,7 @@ export const Feed = () => {
     const startingSize = posts.size;
 
     // If no posts are left, trigger a before:date load
-    if (startingSize + 7 - startingSize == 0) {
+    if (startingSize + 6 - startingSize == 0) {
       const postIds = await (
         await fetch(
           route(
@@ -85,7 +85,7 @@ export const Feed = () => {
 
     // Load all posts
     await Promise.all(
-      snapshot.slice(startingSize, startingSize + 7).map(async (id: number) => {
+      snapshot.slice(startingSize, startingSize + 6).map(async (id: number) => {
         // Load the post
         const post = await (await fetch(route(`/posts/${id}`))).json();
 
