@@ -60,19 +60,16 @@
 .titleLine {
   display: flex;
 
-  flex-flow: row nowrap;
-  justify-content: flex-start;
+  flex-flow: row wrap;
+  justify-content: space-between;
   align-items: center;
-}
-
-.titleLine>*:not(:last-child) {
-  margin-right: 0.5em;
+  gap: 0.5em;
 }
 
 .tagList {
   display: flex;
   flex-flow: row wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: 0.5em;
 }
@@ -85,10 +82,7 @@
   align-items: center;
 
   flex-grow: 1;
-}
-
-.titleLineRight>* {
-  margin-left: 1em;
+  gap: 0.5em;
 }
 
 .media {

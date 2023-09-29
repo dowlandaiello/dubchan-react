@@ -81,8 +81,8 @@ export const PostBody = ({
               onClick={onClickDelete}
             />
           )}
-          <div className={style.tagList}>{tags}</div>
         </div>
+        <div className={style.tagList}>{tags}</div>
       </div>
       <div className={style.authorLine}>
         {post ? (
