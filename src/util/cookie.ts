@@ -8,7 +8,7 @@ export const addIdentity = (
 ) => {
   const now = new Date();
   let time = now.getTime();
-  const expireTime = time + 1000 * 36000;
+  const expireTime = time + 1000 * 36000 * 7;
   now.setTime(expireTime);
 
   document.cookie = `${username}=${token}:${
