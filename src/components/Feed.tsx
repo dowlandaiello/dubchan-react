@@ -37,6 +37,7 @@ export const Feed = () => {
     "UW",
     "Fitness",
     "LGBT",
+    "NSFW",
   ]);
   const feedRef = useRef<HTMLDivElement>(null);
 
