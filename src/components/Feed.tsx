@@ -112,7 +112,7 @@ export const Feed = () => {
   const loadInit = async () => {
     setPosts(new Map());
 
-    const excluded = allTags.filter((el) => activeTags.includes(el));
+    const excluded = allTags.filter((el) => !activeTags.includes(el));
 
     // Fetch 50 post ID's
     const postIds = await (
