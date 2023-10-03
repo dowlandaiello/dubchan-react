@@ -11,8 +11,8 @@ export const QuickLinks = () => {
 
   const links = [
     { text: "About", postId: 1 },
+    { text: "Discord", postId: 35 },
     { text: "Account Privacy & Moderation", postId: 10 },
-    { text: "TOR", postId: 3 },
     { text: "Bug Reports / Features", postId: 4 },
   ];
   const linkLabels = links.map((link) => {
