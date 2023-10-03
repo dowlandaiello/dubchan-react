@@ -22,6 +22,8 @@ export const FeedContext = createContext<
   [number, Dispatch<SetStateAction<number>>]
 >([0, () => {}]);
 
+const allTags = ["UW", "Fitness", "LGBT", "NSFW"];
+
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
   const [{ activeUser, users }] = useContext(AuthenticationContext);
@@ -35,7 +37,6 @@ export const Feed = () => {
     "UW",
     "Fitness",
     "LGBT",
-    "NSFW",
   ]);
   const feedRef = useRef<HTMLDivElement>(null);
 
@@ -111,12 +112,14 @@ export const Feed = () => {
   const loadInit = async () => {
     setPosts(new Map());
 
+    const excluded = allTags.filter((el) => activeTags.includes(el));
+
     // Fetch 50 post ID's
     const postIds = await (
       await fetch(
         route(
           activeTags.length < 4
-            ? `/feed/snapshot?tags=${JSON.stringify(activeTags)}`
+            ? `/feed/snapshot?tags_exclude=${JSON.stringify(excluded)}`
             : "/feed/snapshot"
         )
       )
