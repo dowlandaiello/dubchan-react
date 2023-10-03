@@ -26,7 +26,6 @@ export const FeedControl = ({
     "UW",
     "Fitness",
     "LGBT",
-    "NSFW",
   ]);
   const [blurActive, setBlurActive] = useState<Boolean>(true);
 
