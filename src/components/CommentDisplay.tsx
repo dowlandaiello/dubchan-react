@@ -102,7 +102,7 @@ export const CommentDisplay = ({
         />
       )}
       {children.length > 0 && (
-        <div className={style.children}>
+        <div className={`${style.children} ${style.minimized}`}>
           <span
             className={`${style.thread} ${clickable.clickable}`}
             onClick={() => setMinimized(!minimized)}

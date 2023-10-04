@@ -49,8 +49,6 @@
   margin-top: 0.75em !important;
 
   position: relative;
-
-  min-height: 20px;
 }
 
 .children>*:not(:first-child) {
@@ -82,4 +80,8 @@
 .highlighted {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 0.5em;
+}
+
+.minimized {
+  min-height: 20px;
 }
