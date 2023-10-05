@@ -54,7 +54,7 @@ export const NewComment = ({
     if (e.files && e.files.length) {
       const file = e.files[0];
       new Compressor(file, {
-        quality: 0.8,
+        quality: 0.6,
         success(result) {
           setFormData((formData) => {
             formData.delete("src");
