@@ -1,8 +1,8 @@
 import { getYtEmbed } from "../util/http";
-import style from "./MediaViewer.module.css";
+import styles from "./MediaViewer.module.css";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
-import { useContext, useState } from "react";
+import { useContext, useState, CSSProperties } from "react";
 import { ModalContext as GeneralModalContext } from "./ModalDisplay";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -10,6 +10,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 /// A component rendering videos, images, and embeds.
 export const MediaViewer = ({
   title,
+  style,
   src,
   className,
   onClick,
@@ -18,6 +19,7 @@ export const MediaViewer = ({
   expandable,
 }: {
   title?: string;
+  style?: CSSProperties;
   src: string;
   width?: number;
   height?: number;
@@ -30,30 +32,30 @@ export const MediaViewer = ({
 
   let content = (
     <video
-      className={loaded ? style.loaded : style.unloaded}
+      className={loaded ? styles.loaded : styles.unloaded}
       onLoad={() => setLoaded(true)}
       src={src}
     />
   );
-  let modalContent = <video className={style.modalContent} src={src} />;
+  let modalContent = <video className={styles.modalContent} src={src} />;
 
   // This is a normal-ass image.
   if (src.includes("imagedelivery.net") || src.includes("base64")) {
     content = (
       <img
-        className={loaded ? style.loaded : style.unloaded}
+        className={loaded ? styles.loaded : styles.unloaded}
         onLoad={() => setLoaded(true)}
         src={src}
         alt=""
       />
     );
-    modalContent = <img className={style.modalContent} src={src} alt="" />;
+    modalContent = <img className={styles.modalContent} src={src} alt="" />;
   }
 
   if (src.includes("youtube.com") || src.includes("youtu.be")) {
     content = (
       <iframe
-        className={loaded ? style.loaded : style.unloaded}
+        className={loaded ? styles.loaded : styles.unloaded}
         onLoad={() => setLoaded(true)}
         src={getYtEmbed(src)}
         frameBorder="0"
@@ -63,7 +65,7 @@ export const MediaViewer = ({
     );
     modalContent = (
       <iframe
-        className={style.modalContent}
+        className={styles.modalContent}
         src={getYtEmbed(src)}
         frameBorder="0"
         width={width ?? 560}
@@ -73,7 +75,7 @@ export const MediaViewer = ({
   }
 
   modalContent = (
-    <div className={style.modalContentContainer} key="child">
+    <div className={styles.modalContentContainer} key="child">
       {modalContent}
     </div>
   );
@@ -91,16 +93,17 @@ export const MediaViewer = ({
 
   return (
     <div
-      className={`${style.viewer} ${className ? className : ""}`}
+      className={`${styles.viewer} ${className ? className : ""}`}
       onClick={onClick}
+      style={style}
     >
       {content}
       {!loaded && (
-        <Skeleton containerClassName={style.skeleton} height="100%" />
+        <Skeleton containerClassName={styles.skeleton} height="100%" />
       )}
       {expandable && (
         <Image
-          className={`${style.fullscreen} ${clickable.clickable}`}
+          className={`${styles.fullscreen} ${clickable.clickable}`}
           src="/fullscreen.svg"
           height={40}
           width={40}

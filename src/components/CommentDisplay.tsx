@@ -1,4 +1,5 @@
 import { ThreadNode } from "../model/comment";
+import { useRef, useEffect } from "react";
 import style from "./CommentDisplay.module.css";
 import { TimestampLabel } from "./TimestampLabel";
 import { UsernameLabel } from "./UsernameLabel";
@@ -43,16 +44,42 @@ export const CommentDisplay = ({
       />
     ));
   const [minimized, setMinimized] = useState<boolean>(false);
+  const [[previewWidth, previewHeight], setPreviewDims] = useState<
+    [number, number]
+  >([0, 0]);
+  const windowRef = useRef<HTMLDivElement | null>(null);
 
   const reload = () => {
     setLastUpdated(Date.now());
   };
+
+  useEffect(() => {
+    if (!windowRef.current || windowRef.current == null) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      const elem = windowRef.current;
+      if (!elem) return;
+
+      let elementWidth = elem.clientWidth;
+
+      const compact = (windowRef?.current?.clientWidth ?? 0) < 700;
+
+      setPreviewDims(
+        compact
+          ? [elementWidth, elementWidth * 0.5625]
+          : [elementWidth * 0.4, elementWidth * 0.4 * 0.5625]
+      );
+    });
+    resizeObserver.observe(windowRef.current);
+    return () => resizeObserver.disconnect();
+  }, [windowRef.current]);
 
   return (
     <div
       className={`${style.section} ${
         mostRecent === comment.comment.id ? style.highlighted : ""
       }`}
+      ref={windowRef}
     >
       <div className={style.timestampRow}>
         <TimestampLabel timestamp={comment.comment.posted} />
@@ -83,6 +110,12 @@ export const CommentDisplay = ({
       </div>
       {comment.comment.src && (
         <MediaViewer
+          width={previewWidth == 0 ? undefined : previewWidth}
+          height={previewHeight == 0 ? undefined : previewHeight}
+          style={{
+            width: previewWidth == 0 ? undefined : previewWidth,
+            height: previewHeight == 0 ? undefined : previewHeight,
+          }}
           className={style.media}
           src={comment.comment.src}
           expandable
