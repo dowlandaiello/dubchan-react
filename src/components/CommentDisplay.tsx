@@ -19,6 +19,7 @@ export const CommentDisplay = ({
   deletable,
   onClickDelete,
   mostRecent,
+  compact,
 }: {
   comment: ThreadNode;
   tree: { [id: number]: ThreadNode };
@@ -27,6 +28,7 @@ export const CommentDisplay = ({
   deletable?: Boolean;
   onClickDelete?: () => void;
   mostRecent?: number;
+  compact: Boolean;
 }) => {
   const [, setLastUpdated] = useContext(FeedContext);
   const children = comment.children
@@ -41,6 +43,7 @@ export const CommentDisplay = ({
         deletable={deletable}
         onClickDelete={onClickDelete}
         mostRecent={mostRecent}
+        compact={compact}
       />
     ));
   const [minimized, setMinimized] = useState<boolean>(false);
@@ -77,50 +80,57 @@ export const CommentDisplay = ({
   return (
     <div
       className={`${style.section} ${
-        mostRecent === comment.comment.id ? style.highlighted : ""
-      }`}
+        compact && children.length == 1 && style.compact
+      } ${mostRecent === comment.comment.id ? style.highlighted : ""}`}
       ref={windowRef}
     >
-      <div className={style.timestampRow}>
-        <TimestampLabel timestamp={comment.comment.posted} />
-        {comment.comment.user_id && (
-          <UsernameLabel username={comment.comment.user_id} />
-        )}
-        <Image
-          className={`${clickable.clickable} ${style.replyIcon}`}
-          src="/reply.svg"
-          height={15}
-          width={15}
-          alt="Reply icon."
-          onClick={() => onReply(comment.comment.id)}
-        />
-        {deletable && (
-          <Image
-            src="/trash.svg"
-            className={`${clickable.clickable} ${style.removeIcon}`}
-            height={15}
-            width={15}
-            alt="Delete icon."
-            onClick={onClickDelete}
-          />
+      <div className={style.parent}>
+        <div className={style.parentBody}>
+          <div className={style.timestampRow}>
+            <TimestampLabel timestamp={comment.comment.posted} />
+            {comment.comment.user_id && (
+              <UsernameLabel username={comment.comment.user_id} />
+            )}
+            <Image
+              className={`${clickable.clickable} ${style.replyIcon}`}
+              src="/reply.svg"
+              height={15}
+              width={15}
+              alt="Reply icon."
+              onClick={() => onReply(comment.comment.id)}
+            />
+            {deletable && (
+              <Image
+                src="/trash.svg"
+                className={`${clickable.clickable} ${style.removeIcon}`}
+                height={15}
+                width={15}
+                alt="Delete icon."
+                onClick={onClickDelete}
+              />
+            )}
+          </div>
+          <div className={style.commentText}>
+            <GreenText>{comment.comment.text}</GreenText>
+          </div>
+          {comment.comment.src && (
+            <MediaViewer
+              width={previewWidth == 0 ? undefined : previewWidth}
+              height={previewHeight == 0 ? undefined : previewHeight}
+              style={{
+                width: previewWidth == 0 ? undefined : previewWidth,
+                height: previewHeight == 0 ? undefined : previewHeight,
+              }}
+              className={style.media}
+              src={comment.comment.src}
+              expandable
+            />
+          )}
+        </div>
+        {children.length == 1 && compact && (
+          <span className={style.threadIcon} />
         )}
       </div>
-      <div className={style.commentText}>
-        <GreenText>{comment.comment.text}</GreenText>
-      </div>
-      {comment.comment.src && (
-        <MediaViewer
-          width={previewWidth == 0 ? undefined : previewWidth}
-          height={previewHeight == 0 ? undefined : previewHeight}
-          style={{
-            width: previewWidth == 0 ? undefined : previewWidth,
-            height: previewHeight == 0 ? undefined : previewHeight,
-          }}
-          className={style.media}
-          src={comment.comment.src}
-          expandable
-        />
-      )}
       {currentlyReplying === comment.comment.id && (
         <NewComment
           className={style.replyArea}
@@ -136,10 +146,14 @@ export const CommentDisplay = ({
       )}
       {children.length > 0 && (
         <div
-          className={`${style.children} ${minimized ? style.minimized : ""}`}
+          className={`${style.children} ${minimized ? style.minimized : ""} ${
+            children.length == 1 && compact && style.inline
+          }`}
         >
           <span
-            className={`${style.thread} ${clickable.clickable}`}
+            className={`${style.thread} ${
+              compact && children.length == 1 && style.compact
+            } ${clickable.clickable}`}
             onClick={() => setMinimized(!minimized)}
           />
           {!minimized && children}

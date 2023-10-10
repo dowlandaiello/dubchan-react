@@ -1,0 +1,37 @@
+.section {
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.toggle {
+  background-color: rgba(255, 255, 255, 0.25);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 5000px;
+  width: 2.5em;
+  height: 1.25em;
+}
+
+.toggle.active {
+  background-color: var(--accent);
+}
+
+.toggle.active .toggleHead {
+  background-color: white;
+  margin-left: auto;
+}
+
+.toggle .toggleHead {
+  background-color: rgba(255, 255, 255, 0.5);
+  height: 1em;
+  width: 1em;
+  border-radius: 5000px;
+  transition: 0.3s;
+}

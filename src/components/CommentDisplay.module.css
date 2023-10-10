@@ -2,6 +2,25 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.parentBody {
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  padding: 0.5em;
+}
+
+.parent {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   align-items: stretch;
 }
 
@@ -17,7 +36,7 @@
   opacity: 0.4;
 }
 
-.section>*:not(:first-child) {
+.parentBody>*:not(:first-child) {
   margin-top: 0.5em;
 }
 
@@ -40,19 +59,24 @@
   justify-content: flex-start;
   align-items: stretch;
 
+  width: calc(100% - 1em);
+
   padding-left: 1em;
 
-  margin-top: 0.75em !important;
+  margin-top: 1.5em !important;
 
   position: relative;
+
+  gap: 1.5em;
 }
 
-.children>*:not(:first-child) {
-  margin-top: 1.5em;
+.section.compact>.children {
+  padding-left: 0em;
 }
 
 .replyArea {
   margin-top: 1em !important;
+  width: 100%;
 }
 
 .removeIcon {
@@ -61,6 +85,10 @@
 
 .removeIcon:hover {
   opacity: 0.4;
+}
+
+.section.compact>.children>.thread {
+  display: none;
 }
 
 .thread {
@@ -73,9 +101,13 @@
   border-left: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.highlighted {
+.highlighted .parentBody {
   background-color: rgba(255, 255, 255, 0.1);
   padding: 0.5em;
+}
+
+.highlighted.compact {
+  display: none;
 }
 
 .minimized {
@@ -84,4 +116,16 @@
 
 .media {
   max-width: 100%;
+}
+
+.threadIcon {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1px;
+  height: 1em;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.inline {
+  margin-top: 0em !important;
 }
