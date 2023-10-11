@@ -208,6 +208,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
           placeholder="Post Title (max 100 chars)"
           onChange={updateTitle}
           value={postBody.title}
+          maxLength={100}
         />
         <textarea
           className={style.underlined}
@@ -215,6 +216,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
           rows={5}
           onChange={updateText}
           value={postBody.text}
+          maxLength={1000}
         />
         <div className={style.attachLine}>
           <div className={style.mediaButtons}>
