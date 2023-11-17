@@ -1,3 +1,5 @@
+"use client";
+
 import style from "./Header.module.css";
 import Image from "next/image";
 import { AccountSelection } from "./AccountSelection";
