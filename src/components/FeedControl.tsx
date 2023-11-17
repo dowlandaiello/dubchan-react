@@ -69,7 +69,7 @@ export const FeedControl = ({
       <div className={style.gridToggle}>
         <div
           className={`${clickable.clickable} ${style.leftToggle} ${
-            blurActive ? style.active : ""
+            classicActive ? style.active : ""
           }`}
           onClick={() => toggleSmartThreading(true)}
         >
@@ -82,7 +82,7 @@ export const FeedControl = ({
         </div>
         <div
           className={`${clickable.clickable} ${style.rightToggle} ${
-            !blurActive ? style.active : ""
+            !classicActive ? style.active : ""
           }`}
           onClick={() => toggleSmartThreading(false)}
         >
