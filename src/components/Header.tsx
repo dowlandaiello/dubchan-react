@@ -9,6 +9,7 @@ const logos = [
   "/logo_usa.png",
   "/logo_palestine.png",
   "/logo_old.png",
+  "/logo_gadsden.png",
 ];
 
 export const Header = () => {
