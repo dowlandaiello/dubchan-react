@@ -1,13 +1,27 @@
 import style from "./Header.module.css";
 import Image from "next/image";
 import { AccountSelection } from "./AccountSelection";
+import { useMemo } from "react";
+
+const logos = [
+  "/logo.png",
+  "/logo_israel.png",
+  "/logo_usa.png",
+  "/logo_palestine.png",
+  "/logo_old.png",
+];
 
 export const Header = () => {
+  const logo = useMemo<string>(
+    () => logos[Math.floor(Math.random() * logos.length)],
+    []
+  );
+
   return (
     <div className={style.header}>
       <div className={style.leftPadder}></div>
       <div className={style.logoSection}>
-        <Image src="/logo.png" width={156} height={74.883} alt="DubChan logo" />
+        <Image src={logo} width={156} height={74.883} alt="DubChan logo" />
         <div className={style.headerText}>
           <div className={style.headerTitleLine}>
             <h1>DubChan</h1>
