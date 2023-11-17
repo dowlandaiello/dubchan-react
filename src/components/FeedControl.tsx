@@ -10,6 +10,7 @@ export const FeedControl = ({
   onClear,
   onChangeTags,
   onBlurToggled,
+  onClassicThreadingToggled,
   onRefresh,
 }: {
   onGridToggled: (stat: boolean) => void;
@@ -17,6 +18,7 @@ export const FeedControl = ({
   onClear: () => void;
   onChangeTags: (tags: string[]) => void;
   onBlurToggled: (stat: boolean) => void;
+  onClassicThreadingToggled: (stat: boolean) => void;
   onRefresh: () => void;
 }) => {
   const [gridActive, setGridActive] = useState<Boolean>(true);
@@ -29,6 +31,7 @@ export const FeedControl = ({
     "NSFW",
   ]);
   const [blurActive, setBlurActive] = useState<Boolean>(true);
+  const [classicActive, setClassicActive] = useState<Boolean>(true);
 
   const toggle = (stat: boolean) => {
     setGridActive(stat);
@@ -38,6 +41,11 @@ export const FeedControl = ({
   const toggleBlur = (stat: boolean) => {
     setBlurActive(stat);
     onBlurToggled(stat);
+  };
+
+  const toggleSmartThreading = (stat: boolean) => {
+    setClassicActive(stat);
+    onClassicThreadingToggled(stat);
   };
 
   const search = () => {
@@ -58,6 +66,34 @@ export const FeedControl = ({
 
   return (
     <div className={style.section}>
+      <div className={style.gridToggle}>
+        <div
+          className={`${clickable.clickable} ${style.leftToggle} ${
+            blurActive ? style.active : ""
+          }`}
+          onClick={() => toggleSmartThreading(true)}
+        >
+          <Image
+            src="/classic_threading.svg"
+            height={20}
+            width={20}
+            alt="Classic threading icon."
+          />
+        </div>
+        <div
+          className={`${clickable.clickable} ${style.rightToggle} ${
+            !blurActive ? style.active : ""
+          }`}
+          onClick={() => toggleSmartThreading(false)}
+        >
+          <Image
+            src="/smart_threading.svg"
+            height={20}
+            width={20}
+            alt="Smart threading icon."
+          />
+        </div>
+      </div>
       <div className={style.gridToggle}>
         <div
           className={`${clickable.clickable} ${style.leftToggle} ${

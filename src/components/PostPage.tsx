@@ -9,8 +9,7 @@ import { PostBody } from "./PostBody";
 import { useState, useEffect, useContext } from "react";
 import { NewComment } from "./NewComment";
 import { CommentDisplay } from "./CommentDisplay";
-import { FeedContext } from "./Feed";
-import { Toggle } from "./Toggle";
+import { FeedContext, ThreadingContext } from "./Feed";
 import { AuthenticationContext } from "./AccountSelection";
 
 export const PostPage = ({
@@ -29,7 +28,7 @@ export const PostPage = ({
   const [currentlyReplying, setCurrentlyReplying] = useState<number | null>(
     null
   );
-  const [threadingActive, setThreadingActive] = useState<boolean>(false);
+  const [threadingActive] = useContext(ThreadingContext);
 
   useEffect(() => {
     if (!postId) return;
@@ -111,7 +110,7 @@ export const PostPage = ({
         tree={tree}
         deletable={activeUser === "dev"}
         onClickDelete={() => deleteComment(thread.comment.id)}
-        compact={threadingActive}
+        compact={!threadingActive}
       />
     ));
 
@@ -155,11 +154,6 @@ export const PostPage = ({
           />
         )}
         <div className={style.comments}>
-          <Toggle
-            onChange={(v) => setThreadingActive(v)}
-            text="Smart threading"
-            init={false}
-          />
           {threads}
           <div style={{ minHeight: "1em" }}></div>
         </div>

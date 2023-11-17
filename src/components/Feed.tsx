@@ -22,11 +22,16 @@ export const FeedContext = createContext<
   [number, Dispatch<SetStateAction<number>>]
 >([0, () => {}]);
 
+export const ThreadingContext = createContext<
+  [boolean, Dispatch<SetStateAction<boolean>>]
+>([false, () => {}]);
+
 const allTags = ["UW", "Fitness", "LGBT", "NSFW"];
 
 /// Renders a configurable feed/grid of posts.
 export const Feed = () => {
   const [{ activeUser, users }] = useContext(AuthenticationContext);
+  const [, setClassicThreaded] = useContext(ThreadingContext);
   const [lastUpdated] = useContext(FeedContext);
   const [posts, setPosts] = useState<Map<number, Post>>(new Map());
   const [snapshot, setSnapshot] = useState<number[]>([]);
@@ -53,6 +58,10 @@ export const Feed = () => {
 
   const toggleBlur = (blurred: Boolean) => {
     setBlurred(blurred);
+  };
+
+  const toggleThreading = (classicThreaded: boolean) => {
+    setClassicThreaded(classicThreaded);
   };
 
   const loadBatch = async () => {
@@ -221,6 +230,7 @@ export const Feed = () => {
           onSearch={search}
           onClear={loadInit}
           onChangeTags={changeTags}
+          onClassicThreadingToggled={toggleThreading}
           onRefresh={loadInit}
         />
       </div>
