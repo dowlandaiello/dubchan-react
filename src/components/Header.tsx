@@ -1,7 +1,6 @@
 "use client";
 
 import style from "./Header.module.css";
-import Image from "next/image";
 import { AccountSelection } from "./AccountSelection";
 import { useRef } from "react";
 
@@ -20,7 +19,7 @@ export const Header = () => {
     <div className={style.header}>
       <div className={style.leftPadder}></div>
       <div className={style.logoSection}>
-        <Image
+        <img
           src={logo.current}
           width={156}
           height={74.883}
