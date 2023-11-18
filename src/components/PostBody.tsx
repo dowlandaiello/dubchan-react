@@ -6,6 +6,7 @@ import style from "./PostThumbnail.module.css";
 import { CopyLink } from "./CopyLink";
 import { UsernameLabel } from "./UsernameLabel";
 import { TimestampLabel } from "./TimestampLabel";
+import timestampStyle from "./TimestampLabel.module.css";
 import { MediaViewer } from "./MediaViewer";
 import clickable from "./Clickable.module.css";
 import Image from "next/image";
@@ -91,7 +92,15 @@ export const PostBody = ({
           <Skeleton containerClassName={`${style.authorSkeleton}`} />
         )}
         {post ? (
-          <TimestampLabel timestamp={post.posted_at} />
+          <>
+            <TimestampLabel timestamp={post.posted_at} />
+            <p className={timestampStyle.label}>•</p>
+            <TimestampLabel
+              timestamp={post.last_updated}
+              prefix="Updated "
+              relative
+            />
+          </>
         ) : (
           <Skeleton containerClassName={`${style.dateSkeleton}`} />
         )}

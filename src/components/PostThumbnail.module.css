@@ -51,10 +51,7 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
-}
-
-.authorLine>*:first-child {
-  margin-right: 0.5em;
+  gap: 0.5em;
 }
 
 .titleLine {
