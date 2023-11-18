@@ -10,6 +10,8 @@ const logos = [
   "/logo_palestine.png",
   "/logo_old.png",
   "/logo_gadsden.png",
+  "/logo_420.png",
+  "/logo_booba.png",
 ];
 
 export const Header = () => {
