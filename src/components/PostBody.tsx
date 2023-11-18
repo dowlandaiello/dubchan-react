@@ -48,13 +48,23 @@ export const PostBody = ({
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
 
   useEffect(() => {
-    if (!thumbnailRef.current || thumbnailRef.current == null) return;
+    const resizeListener = () => {
+      if (!thumbnailRef.current || thumbnailRef.current == null) return;
 
-    const elem = thumbnailRef.current;
-    let elementWidth = elem.clientWidth;
+      const elem = thumbnailRef.current;
+      let elementWidth = elem.clientWidth;
 
-    setPreviewDims(compact ? [elementWidth * 1, 0] : [elementWidth * 0.3, 0]);
-  }, [thumbnailRef.current, thumbnailRef.current?.clientHeight ?? 0]);
+      setPreviewDims(compact ? [elementWidth * 1, 0] : [elementWidth * 0.3, 0]);
+    };
+
+    window.addEventListener("resize", resizeListener);
+
+    setTimeout(resizeListener, 100);
+
+    return () => {
+      window.removeEventListener("resize", resizeListener);
+    };
+  }, []);
 
   return (
     <div className={`${style.postBody} ${className}`} ref={thumbnailRef}>

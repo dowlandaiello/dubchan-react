@@ -29,6 +29,7 @@ export const PostPage = ({
     null
   );
   const [threadingActive] = useContext(ThreadingContext);
+  const [compact, setCompact] = useState<boolean>(false);
 
   useEffect(() => {
     if (!postId) return;
@@ -41,6 +42,26 @@ export const PostPage = ({
       await loadComments();
     })();
   }, [postId, lastUpdated]);
+
+  useEffect(() => {
+    const resizeListener = () => {
+      if (window.innerWidth <= 827) {
+        setCompact(true);
+
+        return;
+      }
+
+      setCompact(false);
+    };
+
+    setTimeout(resizeListener, 100);
+
+    window.addEventListener("resize", resizeListener);
+
+    return () => {
+      window.removeEventListener("reisze", resizeListener);
+    };
+  }, []);
 
   const insertTree = (
     accum: { [id: number]: ThreadNode },
@@ -137,6 +158,7 @@ export const PostPage = ({
             mediaClassName={style.bodyMedia}
             blurred={true}
             post={post}
+            compact={compact}
           />
         ) : (
           <PostBody
@@ -144,6 +166,7 @@ export const PostPage = ({
             className={style.loadingBody}
             mediaClassName={style.media}
             blurred={false}
+            compact={compact}
           />
         )}
         {!currentlyReplying && (
