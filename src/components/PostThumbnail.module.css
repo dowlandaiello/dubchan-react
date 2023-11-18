@@ -22,7 +22,7 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  align-items: stretch;
+  align-items: flex-start;
   overflow: clip;
 
   position: relative;

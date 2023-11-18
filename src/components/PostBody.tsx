@@ -11,6 +11,7 @@ import { MediaViewer } from "./MediaViewer";
 import clickable from "./Clickable.module.css";
 import Image from "next/image";
 import { GreenText } from "./GreenText";
+import { Disclaimer } from "./Disclaimer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -115,6 +116,12 @@ export const PostBody = ({
           <Skeleton containerClassName={`${style.dateSkeleton}`} />
         )}
       </div>
+      {post &&
+        post.user_id &&
+        post.user_id.toLowerCase().includes("dev") &&
+        post.user_id !== "dev" && (
+          <Disclaimer text="This is not an official dev post." />
+        )}
       {post ? <GreenText>{post.text}</GreenText> : <Skeleton count={3} />}
       {(post &&
         ((post.src && (

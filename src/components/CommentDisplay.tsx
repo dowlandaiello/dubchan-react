@@ -10,6 +10,7 @@ import { NewComment } from "./NewComment";
 import { useContext, useState } from "react";
 import { FeedContext } from "./Feed";
 import { GreenText } from "./GreenText";
+import { Disclaimer } from "./Disclaimer";
 
 export const CommentDisplay = ({
   comment,
@@ -91,6 +92,11 @@ export const CommentDisplay = ({
             {comment.comment.user_id && (
               <UsernameLabel username={comment.comment.user_id} />
             )}
+            {comment.comment.user_id &&
+              comment.comment.user_id.toLowerCase().includes("dev") &&
+              comment.comment.user_id !== "dev" && (
+                <Disclaimer text="This is not an official dev post." />
+              )}
             <Image
               className={`${clickable.clickable} ${style.replyIcon}`}
               src="/reply.svg"
