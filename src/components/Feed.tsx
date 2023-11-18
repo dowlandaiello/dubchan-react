@@ -74,7 +74,7 @@ export const Feed = () => {
     const startingSize = posts.size;
 
     // If no posts are left, trigger a before:date load
-    if (startingSize + 6 - startingSize == 0) {
+    if (posts.size === snapshot.length) {
       const postIds = await (
         await fetch(
           route(
