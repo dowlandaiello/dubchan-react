@@ -45,7 +45,10 @@ export const PostBody = ({
   >([0, 0]);
   const [startingBlurred, _] = useState<Boolean>(initBlurred);
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
-  const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
+  const blurred =
+    (initBlurred !== startingBlurred ? initBlurred : blurredLocal) &&
+    post &&
+    post.id != 230;
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
 
   useEffect(() => {
