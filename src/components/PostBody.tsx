@@ -68,7 +68,12 @@ export const PostBody = ({
   }, []);
 
   return (
-    <div className={`${style.postBody} ${className}`} ref={thumbnailRef}>
+    <div
+      className={`${style.postBody} ${className} ${
+        compact ? style.compact : ""
+      }`}
+      ref={thumbnailRef}
+    >
       <div className={style.titleLine}>
         {post ? (
           <h1>{post?.title}</h1>
