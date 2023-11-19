@@ -40,7 +40,13 @@ export const MediaViewer = ({
   let modalContent = <video className={styles.modalContent} src={src} />;
 
   // This is a normal-ass image.
-  if (src.includes("imagedelivery.net") || src.includes("base64")) {
+  if (
+    src.includes("imagedelivery.net") ||
+    src.includes("base64") ||
+    src.includes("png") ||
+    src.includes("jpeg") ||
+    src.includes("jpg")
+  ) {
     content = (
       <img
         className={loaded ? styles.loaded : styles.unloaded}

@@ -64,6 +64,14 @@ export const Feed = () => {
     setClassicThreaded(classicThreaded);
   };
 
+  const pinTroll = (snapshot: Post[]): Post[] => {
+    const troll = posts.get(230);
+
+    if (!troll) return snapshot;
+
+    return [troll, ...snapshot.filter((x) => x.id != 230)];
+  };
+
   const loadBatch = async () => {
     const posts = stateRef.current;
     const snapshot = snapshotRef.current;
@@ -195,23 +203,23 @@ export const Feed = () => {
 
   const postEntries =
     posts.size > 0
-      ? Array.from(posts.values())
-          .sort(
+      ? pinTroll(
+          Array.from(posts.values()).sort(
             (a: Post, b: Post) =>
               b.last_updated.secs_since_epoch - a.last_updated.secs_since_epoch
           )
-          .map((post: Post) => (
-            <Fragment key={post.id}>
-              <PostThumbnail
-                post={post}
-                key={post.id}
-                blurred={blurred}
-                compact={gridToggled}
-                deletable={activeUser === "dev"}
-                onClickDelete={() => deletePost(post.id)}
-              />
-            </Fragment>
-          ))
+        ).map((post: Post) => (
+          <Fragment key={post.id}>
+            <PostThumbnail
+              post={post}
+              key={post.id}
+              blurred={blurred}
+              compact={gridToggled}
+              deletable={activeUser === "dev"}
+              onClickDelete={() => deletePost(post.id)}
+            />
+          </Fragment>
+        ))
       : Array(5)
           .fill(0)
           .map((_, i) => <PostThumbnail key={i} blurred={blurred} />);
