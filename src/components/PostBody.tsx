@@ -82,6 +82,9 @@ export const PostBody = ({
               <Image src="/eye.svg" height={15} width={15} alt="Views icon." />
             </div>
           )}
+          {post && post.id === 230 && (
+            <Image src="/pin.svg" height={15} width={15} alt="Pin icon." />
+          )}
           <CopyLink link={postUrl} />
           {deletable && (
             <Image
