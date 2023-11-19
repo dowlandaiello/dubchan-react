@@ -3,11 +3,9 @@ import styles from "@/styles/Home.module.css";
 import { Feed, FeedContext, ThreadingContext } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
-import { loadIdentities } from "../util/cookie";
-import { useServerStartTime } from "../util/hooks";
 import { PostPage } from "../components/PostPage";
 import { ModalContext, ModalProps } from "../components/ModalInput";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Script from "next/script";
 import { useRouter } from "next/router";
 import {
@@ -16,10 +14,6 @@ import {
   ModalDisplay,
 } from "../components/ModalDisplay";
 import { SkeletonTheme } from "react-loading-skeleton";
-import {
-  AuthenticationContext,
-  AuthenticationState,
-} from "../components/AccountSelection";
 
 export default function Home() {
   const [modalProps, setProps] = useState<ModalProps>({
@@ -33,20 +27,8 @@ export default function Home() {
   const [generalModalProps, setGeneralModalProps] = useState<GeneralModalProps>(
     { children: [], onClose: () => {}, active: false }
   );
-  const [authState, setAuthState] = useState<AuthenticationState>({
-    users: {},
-  });
   const feedContext = useState<number>(0);
   const threadingContext = useState<boolean>(true);
-
-  const serverStartTime = useServerStartTime();
-
-  useEffect(() => {
-    if (serverStartTime.secs_since_epoch === 0) return;
-
-    const identities = loadIdentities(serverStartTime);
-    setAuthState(identities);
-  }, [serverStartTime.secs_since_epoch]);
 
   const router = useRouter();
 
@@ -62,44 +44,42 @@ export default function Home() {
         <GeneralModalContext.Provider
           value={{ modal: generalModalProps, setModal: setGeneralModalProps }}
         >
-          <AuthenticationContext.Provider value={[authState, setAuthState]}>
-            <FeedContext.Provider value={feedContext}>
-              <ThreadingContext.Provider value={threadingContext}>
-                <SkeletonTheme baseColor="#1a1837" highlightColor="#272452">
-                  <main className={styles.main}>
-                    <Script
-                      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                      async={true}
-                      defer={true}
-                    />
-                    <ModalInput {...modalProps} />
-                    <ModalDisplay {...generalModalProps} />
-                    <PostPage
-                      key={
-                        router.query?.post && !Array.isArray(router.query.post)
-                          ? parseInt(router.query.post)
-                          : undefined
-                      }
-                      className={`${
-                        router.query?.post ? styles.activePostViewer : ""
-                      } ${styles.postViewer}`}
-                      postId={
-                        router.query?.post && !Array.isArray(router.query.post)
-                          ? parseInt(router.query.post)
-                          : undefined
-                      }
-                    />
-                    <div className={styles.foreground}>
-                      <div className={styles.workspace}>
-                        <Header />
-                        <Feed />
-                      </div>
+          <FeedContext.Provider value={feedContext}>
+            <ThreadingContext.Provider value={threadingContext}>
+              <SkeletonTheme baseColor="#1a1837" highlightColor="#272452">
+                <main className={styles.main}>
+                  <Script
+                    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                    async={true}
+                    defer={true}
+                  />
+                  <ModalInput {...modalProps} />
+                  <ModalDisplay {...generalModalProps} />
+                  <PostPage
+                    key={
+                      router.query?.post && !Array.isArray(router.query.post)
+                        ? parseInt(router.query.post)
+                        : undefined
+                    }
+                    className={`${
+                      router.query?.post ? styles.activePostViewer : ""
+                    } ${styles.postViewer}`}
+                    postId={
+                      router.query?.post && !Array.isArray(router.query.post)
+                        ? parseInt(router.query.post)
+                        : undefined
+                    }
+                  />
+                  <div className={styles.foreground}>
+                    <div className={styles.workspace}>
+                      <Header />
+                      <Feed />
                     </div>
-                  </main>
-                </SkeletonTheme>
-              </ThreadingContext.Provider>
-            </FeedContext.Provider>
-          </AuthenticationContext.Provider>
+                  </div>
+                </main>
+              </SkeletonTheme>
+            </ThreadingContext.Provider>
+          </FeedContext.Provider>
         </GeneralModalContext.Provider>
       </ModalContext.Provider>
     </>

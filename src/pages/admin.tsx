@@ -1,17 +1,18 @@
-import { useIdentitiesSsr } from "../util/hooksSsr";
-import { GetServerSideProps } from "next";
+"use client";
+
 import { AnalyticsWindow } from "../model/analytics";
-import { routeSsr } from "../util/http";
+import { route } from "../util/http";
 import style from "./admin.module.css";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthenticationContext } from "../components/AccountSelection";
 import clickable from "../components/Clickable.module.css";
 
-export interface AnalyticsProps {
-  data?: { [frame: string]: AnalyticsWindow };
-}
-
-export default ({ data }: AnalyticsProps) => {
+export default () => {
+  const [data, setData] = useState<
+    undefined | { [window: string]: AnalyticsWindow }
+  >(undefined);
+  const [{ users, activeUser }] = useContext(AuthenticationContext);
   const snek = Array(500)
     .fill(0)
     .map((_, i) => (
@@ -24,6 +25,34 @@ export default ({ data }: AnalyticsProps) => {
         alt="Gadsden."
       />
     ));
+
+  useEffect(() => {
+    (async () => {
+      if (!activeUser) return;
+
+      const analRequest: { [timeFrame: string]: [number, number] } = {
+        hour: [Date.now() - 3600 * 1000, Date.now()],
+        day: [Date.now() - 86400 * 1000, Date.now()],
+        week: [Date.now() - 604800 * 1000, Date.now()],
+        month: [Date.now() - 2592000 * 1000, Date.now()],
+      };
+
+      const results: { [window: string]: AnalyticsWindow } = (
+        await Promise.all(
+          Object.entries(analRequest).map(([key, [start, end]]) =>
+            fetch(route(`/analytics?start=${start}&end=${end}`), {
+              headers: { Authorization: users[activeUser].token },
+            })
+              .then((body) => body.json())
+              .then((json: AnalyticsWindow) => [key, json])
+          )
+        )
+      ).reduce((accum, [key, json]) => {
+        return { ...accum, [key as string]: json };
+      }, {});
+      setData(results);
+    })();
+  }, [activeUser, users]);
 
   const [activeStat, setActiveStat] = useState<string>("day");
 
@@ -85,43 +114,4 @@ export default ({ data }: AnalyticsProps) => {
       {datas}
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<AnalyticsProps> = async (
-  context
-) => {
-  const { users } = await useIdentitiesSsr(context.req);
-
-  if (!users["dev"]) {
-    const { res } = context;
-    res.setHeader("location", "/");
-    res.statusCode = 302;
-    res.end();
-    return { props: {} };
-  }
-
-  const analRequest: { [timeFrame: string]: [number, number] } = {
-    hour: [Date.now() - 3600 * 1000, Date.now()],
-    day: [Date.now() - 86400 * 1000, Date.now()],
-    week: [Date.now() - 604800 * 1000, Date.now()],
-    month: [Date.now() - 2592000 * 1000, Date.now()],
-  };
-
-  const results: { [window: string]: AnalyticsWindow } = (
-    await Promise.all(
-      Object.entries(analRequest).map(([key, [start, end]]) =>
-        fetch(routeSsr(`/analytics?start=${start}&end=${end}`, context.req), {
-          headers: { Authorization: users["dev"].token },
-        })
-          .then((body) => body.json())
-          .then((json: AnalyticsWindow) => [key, json])
-      )
-    )
-  ).reduce((accum, [key, json]) => {
-    return { ...accum, [key as string]: json };
-  }, {});
-
-  return {
-    props: { data: results },
-  };
 };
