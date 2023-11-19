@@ -16,7 +16,7 @@ const logos = [
 ];
 
 export const Header = () => {
-  const [selection, setSelection] = useState<number>(0);
+  const [selection, setSelection] = useState<number>(4);
   const logo = logos[selection];
 
   useEffect(() => {
