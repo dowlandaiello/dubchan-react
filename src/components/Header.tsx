@@ -2,6 +2,7 @@
 
 import style from "./Header.module.css";
 import { AccountSelection } from "./AccountSelection";
+import { useState, useEffect } from "react";
 
 const logos = [
   "/logo.png",
@@ -15,7 +16,15 @@ const logos = [
 ];
 
 export const Header = () => {
-  const logo = logos[Math.floor(Math.random() * logos.length)];
+  const [selection, setSelection] = useState<number>(0);
+  const logo = logos[selection];
+
+  useEffect(() => {
+    const buffer = new Uint8Array([0]);
+    crypto.getRandomValues(buffer);
+
+    setSelection(buffer[0] % 8);
+  }, []);
 
   return (
     <div className={style.header}>
