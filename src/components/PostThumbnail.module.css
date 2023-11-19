@@ -57,10 +57,18 @@
 .titleLine {
   display: flex;
 
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
   gap: 0.5em;
+  max-width: 100%;
+}
+
+.titleLine h1 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .tagList {
@@ -212,7 +220,7 @@
 
 @media screen and (max-width: 486px) {
   .titleLine h1 {
-    font-size: 1.5em;
+    font-size: 1.25em;
   }
 }
 
