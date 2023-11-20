@@ -13,6 +13,7 @@ const logos = [
   "/logo_gadsden.png",
   "/logo_420.png",
   "/logo_booba.png",
+  "/logo_pixel_art.png",
 ];
 
 export const Header = () => {
@@ -23,7 +24,7 @@ export const Header = () => {
     const buffer = new Uint8Array([0]);
     crypto.getRandomValues(buffer);
 
-    setSelection(buffer[0] % 8);
+    setSelection(buffer[0] % logos.length);
   }, []);
 
   return (
