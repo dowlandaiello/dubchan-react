@@ -4,6 +4,7 @@ import { useState, ChangeEvent, useEffect, useContext, useRef } from "react";
 import { ErrorLabel } from "./ErrorLabel";
 import { FileUpload } from "./FileUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
+import { UrlImageUpload } from "./UrlImageUpload";
 import { Captcha } from "./Captcha";
 import { Button } from "./Button";
 import { route } from "../util/http";
@@ -224,6 +225,7 @@ export const NewComment = ({
               alt="Trash icon."
               onClick={deleteAll}
             />
+            <UrlImageUpload onChange={gotVid} />
             <FileUpload onChange={gotFile} />
             <UrlVidUpload onChange={gotVid} />
           </div>
