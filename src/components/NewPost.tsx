@@ -3,6 +3,7 @@ import { TagSelection } from "./TagSelection";
 import { NewPostBody, emptyPost } from "../model/post";
 import { useState, useEffect, useRef, useContext } from "react";
 import { FileUpload, ChangeEvent } from "./FileUpload";
+import { UrlImageUpload } from "./UrlImageUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
 import { Button } from "./Button";
 import { Captcha } from "./Captcha";
@@ -220,6 +221,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
         />
         <div className={style.attachLine}>
           <div className={style.mediaButtons}>
+            <UrlImageUpload onChange={gotVid} />
             <FileUpload onChange={gotFile} />
             <UrlVidUpload onChange={gotVid} />
           </div>

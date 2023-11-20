@@ -23,7 +23,7 @@ export const FileUpload = ({
         onChange={onChange}
       />
       <div className={style.buttonLabel}>
-        <Image src="/picture.svg" height={20} width={20} alt="Upload icon." />
+        <Image src="/camera.svg" height={20} width={20} alt="Upload icon." />
       </div>
     </div>
   );
