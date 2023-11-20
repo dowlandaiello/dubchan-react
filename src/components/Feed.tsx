@@ -46,11 +46,15 @@ export const Feed = () => {
   ]);
   const feedRef = useRef<HTMLDivElement>(null);
 
+  const pinTrollId = (snapshot: number[]): number[] => {
+    return [230, ...snapshot.filter((x) => x !== 230)];
+  };
+
   const stateRef = useRef<Map<number, Post>>();
   stateRef.current = posts;
 
   const snapshotRef = useRef<number[]>();
-  snapshotRef.current = snapshot;
+  snapshotRef.current = pinTrollId(snapshot);
 
   const toggleGrid = (toggled: Boolean) => {
     setGridToggled(toggled);
