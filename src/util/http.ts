@@ -31,6 +31,14 @@ export const useUiRoute = (route: string): string => {
   return `${base}${route}`;
 };
 
+export const wsPath = () => {
+  if (window.location && window.location.hostname.includes("dubchan")) {
+    return `wss://api.dubchan.net/ws/`;
+  }
+
+  return "ws://localhost:8080/ws/";
+};
+
 /// Converts a youtube or youtu.be link to an embed
 export const getYtEmbed = (url: string): string =>
   "https://www.youtube.com/embed/" + url.split("v=")[1];

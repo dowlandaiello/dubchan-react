@@ -218,6 +218,20 @@
   gap: 0.25em;
 }
 
+.liveIcon {
+  -webkit-animation-name: flash;
+  animation-name: flash;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes flash {
+  0% { opacity: 0.3; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
 @media screen and (max-width: 486px) {
   .titleLine h1 {
     font-size: 1.25em;

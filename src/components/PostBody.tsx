@@ -45,10 +45,7 @@ export const PostBody = ({
   >([0, 0]);
   const [startingBlurred, _] = useState<Boolean>(initBlurred);
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
-  const blurred =
-    (initBlurred !== startingBlurred ? initBlurred : blurredLocal) &&
-    post &&
-    post.id != 230;
+  const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
 
   useEffect(() => {
@@ -78,6 +75,15 @@ export const PostBody = ({
       ref={thumbnailRef}
     >
       <div className={style.titleLine}>
+        {post && post.live && (
+          <Image
+            className={style.liveIcon}
+            src="/broadcast.svg"
+            height={15}
+            width={15}
+            alt="Live icon."
+          />
+        )}
         {post ? (
           <h1>{post?.title}</h1>
         ) : (
@@ -89,9 +95,6 @@ export const PostBody = ({
               {post?.views ?? 0}
               <Image src="/eye.svg" height={15} width={15} alt="Views icon." />
             </div>
-          )}
-          {post && post.id === 230 && (
-            <Image src="/pin.svg" height={15} width={15} alt="Pin icon." />
           )}
           <CopyLink link={postUrl} />
           {deletable && (

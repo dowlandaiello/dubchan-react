@@ -20,6 +20,7 @@ export const Toggle = ({
 
   return (
     <div className={style.section}>
+      <p className={style.label}>{text}</p>
       <div
         className={`${style.toggle} ${clickable.clickable} ${
           active && style.active
@@ -28,7 +29,6 @@ export const Toggle = ({
       >
         <span className={style.toggleHead} />
       </div>
-      <p className={style.label}>{text}</p>
     </div>
   );
 };

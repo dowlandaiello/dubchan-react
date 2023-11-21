@@ -12,7 +12,9 @@ import { removeIdentity } from "../util/cookie";
 import { MediaPreview } from "./MediaPreview";
 import { ErrorLabel } from "./ErrorLabel";
 import { AuthenticationContext } from "./AccountSelection";
+import { Toggle } from "./Toggle";
 import Compressor from "compressorjs";
+import Image from "next/image";
 
 /// A form for creating new posts.
 export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
@@ -156,6 +158,12 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
     });
   };
 
+  const updateLive = (state: boolean) => {
+    setPostBody((postBody) => {
+      return { ...postBody, live: state };
+    });
+  };
+
   const removeMedia = () => {
     formData.delete("src");
     formData.delete("data");
@@ -195,14 +203,31 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
       <div className={style.fields}>
         <div className={style.titleLine}>
           <h1>New Post</h1>
-          <TagSelection
-            onChange={(tags) =>
-              setPostBody((post) => {
-                return { ...post, tags: tags };
-              })
-            }
-            selected={postBody.tags ?? []}
-          />
+        </div>
+        <div className={style.metaLine}>
+          <div className={style.tagSelection}>
+            <div className={style.tagSelectionLabel}>
+              <Image src="/tag.svg" height={15} width={15} alt="Tag icon." />
+              <p>Tags</p>
+            </div>
+            <TagSelection
+              onChange={(tags) =>
+                setPostBody((post) => {
+                  return { ...post, tags: tags };
+                })
+              }
+              selected={postBody.tags ?? []}
+            />
+          </div>
+          <div className={style.liveSelection}>
+            <Image
+              src="/broadcast.svg"
+              height={15}
+              width={15}
+              alt="Broadcast icon."
+            />
+            <Toggle text="Live" onChange={updateLive} init={false} />
+          </div>
         </div>
         <input
           className={style.underlined}

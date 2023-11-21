@@ -1,0 +1,40 @@
+.section {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0.5em;
+}
+
+.section p {
+  margin: 0;
+}
+
+.replyLine {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.1em;
+
+  opacity: 0.6;
+  margin-bottom: -0.3em;
+}
+
+.timestampRow {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.replyIcon {
+  opacity: 0.6;
+}
+
+.replyIcon:hover {
+  opacity: 0.4;
+}

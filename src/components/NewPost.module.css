@@ -46,6 +46,43 @@
   align-items: center;
 }
 
+.tagSelection {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.75em;
+  font-weight: bold;
+}
+
+.tagSelectionLabel {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.metaLine {
+  display: flex;
+
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2em;
+}
+
+.liveSelection {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.25em;
+}
+
 .section .underlined {
   border: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.6);

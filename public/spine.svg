@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg height="48" viewBox="0 96 960 960" width="48" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 723 394 L 723 568 C 723 604 710.333 634.667 685 660 C 659.667 685.333 629 698 593 698 L 177 698 L 177 758 L 593 758 C 645 758 689.667 739.5 727 702.5 C 764.333 665.5 783 620.667 783 568 L 783 394 L 723 394 Z" style="fill: rgb(255, 255, 255); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(-1, 0, 0, -1, -0.000032, -0.000037)"/>
+</svg>

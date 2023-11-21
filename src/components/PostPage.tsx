@@ -4,11 +4,12 @@ import clickable from "./Clickable.module.css";
 import { Post } from "../model/post";
 import { ThreadNode, Comment } from "../model/comment";
 import { useRouter } from "next/router";
-import { route } from "../util/http";
+import { route, wsPath } from "../util/http";
 import { PostBody } from "./PostBody";
 import { useState, useEffect, useContext } from "react";
 import { NewComment } from "./NewComment";
 import { CommentDisplay } from "./CommentDisplay";
+import { MessageDisplay } from "./MessageDisplay";
 import { FeedContext, ThreadingContext } from "./Feed";
 import { AuthenticationContext } from "./AccountSelection";
 
@@ -37,6 +38,27 @@ export const PostPage = ({
     (async () => {
       // Load the post
       const post = await (await fetch(route(`/posts/${postId}`))).json();
+
+      // Connect to websockets if this is a live post
+      if (post.live) {
+        const sock = new WebSocket(wsPath());
+
+        // Subscribe to this room
+        sock.addEventListener("open", () => {
+          sock.send(`join ${post.id}`);
+        });
+
+        // Listen for new messages
+        sock.addEventListener("message", async (e) => {
+          if (e.data.includes("error")) {
+            console.error(e);
+
+            return;
+          }
+
+          await loadComments();
+        });
+      }
 
       setPost(post);
       await loadComments();
@@ -123,7 +145,7 @@ export const PostPage = ({
     )
     .map((thread) => (
       <CommentDisplay
-        currentlyReplying={currentlyReplying}
+        currentlyReplying={post?.live ? null : currentlyReplying}
         mostRecent={mostRecent}
         onReply={(id) => setCurrentlyReplying(id)}
         key={thread.comment.id}
@@ -134,6 +156,25 @@ export const PostPage = ({
         compact={!threadingActive}
       />
     ));
+
+  const messages = post?.live
+    ? Object.values(tree)
+        .sort(
+          (a, b) =>
+            b.comment.posted.secs_since_epoch -
+            a.comment.posted.secs_since_epoch
+        )
+        .map((thread) => (
+          <MessageDisplay
+            onReply={(id) => setCurrentlyReplying(id)}
+            key={thread.comment.id}
+            comment={thread}
+            tree={tree}
+            deletable={activeUser === "dev"}
+            onClickDelete={() => deleteComment(thread.comment.id)}
+          />
+        ))
+    : [];
 
   return (
     <div className={`${style.container} ${className}`}>
@@ -169,17 +210,35 @@ export const PostPage = ({
             compact={compact}
           />
         )}
-        {!currentlyReplying && (
+        {!currentlyReplying && !post?.live && (
           <NewComment
             key={postId}
             parentPost={postId ?? 0}
             onSubmitted={reload}
           />
         )}
-        <div className={style.comments}>
-          {threads}
-          <div style={{ minHeight: "1em" }}></div>
-        </div>
+        {post?.live ? (
+          <div className={style.log}>{messages}</div>
+        ) : (
+          <div className={style.comments}>
+            {threads}
+            <div style={{ minHeight: "1em" }}></div>
+          </div>
+        )}
+        {currentlyReplying && post?.live && (
+          <p>
+            Replying to <b>{tree[currentlyReplying].comment.text}</b>
+          </p>
+        )}
+        {post?.live && (
+          <NewComment
+            key={postId}
+            parentPost={postId ?? 0}
+            parentComment={currentlyReplying ?? undefined}
+            onSubmitted={reload}
+            onClear={() => setCurrentlyReplying(null)}
+          />
+        )}
       </div>
     </div>
   );

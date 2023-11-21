@@ -46,15 +46,11 @@ export const Feed = () => {
   ]);
   const feedRef = useRef<HTMLDivElement>(null);
 
-  const pinTrollId = (snapshot: number[]): number[] => {
-    return [230, ...snapshot.filter((x) => x !== 230)];
-  };
-
   const stateRef = useRef<Map<number, Post>>();
   stateRef.current = posts;
 
   const snapshotRef = useRef<number[]>();
-  snapshotRef.current = pinTrollId(snapshot);
+  snapshotRef.current = snapshot;
 
   const toggleGrid = (toggled: Boolean) => {
     setGridToggled(toggled);
@@ -66,14 +62,6 @@ export const Feed = () => {
 
   const toggleThreading = (classicThreaded: boolean) => {
     setClassicThreaded(classicThreaded);
-  };
-
-  const pinTroll = (snapshot: Post[]): Post[] => {
-    const troll = posts.get(230);
-
-    if (!troll) return snapshot;
-
-    return [troll, ...snapshot.filter((x) => x.id != 230)];
   };
 
   const loadBatch = async () => {
@@ -110,9 +98,13 @@ export const Feed = () => {
     await Promise.all(
       snapshot.slice(startingSize, startingSize + 6).map(async (id: number) => {
         // Load the post
-        const post = await (await fetch(route(`/posts/${id}`))).json();
+        try {
+          const post = await (await fetch(route(`/posts/${id}`))).json();
 
-        setPosts((posts) => new Map(posts.set(id, post)));
+          setPosts((posts) => new Map(posts.set(id, post)));
+        } catch (e) {
+          console.error(e);
+        }
       })
     );
 
@@ -207,23 +199,23 @@ export const Feed = () => {
 
   const postEntries =
     posts.size > 0
-      ? pinTroll(
-          Array.from(posts.values()).sort(
+      ? Array.from(posts.values())
+          .sort(
             (a: Post, b: Post) =>
               b.last_updated.secs_since_epoch - a.last_updated.secs_since_epoch
           )
-        ).map((post: Post) => (
-          <Fragment key={post.id}>
-            <PostThumbnail
-              post={post}
-              key={post.id}
-              blurred={blurred}
-              compact={gridToggled}
-              deletable={activeUser === "dev"}
-              onClickDelete={() => deletePost(post.id)}
-            />
-          </Fragment>
-        ))
+          .map((post: Post) => (
+            <Fragment key={post.id}>
+              <PostThumbnail
+                post={post}
+                key={post.id}
+                blurred={blurred}
+                compact={gridToggled}
+                deletable={activeUser === "dev"}
+                onClickDelete={() => deletePost(post.id)}
+              />
+            </Fragment>
+          ))
       : Array(5)
           .fill(0)
           .map((_, i) => <PostThumbnail key={i} blurred={blurred} />);
