@@ -79,6 +79,7 @@
   flex-flow: column-reverse nowrap;
   align-items: flex-start;
   flex-grow: 1;
+  overflow: auto;
 
   gap: 2em;
 
