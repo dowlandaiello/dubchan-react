@@ -200,6 +200,7 @@ export const NewComment = ({
 
     const listener = (e: KeyboardEvent) => {
       if (e.key == "Enter") {
+        e.preventDefault();
         post();
       }
     };
