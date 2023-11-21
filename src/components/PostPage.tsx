@@ -240,6 +240,20 @@ export const PostPage = ({
           />
         )}
       </div>
+      <div
+        className={style.backdrop}
+        onClick={() => {
+          router.back();
+          router.push("/");
+        }}
+      />
+      <div
+        className={style.backdropL}
+        onClick={() => {
+          router.back();
+          router.push("/");
+        }}
+      />
     </div>
   );
 };

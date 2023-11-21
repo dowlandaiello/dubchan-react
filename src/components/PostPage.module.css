@@ -89,10 +89,34 @@
   margin-top: 1.5em;
 }
 
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 80%;
+  right: 0;
+  bottom: 0;
+
+  z-index: 3;
+}
+
+.backdropL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 80%;
+  bottom: 0;
+
+  z-index: 3;
+}
+
 @media screen and (max-width: 695px) {
   .section {
     width: 100%;
     height: calc(100% - 4em);
+  }
+
+  .backdrop, .backdropL {
+    display: none;
   }
 }
 
