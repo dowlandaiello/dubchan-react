@@ -20,12 +20,14 @@ export const NewComment = ({
   parentComment,
   onSubmitted,
   className,
+  live,
   onClear,
 }: {
   className?: string;
   parentPost: number;
   parentComment?: number;
   onSubmitted?: () => void;
+  live?: boolean;
   onClear?: () => void;
 }) => {
   const [{ activeUser, users }] = useContext(AuthenticationContext);
@@ -39,6 +41,7 @@ export const NewComment = ({
 
   // Used for calculating preview window size
   const windowRef = useRef<HTMLDivElement | null>(null);
+  const textInputRef = useRef<HTMLTextAreaElement | null>(null);
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
@@ -190,6 +193,26 @@ export const NewComment = ({
     setPreviewDims([elementWidth * 0.3, elementHeight]);
   }, [windowRef.current, windowRef.current?.clientHeight ?? 0]);
 
+  useEffect(() => {
+    if (!textInputRef.current) return;
+
+    if (!live) return;
+
+    const listener = (e: KeyboardEvent) => {
+      if (e.key == "Enter") {
+        post();
+      }
+    };
+
+    textInputRef.current.addEventListener("keypress", listener);
+
+    return () => {
+      if (!textInputRef.current) return;
+
+      textInputRef.current.removeEventListener("keypress", listener);
+    };
+  }, [live, textInputRef, textInputRef.current]);
+
   const removeMedia = () => {
     formData.delete("src");
     formData.delete("data");
@@ -214,6 +237,7 @@ export const NewComment = ({
           placeholder="Post a reply"
           onChange={updateText}
           value={commentBody.text}
+          ref={textInputRef}
         />
         <div className={style.attachLine}>
           <div className={style.mediaButtons}>

@@ -235,8 +235,12 @@ export const PostPage = ({
             key={postId}
             parentPost={postId ?? 0}
             parentComment={currentlyReplying ?? undefined}
-            onSubmitted={reload}
+            onSubmitted={() => {
+              reload();
+              setCurrentlyReplying(null);
+            }}
             onClear={() => setCurrentlyReplying(null)}
+            live
           />
         )}
       </div>
