@@ -136,6 +136,9 @@ export const PostBody = ({
         post.user_id !== "dev" && (
           <Disclaimer text="This is not an official dev post." />
         )}
+      {post && post.id === 258 && (
+        <Disclaimer text="This post is not endorsed by or affiliated with DubChan in any way." />
+      )}
       {post ? <GreenText>{post.text}</GreenText> : <Skeleton count={3} />}
       {(post &&
         ((post.src && (
