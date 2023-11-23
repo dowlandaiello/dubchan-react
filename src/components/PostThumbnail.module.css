@@ -71,6 +71,13 @@
   max-width: 100%;
 }
 
+.expandedText .titleLine h1 {
+  text-overflow: initial;
+  overflow: auto;
+  white-space: normal;
+  max-width: 100%;
+}
+
 .tagList {
   display: flex;
   flex-flow: row wrap;

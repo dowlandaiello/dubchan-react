@@ -21,6 +21,7 @@ export const PostBody = ({
   post,
   blurred: initBlurred,
   compact,
+  expandedText,
   deletable,
   onClickDelete,
 }: {
@@ -29,6 +30,7 @@ export const PostBody = ({
   post?: Post;
   blurred: Boolean;
   compact?: Boolean;
+  expandedText?: Boolean;
   deletable?: Boolean;
   onClickDelete?: () => void;
 }) => {
@@ -71,7 +73,7 @@ export const PostBody = ({
     <div
       className={`${style.postBody} ${className} ${
         compact ? style.compact : ""
-      }`}
+      } ${expandedText ? style.expandedText : ""}`}
       ref={thumbnailRef}
     >
       <div className={style.titleLine}>

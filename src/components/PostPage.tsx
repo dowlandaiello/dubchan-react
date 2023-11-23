@@ -232,6 +232,7 @@ export const PostPage = ({
             blurred={true}
             post={post}
             compact={compact}
+            expandedText
           />
         ) : (
           <PostBody
@@ -240,6 +241,7 @@ export const PostPage = ({
             mediaClassName={style.media}
             blurred={false}
             compact={compact}
+            expandedText
           />
         )}
         {!currentlyReplying && !post?.live && (
