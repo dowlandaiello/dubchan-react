@@ -38,17 +38,15 @@ export const PostPage = ({
   useEffect(() => {
     if (!postId) return;
 
-    if (!post) {
-      (async () => {
-        // Load the post
-        const post = await (await fetch(route(`/posts/${postId}`))).json();
+    (async () => {
+      // Load the post
+      const post = await (await fetch(route(`/posts/${postId}`))).json();
 
-        setPost(post);
-        await loadComments();
-      })();
+      setPost(post);
+      await loadComments();
+    })();
 
-      return;
-    }
+    if (!post) return;
 
     // Connect to websockets if this is a live post
     if (post.live) {
