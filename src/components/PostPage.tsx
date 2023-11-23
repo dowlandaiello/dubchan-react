@@ -260,7 +260,7 @@ export const PostPage = ({
               width={15}
               alt="Live icon."
             />{" "}
-            <p>{onlineCount - 1} online</p>
+            <p>{onlineCount == 0 ? onlineCount : onlineCount - 1} online</p>
           </div>
         )}
         {post?.live ? (
