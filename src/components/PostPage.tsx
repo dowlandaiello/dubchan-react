@@ -1,4 +1,5 @@
 import style from "./PostPage.module.css";
+import bodyStyle from "./PostThumbnail.module.css";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
 import { Post } from "../model/post";
@@ -31,39 +32,75 @@ export const PostPage = ({
   );
   const [threadingActive] = useContext(ThreadingContext);
   const [compact, setCompact] = useState<boolean>(false);
+  const [onlineCount, setOnlineCount] = useState<number>(0);
+  const [sock, setSock] = useState<WebSocket | null>(null);
 
   useEffect(() => {
     if (!postId) return;
 
-    (async () => {
-      // Load the post
-      const post = await (await fetch(route(`/posts/${postId}`))).json();
+    if (!post) {
+      (async () => {
+        // Load the post
+        const post = await (await fetch(route(`/posts/${postId}`))).json();
 
-      // Connect to websockets if this is a live post
-      if (post.live) {
-        const sock = new WebSocket(wsPath());
+        setPost(post);
+        await loadComments();
+      })();
 
-        // Subscribe to this room
-        sock.addEventListener("open", () => {
-          sock.send(`join ${post.id}`);
-        });
+      return;
+    }
 
-        // Listen for new messages
-        sock.addEventListener("message", async (e) => {
-          if (e.data.includes("error")) {
-            console.error(e);
+    // Connect to websockets if this is a live post
+    if (post.live) {
+      const sock = new WebSocket(wsPath());
 
-            return;
-          }
+      // Subscribe to this room
+      sock.addEventListener("open", () => {
+        sock.send(`join ${post.id}`);
+        setSock(sock);
+      });
+    }
+  }, [postId, post, lastUpdated]);
 
-          await loadComments();
-        });
+  useEffect(() => {
+    if (!sock) return;
+    if (!post) return;
+
+    // Listen for new messages
+    sock.addEventListener("message", async (e) => {
+      if (e.data.includes("error")) {
+        console.error(e);
+
+        return;
       }
 
-      setPost(post);
-      await loadComments();
-    })();
-  }, [postId, lastUpdated]);
+      if (e.data.split(" ")[0].includes("MSG")) {
+        loadComments();
+
+        return;
+      }
+
+      const onlineCount = Number(e.data.split(" ")[1]);
+      setOnlineCount(onlineCount);
+    });
+
+    return () => {
+      if (sock) {
+        sock.send(`exit ${post.id}`);
+        sock.close();
+      }
+    };
+  }, [sock]);
+
+  const back = () => {
+    router.back();
+    router.push("/");
+
+    if (post && sock) {
+      sock.send(`exit ${post.id}`);
+      sock.close();
+    }
+  };
 
   useEffect(() => {
     const resizeListener = () => {
@@ -186,10 +223,7 @@ export const PostPage = ({
             height={30}
             width={30}
             alt="Back button."
-            onClick={() => {
-              router.back();
-              router.push("/");
-            }}
+            onClick={back}
           />
         </div>
         {post ? (
@@ -216,6 +250,18 @@ export const PostPage = ({
             parentPost={postId ?? 0}
             onSubmitted={reload}
           />
+        )}
+        {post?.live && (
+          <div className={style.onlineLabel}>
+            <Image
+              className={bodyStyle.liveIcon}
+              src="/broadcast.svg"
+              height={15}
+              width={15}
+              alt="Live icon."
+            />{" "}
+            <p>{onlineCount - 1} online</p>
+          </div>
         )}
         {post?.live ? (
           <div className={style.log}>{messages}</div>
@@ -244,20 +290,8 @@ export const PostPage = ({
           />
         )}
       </div>
-      <div
-        className={style.backdrop}
-        onClick={() => {
-          router.back();
-          router.push("/");
-        }}
-      />
-      <div
-        className={style.backdropL}
-        onClick={() => {
-          router.back();
-          router.push("/");
-        }}
-      />
+      <div className={style.backdrop} onClick={back} />
+      <div className={style.backdropL} onClick={back} />
     </div>
   );
 };

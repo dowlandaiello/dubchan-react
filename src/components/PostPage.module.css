@@ -110,6 +110,21 @@
   z-index: 3;
 }
 
+.onlineLabel {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.onlineLabel img {
+  filter: var(--svg-accent);
+}
+
 @media screen and (max-width: 695px) {
   .section {
     width: 100%;
