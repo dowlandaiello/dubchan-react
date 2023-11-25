@@ -251,7 +251,7 @@ export const PostPage = ({
             onSubmitted={reload}
           />
         )}
-        {post?.live && (
+        {post?.live && false && (
           <div className={style.onlineLabel}>
             <Image
               className={bodyStyle.liveIcon}
