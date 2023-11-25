@@ -39,6 +39,10 @@ export const MediaViewer = ({
   );
   let modalContent = <video className={styles.modalContent} src={src} />;
 
+  if (src.endsWith("mp4")) {
+    return;
+  }
+
   // This is a normal-ass image.
   if (
     src.includes("imagedelivery.net") ||
