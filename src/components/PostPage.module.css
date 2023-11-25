@@ -84,6 +84,7 @@
   gap: 2em;
 
   margin-bottom: 2em;
+  min-height: 50vh;
 }
 
 .comments>*:not(:first-child) {
