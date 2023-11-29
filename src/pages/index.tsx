@@ -53,6 +53,10 @@ export default function Home() {
                     async={true}
                     defer={true}
                   />
+                  <Script
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3830685811224190"
+                    async
+                  />
                   <ModalInput {...modalProps} />
                   <ModalDisplay {...generalModalProps} />
                   <PostPage
