@@ -38,6 +38,10 @@
   background: linear-gradient(transparent 5px, var(--bg-lighter));
 }
 
+.pollDisplay {
+  min-height: auto;
+}
+
 .postBody h1, .postBody p {
   margin: 0;
 }

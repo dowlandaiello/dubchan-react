@@ -42,7 +42,10 @@ export const PostPage = ({
       // Load the post
       const post = await (await fetch(route(`/posts/${postId}`))).json();
 
-      setPost(post);
+      // Load the poll
+      const poll = await (await fetch(route(`/posts/${postId}/poll`))).json();
+
+      setPost({ ...post, poll: poll });
       await loadComments();
     })();
 
