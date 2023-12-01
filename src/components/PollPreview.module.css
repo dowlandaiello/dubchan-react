@@ -65,3 +65,17 @@
 
   gap: 0.25em;
 }
+
+.leftArea {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 0.5em;
+}
+
+.leftArea>*:last-child {
+  opacity: 0.5;
+}

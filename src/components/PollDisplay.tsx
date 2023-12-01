@@ -44,7 +44,12 @@ export const PollDisplay = ({
       onClick={() => select(i)}
       key={i}
     >
-      <p>{opt.votes == 0 ? 0 : Math.trunc((opt.votes / total) * 1000) / 10}%</p>
+      <div className={style.leftArea}>
+        <p>
+          {opt.votes == 0 ? 0 : Math.trunc((opt.votes / total) * 1000) / 10}%
+        </p>
+        <p>{opt.votes.toLocaleString()}</p>
+      </div>
       <div className={style.rightArea}>
         <p>{opt.option}</p>
         {selected === i && (
