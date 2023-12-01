@@ -2,6 +2,7 @@
   --bg-lightest: #1a1837;
   --bg: #09071c;
   --accent: #6358FF;
+  --accent-rgb: 99, 88, 255;
   --svg-accent: invert(45%) sepia(95%) saturate(5136%) hue-rotate(234deg) brightness(102%) contrast(101%);
   --bg-lighter: #110f25;
   --bg-error: #371818;

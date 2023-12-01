@@ -1,8 +1,10 @@
 import { Post } from "../model/post";
-import { useEffect, useState, useRef } from "react";
-import { useUiRoute } from "../util/http";
+import { useEffect, useState, useRef, useContext } from "react";
+import { useUiRoute, route } from "../util/http";
+import { VoteContext } from "../util/cookie";
 import { Tag } from "./Tag";
 import style from "./PostThumbnail.module.css";
+import { FeedContext } from "./Feed";
 import { CopyLink } from "./CopyLink";
 import { UsernameLabel } from "./UsernameLabel";
 import { TimestampLabel } from "./TimestampLabel";
@@ -11,6 +13,7 @@ import { MediaViewer } from "./MediaViewer";
 import clickable from "./Clickable.module.css";
 import Image from "next/image";
 import { GreenText } from "./GreenText";
+import { PollDisplay } from "./PollDisplay";
 import { Disclaimer } from "./Disclaimer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -42,6 +45,7 @@ export const PostBody = ({
     : [];
 
   const thumbnailRef = useRef<HTMLDivElement | null>(null);
+  const [, setLastUpdated] = useContext(FeedContext);
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
@@ -49,6 +53,36 @@ export const PostBody = ({
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
   const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
+
+  const [votes, addVote, removeVote] = useContext(VoteContext);
+
+  const reload = () => {
+    setLastUpdated(Date.now());
+  };
+
+  const onVote = async (choice: number) => {
+    if (!post) return;
+
+    // Mark the vote on the server
+    await fetch(route(`/posts/${post.id}/poll/${choice}/votes`), {
+      method: "POST",
+    });
+
+    addVote(post.id, choice);
+    reload();
+  };
+
+  const onUnvote = async (choice: number) => {
+    if (!post) return;
+
+    // Mark the vote on the server
+    await fetch(route(`/posts/${post.id}/poll/${choice}/votes`), {
+      method: "DELETE",
+    });
+
+    removeVote(post.id, choice);
+    reload();
+  };
 
   useEffect(() => {
     const resizeListener = () => {
@@ -174,6 +208,15 @@ export const PostBody = ({
           </div>
         )) || <></>)) || (
         <Skeleton containerClassName={style.imageSkeleton} height="100%" />
+      )}
+      {post && post.poll && post.poll.length > 0 && (
+        <PollDisplay
+          polls={post.poll}
+          className={style.pollDisplay}
+          initSelected={votes[post.id] === undefined ? null : votes[post.id]}
+          onSelectChoice={onVote}
+          onUnselectChoice={onUnvote}
+        />
       )}
     </div>
   );

@@ -5,6 +5,8 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { FileUpload, ChangeEvent } from "./FileUpload";
 import { UrlImageUpload } from "./UrlImageUpload";
 import { UrlVidUpload } from "./UrlVidUpload";
+import { PollUpload } from "./PollUpload";
+import { PollPreview } from "./PollPreview";
 import { Button } from "./Button";
 import { Captcha } from "./Captcha";
 import { route } from "../util/http";
@@ -26,6 +28,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
   >(null);
   const [previewSrc, setPreviewSrc] = useState<null | string>(null);
   const [errorMsg, setErrorMsg] = useState<null | string>(null);
+  const [pollOptions, setPollOptions] = useState<null | string[]>(null);
 
   // Used for calculating preview window size
   const windowRef = useRef<HTMLDivElement | null>(null);
@@ -70,6 +73,10 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
     });
   };
 
+  const gotPoll = () => {
+    setPollOptions([""]);
+  };
+
   // Initiates a captcha and if succesful posts the post
   const post = () => {
     setCaptchaCallback(() => (e: string) => {
@@ -86,6 +93,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
     setPreviewSrc(null);
     setCaptchaCallback(null);
     setErrorMsg(null);
+    setPollOptions(null);
   };
 
   // Submit the post upon receiving a complete captcha
@@ -94,9 +102,18 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
 
     formData.append(
       "body",
-      new Blob([JSON.stringify({ ...postBody, author: activeUser })], {
-        type: "application/json",
-      })
+      new Blob(
+        [
+          JSON.stringify({
+            ...postBody,
+            author: activeUser,
+            poll_options: pollOptions ? pollOptions : undefined,
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
     );
 
     (async () => {
@@ -164,6 +181,33 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
     });
   };
 
+  const updateOptions = (index: number, state: string) => {
+    setPollOptions(
+      (pollOptions) =>
+        pollOptions?.map((v, i) => (i == index ? state : v)) ?? null
+    );
+  };
+
+  const removeOption = (index: number) => {
+    if (!pollOptions) return;
+
+    if (pollOptions.length == 1) {
+      setPollOptions(null);
+
+      return;
+    }
+
+    setPollOptions(
+      (pollOptions) => pollOptions?.filter((_, i) => i != index) ?? null
+    );
+  };
+
+  const addOption = () => {
+    setPollOptions((pollOptions) =>
+      pollOptions ? [...pollOptions, ""] : [""]
+    );
+  };
+
   const removeMedia = () => {
     formData.delete("src");
     formData.delete("data");
@@ -198,6 +242,15 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
           onRemove={removeMedia}
           width={previewWidth == 0 ? undefined : previewWidth}
           height={previewHeight == 0 ? undefined : previewHeight}
+        />
+      )}
+      {pollOptions && (
+        <PollPreview
+          className={style.pollPreview}
+          options={pollOptions}
+          onChangeOption={updateOptions}
+          onAddOption={addOption}
+          onRemoveOption={removeOption}
         />
       )}
       <div className={style.fields}>
@@ -249,6 +302,7 @@ export const NewPost = ({ onSubmitted }: { onSubmitted?: () => void }) => {
             <UrlImageUpload onChange={gotVid} />
             <FileUpload onChange={gotFile} />
             <UrlVidUpload onChange={gotVid} />
+            <PollUpload onClick={gotPoll} />
           </div>
           {errorMsg && (
             <ErrorLabel className={style.errorLabel} text={errorMsg} />

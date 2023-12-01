@@ -7,9 +7,11 @@
 
   display: flex;
 
-  flex-flow: row nowrap;
+  flex-flow: row wrap-reverse;
   justify-content: flex-start;
   align-items: stretch;
+
+  gap: 1em;
 }
 
 .section iframe {
@@ -122,7 +124,12 @@
 
 .preview {
   width: 30%;
-  margin-right: 1em;
+  flex-grow: 1;
+}
+
+.pollPreview {
+  width: 20%;
+  flex-grow: 1;
 }
 
 .errorLabel {
@@ -147,4 +154,10 @@
   margin-right: 1em;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 1031px) {
+  .pollPreview {
+    width: 30%;
+  }
 }

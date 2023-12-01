@@ -1,4 +1,5 @@
 import { Timestamp } from "./timestamp";
+import { Poll } from "./poll";
 
 /// A post.
 export interface Post {
@@ -13,6 +14,7 @@ export interface Post {
   n_comments: number;
   last_updated: Timestamp;
   views: number;
+  poll: Poll[] | null;
 }
 
 export const emptyPost = {
@@ -22,6 +24,7 @@ export const emptyPost = {
   author: undefined,
   tags: undefined,
   captcha_response: undefined,
+  poll: undefined,
 };
 
 /// A request creating a new post.

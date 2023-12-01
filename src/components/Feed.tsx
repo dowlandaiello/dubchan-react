@@ -100,8 +100,14 @@ export const Feed = () => {
         // Load the post
         try {
           const post = await (await fetch(route(`/posts/${id}`))).json();
+          setPosts((posts) => new Map(posts.set(id, { ...post, poll: null })));
 
-          setPosts((posts) => new Map(posts.set(id, post)));
+          try {
+            const poll = await (await fetch(route(`/posts/${id}/poll`))).json();
+            setPosts(
+              (posts) => new Map(posts.set(id, { ...post, poll: poll }))
+            );
+          } catch (e) {}
         } catch (e) {
           console.error(e);
         }
