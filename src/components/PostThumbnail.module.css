@@ -71,7 +71,7 @@
 .compact .titleLine h1 {
   text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: wrap;
   max-width: 100%;
 }
 
