@@ -44,7 +44,7 @@ export const TripcodeModal = ({
           new Uint8Array(exported) as unknown as number[]
         )
       );
-      setPassword(str.slice(0, 50));
+      setPassword(str.slice(0, 58));
       setUsername(str.slice(50, 58));
     })();
   }, []);
