@@ -45,7 +45,7 @@ export const TripcodeModal = ({
         )
       );
       setPassword(str.slice(0, 58));
-      setUsername(str.slice(50, 58));
+      setUsername(str.slice(50, 58).toLowerCase());
     })();
   }, []);
 
