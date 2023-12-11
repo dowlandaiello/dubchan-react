@@ -28,6 +28,16 @@
   margin-top: 1em !important;
 }
 
+.aliasLine {
+  display: flex;
+
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 0.5em;
+}
+
 @media screen and (max-width: 779px) {
   .section>*:last-child {
     margin-top: auto;

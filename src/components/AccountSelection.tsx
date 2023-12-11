@@ -13,6 +13,7 @@ import {
 } from "react";
 import { User } from "../model/user";
 import { AuthenticationModal, AuthSubmission } from "./AuthenticationModal";
+import { TripcodeModal } from "./TripcodeModal";
 import { route } from "../util/http";
 
 export interface AuthenticationState {
@@ -184,6 +185,15 @@ export const AccountSelection = () => {
     });
   };
 
+  const openTripcodeModal = () => {
+    setModal({
+      title: "Generate Tripcode",
+      children: [<TripcodeModal onSubmit={signup} key="tripcode" />],
+      onClose: closeModal,
+      active: true,
+    });
+  };
+
   return (
     <div
       className={`${style.drawerContainer} ${
@@ -223,6 +233,15 @@ export const AccountSelection = () => {
               height={25}
               width={25}
               alt="Create account icon"
+            />
+          </div>
+          <div className={style.pageButton} onClick={openTripcodeModal}>
+            <h4>New Tripcode</h4>
+            <Image
+              src="/key.svg"
+              height={25}
+              width={25}
+              alt="Create tripcode icon"
             />
           </div>
         </div>
