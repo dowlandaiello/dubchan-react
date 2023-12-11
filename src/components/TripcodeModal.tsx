@@ -19,7 +19,7 @@ export const TripcodeModal = ({
 
   const submit = (token: string) => {
     onSubmit({
-      username: username,
+      username: username ?? "",
       password: password,
       captcha_response: token,
     });
