@@ -103,6 +103,11 @@ export const PostBody = ({
     };
   }, []);
 
+  const formatViews = (views: number): string => {
+    if (views == 1) return `${views} View`;
+    else return `${views} Views`;
+  };
+
   return (
     <div
       className={`${style.postBody} ${className} ${
@@ -126,12 +131,10 @@ export const PostBody = ({
           <Skeleton containerClassName={style.flex1} height="2em" />
         )}
         <div className={style.titleLineRight}>
-          {deletable && (
-            <div className={style.viewsLabel}>
-              {post?.views ?? 0}
-              <Image src="/eye.svg" height={15} width={15} alt="Views icon." />
-            </div>
-          )}
+          <div className={style.viewsLabel}>
+            {post?.n_opened ?? 0}
+            <Image src="/eye.svg" height={15} width={15} alt="Views icon." />
+          </div>
           <CopyLink link={postUrl} />
           {deletable && (
             <Image

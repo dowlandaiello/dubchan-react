@@ -15,6 +15,7 @@ export interface Post {
   last_updated: Timestamp;
   views: number;
   poll: Poll[] | null;
+  n_opened: number;
 }
 
 export const emptyPost = {

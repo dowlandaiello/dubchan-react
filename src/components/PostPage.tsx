@@ -61,7 +61,21 @@ export const PostPage = ({
         setSock(sock);
       });
     }
-  }, [postId, post, lastUpdated]);
+  }, [postId, lastUpdated]);
+
+  useEffect(() => {
+    if (!postId) return;
+
+    const timer = () => {
+      fetch(route(`/posts/${postId}/view`), { method: "POST" });
+    };
+
+    const timeout = setTimeout(timer, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   useEffect(() => {
     if (!sock) return;
