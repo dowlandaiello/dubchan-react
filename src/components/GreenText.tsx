@@ -1,13 +1,13 @@
 import style from "./GreenText.module.css";
 
 export const GreenText = ({ children }: { children: string }) => {
-  const lines = children.split("\n").map((line) =>
+  const lines = children.split("\n").map((line, i) =>
     line.startsWith(">") ? (
-      <p className={style.greenLine} key={line}>
+      <p className={style.greenLine} key={i}>
         {line}
       </p>
     ) : (
-      <p className={style.line} key={line}>
+      <p className={style.linef} key={i}>
         {line}
       </p>
     )
