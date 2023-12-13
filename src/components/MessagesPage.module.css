@@ -74,6 +74,11 @@
   overflow-y: visible;
 }
 
+.refreshIcon {
+  filter: var(--svg-accent);
+  align-self: center;
+}
+
 .inboxLabel {
   display: flex;
   flex-flow: row wrap;

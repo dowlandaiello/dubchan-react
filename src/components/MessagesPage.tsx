@@ -155,23 +155,27 @@ export const MessagesPage = ({ to }: { to?: string }) => {
     loadMessages();
   }, [activeDm]);
 
+  const getInboxes = async () => {
+    if (!activeUser) return;
+
+    try {
+      const inboxes = await (
+        await fetch(route(`/inboxes/${activeUser}`), {
+          headers: {
+            Authorization: users[activeUser].token,
+          },
+        })
+      ).json();
+      setInboxes(inboxes);
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
   useEffect(() => {
     if (!activeUser) return;
 
-    (async () => {
-      try {
-        const inboxes = await (
-          await fetch(route(`/inboxes/${activeUser}`), {
-            headers: {
-              Authorization: users[activeUser].token,
-            },
-          })
-        ).json();
-        setInboxes(inboxes);
-      } catch (e) {
-        console.warn(e);
-      }
-    })();
+    getInboxes();
 
     (async () => {
       try {
@@ -373,6 +377,14 @@ export const MessagesPage = ({ to }: { to?: string }) => {
           />
           {inboxes !== null ? (
             <div className={style.inboxes}>
+              <Image
+                className={`${style.refreshIcon} ${clickable.clickable}`}
+                src="/refresh.svg"
+                height={20}
+                width={20}
+                alt="Refresh icon."
+                onClick={getInboxes}
+              />
               <div
                 className={`${style.inboxLabel} ${style.createDm} ${
                   clickable.clickable
