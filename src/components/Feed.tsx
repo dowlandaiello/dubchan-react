@@ -17,6 +17,9 @@ import { timestampToUnix } from "../util/format";
 import { NewPost } from "./NewPost";
 import { QuickLinks } from "./QuickLinks";
 import { AccountSelection, AuthenticationContext } from "./AccountSelection";
+import Link from "next/link";
+import Image from "next/image";
+import clickable from "./Clickable.module.css";
 
 export const FeedContext = createContext<
   [number, Dispatch<SetStateAction<number>>]
@@ -230,8 +233,13 @@ export const Feed = () => {
     <div className={`${gridToggled ? style.grid : style.feed}`} ref={feedRef}>
       <div className={style.gridHeader}>
         <QuickLinks />
-        <div className={style.accounts}>
-          <AccountSelection />
+        <div className={style.accountsLine}>
+          <div className={style.accounts}>
+            <AccountSelection />
+          </div>
+          <Link href="/?message_to=" className={clickable.clickable}>
+            <Image src="/mail.svg" height={20} width={20} alt="Mail icon." />
+          </Link>
         </div>
         <NewPost onSubmitted={loadInit} />
         <FeedControl

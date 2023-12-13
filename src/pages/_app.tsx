@@ -5,6 +5,7 @@ import {
   AuthenticationContext,
   AuthenticationState,
 } from "../components/AccountSelection";
+import { wsPath } from "../util/http";
 import {
   VoteContext,
   loadVotes,
@@ -12,13 +13,18 @@ import {
   removeVote as deleteVote,
 } from "../util/cookie";
 import { loadIdentities } from "../util/cookie";
-import { useServerStartTime } from "../util/hooks";
+import { KeyPairContext, KeyPair } from "../model/key_pair";
+import { useServerStartTime, WebsocketContext } from "../util/hooks";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [authState, setAuthState] = useState<AuthenticationState>({
     users: {},
   });
   const [voteState, setVoteState] = useState<{ [postId: number]: number }>({});
+  const [keypairState, setKeypairState] = useState<{
+    [username: string]: KeyPair;
+  }>({});
+  const [sock, setSock] = useState<WebSocket | null>(null);
 
   const serverStartTime = useServerStartTime();
 
@@ -31,6 +37,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     setVoteState(loadVotes);
+  }, []);
+
+  useEffect(() => {
+    const sock = new WebSocket(wsPath());
+    setSock(sock);
   }, []);
 
   const addVote = (postId: number, optionId: number) => {
@@ -55,7 +66,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <AuthenticationContext.Provider value={[authState, setAuthState]}>
       <VoteContext.Provider value={[voteState, addVote, removeVote]}>
-        <Component {...pageProps} />
+        <KeyPairContext.Provider value={[keypairState, setKeypairState]}>
+          <WebsocketContext.Provider value={[sock, setSock]}>
+            <Component {...pageProps} />
+          </WebsocketContext.Provider>
+        </KeyPairContext.Provider>
       </VoteContext.Provider>
     </AuthenticationContext.Provider>
   );

@@ -3,6 +3,9 @@
 import style from "./Header.module.css";
 import { AccountSelection } from "./AccountSelection";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import clickable from "./Clickable.module.css";
 
 const logos = [
   "/logo.png",
@@ -43,6 +46,9 @@ export const Header = () => {
       <div className={style.rightPadder}></div>
       <div className={style.accounts}>
         <AccountSelection />
+        <Link href="/?message_to=" className={clickable.clickable}>
+          <Image src="/mail.svg" height={20} width={20} alt="Mail icon." />
+        </Link>
       </div>
     </div>
   );

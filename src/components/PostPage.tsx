@@ -3,9 +3,9 @@ import bodyStyle from "./PostThumbnail.module.css";
 import Image from "next/image";
 import clickable from "./Clickable.module.css";
 import { Post } from "../model/post";
-import { ThreadNode, Comment } from "../model/comment";
+import { Comment, ThreadNode } from "../model/comment";
 import { useRouter } from "next/router";
-import { route, wsPath } from "../util/http";
+import { route } from "../util/http";
 import { PostBody } from "./PostBody";
 import { useState, useEffect, useContext } from "react";
 import { NewComment } from "./NewComment";
@@ -13,6 +13,8 @@ import { CommentDisplay } from "./CommentDisplay";
 import { MessageDisplay } from "./MessageDisplay";
 import { FeedContext, ThreadingContext } from "./Feed";
 import { AuthenticationContext } from "./AccountSelection";
+import { useSocket } from "../util/hooks";
+import { Node } from "./MessageDisplay";
 
 export const PostPage = ({
   className,
@@ -26,6 +28,7 @@ export const PostPage = ({
   const [lastUpdated, setLastUpdated] = useContext(FeedContext);
   const [post, setPost] = useState<Post | null>(null);
   const [tree, setTree] = useState<{ [id: number]: ThreadNode }>({});
+  const [messageTree, setMessageTree] = useState<{ [id: number]: Node }>({});
   const [mostRecent, setMostRecent] = useState<number | undefined>(undefined);
   const [currentlyReplying, setCurrentlyReplying] = useState<number | null>(
     null
@@ -33,7 +36,7 @@ export const PostPage = ({
   const [threadingActive] = useContext(ThreadingContext);
   const [compact, setCompact] = useState<boolean>(false);
   const [onlineCount, setOnlineCount] = useState<number>(0);
-  const [sock, setSock] = useState<WebSocket | null>(null);
+  const sock = useSocket();
 
   useEffect(() => {
     if (!postId) return;
@@ -48,38 +51,13 @@ export const PostPage = ({
       setPost({ ...post, poll: poll });
       await loadComments();
     })();
-
-    if (!post) return;
-
-    // Connect to websockets if this is a live post
-    if (post.live) {
-      const sock = new WebSocket(wsPath());
-
-      // Subscribe to this room
-      sock.addEventListener("open", () => {
-        sock.send(`join ${post.id}`);
-        setSock(sock);
-      });
-    }
   }, [postId, lastUpdated]);
 
   useEffect(() => {
-    if (!postId) return;
+    if (!sock || !post || !post.live) return;
 
-    const timer = () => {
-      fetch(route(`/posts/${postId}/view`), { method: "POST" });
-    };
-
-    const timeout = setTimeout(timer, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!sock) return;
-    if (!post) return;
+    // Subscribe to this room
+    sock.send(`join ${post.id}`);
 
     // Listen for new messages
     sock.addEventListener("message", async (e) => {
@@ -98,14 +76,21 @@ export const PostPage = ({
       const onlineCount = Number(e.data.split(" ")[1]);
       setOnlineCount(onlineCount);
     });
+  }, [sock !== null, !post, post?.id]);
+
+  useEffect(() => {
+    if (!postId) return;
+
+    const timer = () => {
+      fetch(route(`/posts/${postId}/view`), { method: "POST" });
+    };
+
+    const timeout = setTimeout(timer, 5000);
 
     return () => {
-      if (sock) {
-        sock.send(`exit ${post.id}`);
-        sock.close();
-      }
+      clearTimeout(timeout);
     };
-  }, [sock]);
+  }, []);
 
   const back = () => {
     router.back();
@@ -113,7 +98,6 @@ export const PostPage = ({
 
     if (post && sock) {
       sock.send(`exit ${post.id}`);
-      sock.close();
     }
   };
 
@@ -136,6 +120,40 @@ export const PostPage = ({
       window.removeEventListener("reisze", resizeListener);
     };
   }, []);
+
+  const insertMessageTree = (
+    accum: { [id: number]: Node },
+    comment: Comment
+  ): { [id: number]: Node } => {
+    if (comment.parent_comment) {
+      return {
+        ...accum,
+        [comment.parent_comment]: {
+          ...accum[comment.parent_comment],
+        },
+        [comment.id]: {
+          id: comment.id,
+          parent: comment.parent_comment,
+          time: comment.posted,
+          text: comment.text,
+          src: comment.src,
+          user_id: comment.user_id,
+        },
+      };
+    }
+
+    return {
+      ...accum,
+      [comment.id]: {
+        id: comment.id,
+        parent: comment.parent_comment,
+        time: comment.posted,
+        text: comment.text,
+        src: comment.src,
+        user_id: comment.user_id,
+      },
+    };
+  };
 
   const insertTree = (
     accum: { [id: number]: ThreadNode },
@@ -162,7 +180,12 @@ export const PostPage = ({
       .json()
       .catch(() => []);
     const built: { [id: number]: ThreadNode } = comments.reduce(insertTree, {});
+    const builtMessageTree: { [id: number]: Node } = comments.reduce(
+      insertMessageTree,
+      {}
+    );
     setTree(built);
+    setMessageTree(builtMessageTree);
 
     const mostRecent =
       comments.sort(
@@ -210,20 +233,16 @@ export const PostPage = ({
     ));
 
   const messages = post?.live
-    ? Object.values(tree)
-        .sort(
-          (a, b) =>
-            b.comment.posted.secs_since_epoch -
-            a.comment.posted.secs_since_epoch
-        )
+    ? Object.values(messageTree)
+        .sort((a, b) => b.time.secs_since_epoch - a.time.secs_since_epoch)
         .map((thread) => (
           <MessageDisplay
             onReply={(id) => setCurrentlyReplying(id)}
-            key={thread.comment.id}
+            key={thread.id}
             comment={thread}
-            tree={tree}
+            tree={messageTree}
             deletable={activeUser === "dev"}
-            onClickDelete={() => deleteComment(thread.comment.id)}
+            onClickDelete={() => deleteComment(thread.id)}
           />
         ))
     : [];

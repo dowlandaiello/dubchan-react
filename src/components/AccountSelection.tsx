@@ -11,13 +11,16 @@ import {
   useContext,
   useState,
 } from "react";
-import { User } from "../model/user";
 import { AuthenticationModal, AuthSubmission } from "./AuthenticationModal";
 import { TripcodeModal } from "./TripcodeModal";
 import { route } from "../util/http";
+import nacl from "tweetnacl";
+import util from "tweetnacl-util";
 
 export interface AuthenticationState {
-  users: { [username: string]: User };
+  users: {
+    [username: string]: { username: string; password: string; token: string };
+  };
   activeUser?: string;
 }
 
@@ -75,17 +78,44 @@ export const AccountSelection = () => {
     </div>
   ));
 
-  const registerIdentity = (username: string, token: [number]) => {
+  const registerIdentity = (
+    username: string,
+    password: string,
+    token: [number]
+  ) => {
     setAuthState((state) => {
       return {
         activeUser: username,
         users: {
           ...state.users,
-          [username]: { username: username, token: JSON.stringify(token) },
+          [username]: {
+            username: username,
+            password: password,
+            token: JSON.stringify(token),
+          },
         },
       };
     });
-    addIdentity(serverStartTime, username, JSON.stringify(token));
+    addIdentity(serverStartTime, username, password, JSON.stringify(token));
+
+    // Registers a keypair for the user
+    (async () => {
+      const keyPair = nacl.box.keyPair();
+
+      const msg = {
+        pub_key: util.encodeBase64(keyPair.publicKey),
+        priv_key: util.encodeBase64(keyPair.secretKey),
+      };
+
+      await fetch(route(`/users/${username}/keypair`), {
+        method: "POST",
+        body: JSON.stringify(msg),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: JSON.stringify(token),
+        },
+      });
+    })();
   };
 
   const login = async (sub: AuthSubmission) => {
@@ -103,7 +133,7 @@ export const AccountSelection = () => {
     });
 
     if (resp.status === 200) {
-      registerIdentity(sub.username, await resp.json());
+      registerIdentity(sub.username, sub.password, await resp.json());
       setModal({ children: [], onClose: () => {}, active: false });
       setLoginDrawerActive(false);
     } else {
@@ -144,7 +174,7 @@ export const AccountSelection = () => {
     });
 
     if (resp.status === 200) {
-      registerIdentity(sub.username, await resp.json());
+      registerIdentity(sub.username, sub.password, await resp.json());
       setModal({ children: [], onClose: () => {}, active: false });
       setLoginDrawerActive(false);
     } else {

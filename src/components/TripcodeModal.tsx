@@ -71,7 +71,11 @@ export const TripcodeModal = ({
       {submitting ? (
         <Captcha onSuccess={submit} />
       ) : (
-        <Button text="Generate Tripcode" onClick={() => setSubmitting(true)} />
+        <Button
+          text="Generate Tripcode"
+          onClick={() => setSubmitting(true)}
+          className={style.submitButton}
+        />
       )}
     </div>
   );

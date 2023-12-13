@@ -49,6 +49,10 @@
   margin-top: 0.5em;
 }
 
+.accountsLine {
+  display: none;
+}
+
 @media screen and (max-width: 663px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -76,6 +80,13 @@
     min-height: 6em;
 
     z-index: 2;
+  }
+
+  .accountsLine {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .accounts>* {

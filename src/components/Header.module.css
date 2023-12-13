@@ -71,6 +71,11 @@
 }
 
 .accounts {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 0.5em;
   position: absolute;
   right: 0;
   width: auto;

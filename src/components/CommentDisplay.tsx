@@ -4,6 +4,7 @@ import style from "./CommentDisplay.module.css";
 import { TimestampLabel } from "./TimestampLabel";
 import { UsernameLabel } from "./UsernameLabel";
 import Image from "next/image";
+import Link from "next/link";
 import clickable from "./Clickable.module.css";
 import { MediaViewer } from "./MediaViewer";
 import { NewComment } from "./NewComment";
@@ -11,6 +12,7 @@ import { useContext, useState } from "react";
 import { FeedContext } from "./Feed";
 import { GreenText } from "./GreenText";
 import { Disclaimer } from "./Disclaimer";
+import { useKeypair } from "../model/key_pair";
 
 export const CommentDisplay = ({
   comment,
@@ -48,6 +50,7 @@ export const CommentDisplay = ({
       />
     ));
   const [minimized, setMinimized] = useState<boolean>(false);
+  const keypair = useKeypair(comment.comment.user_id);
   const [[previewWidth, previewHeight], setPreviewDims] = useState<
     [number, number]
   >([0, 0]);
@@ -97,6 +100,17 @@ export const CommentDisplay = ({
               comment.comment.user_id !== "dev" && (
                 <Disclaimer text="This is not an official dev post." />
               )}
+            {keypair && comment.comment.user_id && (
+              <Link href={`/?message_to=${comment.comment.user_id}`}>
+                <Image
+                  className={`${clickable.clickable} ${style.replyIcon}`}
+                  src="/mail.svg"
+                  height={15}
+                  width={15}
+                  alt="Mail icon."
+                />
+              </Link>
+            )}
             <Image
               className={`${clickable.clickable} ${style.replyIcon}`}
               src="/reply.svg"

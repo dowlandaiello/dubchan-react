@@ -4,6 +4,7 @@ import { Feed, FeedContext, ThreadingContext } from "../components/Feed";
 import { Header } from "../components/Header";
 import { ModalInput } from "../components/ModalInput";
 import { PostPage } from "../components/PostPage";
+import { MessagesPage } from "../components/MessagesPage";
 import { ModalContext, ModalProps } from "../components/ModalInput";
 import { useState } from "react";
 import Script from "next/script";
@@ -74,6 +75,10 @@ export default function Home() {
                         : undefined
                     }
                   />
+                  {router.query?.message_to !== undefined &&
+                    !Array.isArray(router.query.message_to) && (
+                      <MessagesPage to={router.query.message_to} />
+                    )}
                   <div className={styles.foreground}>
                     <div className={styles.workspace}>
                       <Header />

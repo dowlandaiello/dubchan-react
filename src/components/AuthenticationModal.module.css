@@ -38,6 +38,12 @@
   gap: 0.5em;
 }
 
+.submitButton {
+  align-self: end;
+  padding: 0.5em !important;
+  border-radius: 500px !important;
+}
+
 @media screen and (max-width: 779px) {
   .section>*:last-child {
     margin-top: auto;

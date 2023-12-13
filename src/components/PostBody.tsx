@@ -15,8 +15,10 @@ import Image from "next/image";
 import { GreenText } from "./GreenText";
 import { PollDisplay } from "./PollDisplay";
 import { Disclaimer } from "./Disclaimer";
+import { useKeypair } from "../model/key_pair";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Link from "next/link";
 
 export const PostBody = ({
   className,
@@ -52,6 +54,7 @@ export const PostBody = ({
   const [startingBlurred, _] = useState<Boolean>(initBlurred);
   const [blurredLocal, setBlurred] = useState<Boolean>(initBlurred);
   const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
+  const keypair = useKeypair(post?.user_id ?? undefined);
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
 
   const [votes, addVote, removeVote] = useContext(VoteContext);
@@ -135,6 +138,17 @@ export const PostBody = ({
             {post?.n_opened ?? 0}
             <Image src="/eye.svg" height={15} width={15} alt="Views icon." />
           </div>
+          {keypair && post && post.user_id && (
+            <Link href={`/?message_to=${post.user_id}`}>
+              <Image
+                className={`${clickable.clickable} ${style.replyIcon}`}
+                src="/mail.svg"
+                height={15}
+                width={15}
+                alt="Mail icon."
+              />
+            </Link>
+          )}
           <CopyLink link={postUrl} />
           {deletable && (
             <Image

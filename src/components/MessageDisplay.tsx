@@ -1,13 +1,24 @@
-import { ThreadNode } from "../model/comment";
 import { useRef, useState, useEffect } from "react";
 import { TimestampLabel } from "./TimestampLabel";
 import { UsernameLabel } from "./UsernameLabel";
 import { Disclaimer } from "./Disclaimer";
+import { Timestamp } from "../model/timestamp";
 import { GreenText } from "./GreenText";
 import { MediaViewer } from "./MediaViewer";
 import Image from "next/image";
 import style from "./MessageDisplay.module.css";
 import clickable from "./Clickable.module.css";
+import { useKeypair } from "../model/key_pair";
+import Link from "next/link";
+
+export interface Node {
+  id: number;
+  parent?: number;
+  time: Timestamp;
+  text: string;
+  src?: string;
+  user_id?: string;
+}
 
 export const MessageDisplay = ({
   comment,
@@ -16,8 +27,8 @@ export const MessageDisplay = ({
   deletable,
   onClickDelete,
 }: {
-  comment: ThreadNode;
-  tree: { [id: number]: ThreadNode };
+  comment: Node;
+  tree: { [id: number]: Node };
   onReply: (comment: number | null) => void;
   deletable?: Boolean;
   onClickDelete?: () => void;
@@ -26,6 +37,7 @@ export const MessageDisplay = ({
     [number, number]
   >([0, 0]);
   const windowRef = useRef<HTMLDivElement | null>(null);
+  const keypair = useKeypair(comment.user_id);
 
   useEffect(() => {
     if (!windowRef.current || windowRef.current == null) return;
@@ -50,30 +62,38 @@ export const MessageDisplay = ({
 
   return (
     <div className={style.section} ref={windowRef}>
-      {comment?.comment.parent_comment &&
-        tree[comment?.comment.parent_comment] && (
-          <div className={style.replyLine}>
-            <Image src="/spine.svg" height={15} width={15} alt="Reply icon." />
-            <p>{tree[comment?.comment.parent_comment].comment.text}</p>
-          </div>
-        )}
+      {comment.parent && tree[comment.parent] && (
+        <div className={style.replyLine}>
+          <Image src="/spine.svg" height={15} width={15} alt="Reply icon." />
+          <p>{tree[comment.parent].text}</p>
+        </div>
+      )}
       <div className={style.timestampRow}>
-        <TimestampLabel timestamp={comment.comment.posted} />
-        {comment.comment.user_id && (
-          <UsernameLabel username={comment.comment.user_id} />
-        )}
-        {comment.comment.user_id &&
-          comment.comment.user_id.toLowerCase().includes("dev") &&
-          comment.comment.user_id !== "dev" && (
+        <TimestampLabel timestamp={comment.time} />
+        {comment.user_id && <UsernameLabel username={comment.user_id} />}
+        {comment.user_id &&
+          comment.user_id.toLowerCase().includes("dev") &&
+          comment.user_id !== "dev" && (
             <Disclaimer text="This is not an official dev post." />
           )}
+        {keypair && comment.user_id && (
+          <Link href={`/?message_to=${comment.user_id}`}>
+            <Image
+              className={`${clickable.clickable} ${style.replyIcon}`}
+              src="/mail.svg"
+              height={15}
+              width={15}
+              alt="Mail icon."
+            />
+          </Link>
+        )}
         <Image
           className={`${clickable.clickable} ${style.replyIcon}`}
           src="/reply.svg"
           height={15}
           width={15}
           alt="Reply icon."
-          onClick={() => onReply(comment.comment.id)}
+          onClick={() => onReply(comment.id)}
         />
         {deletable && (
           <Image
@@ -87,9 +107,9 @@ export const MessageDisplay = ({
         )}
       </div>
       <div className={style.commentText}>
-        <GreenText>{comment.comment.text}</GreenText>
+        <GreenText>{comment.text}</GreenText>
       </div>
-      {comment.comment.src && (
+      {comment.src && (
         <MediaViewer
           width={previewWidth == 0 ? undefined : previewWidth}
           height={previewHeight == 0 ? undefined : previewHeight}
@@ -98,7 +118,7 @@ export const MessageDisplay = ({
             height: previewHeight == 0 ? undefined : previewHeight,
           }}
           className={style.media}
-          src={comment.comment.src}
+          src={comment.src}
           expandable
         />
       )}

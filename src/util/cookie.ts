@@ -40,6 +40,7 @@ export const loadVotes = (): { [postId: number]: number } =>
 export const addIdentity = (
   serverStartTime: Timestamp,
   username: string,
+  password: string,
   token: string
 ) => {
   const now = new Date();
@@ -47,7 +48,7 @@ export const addIdentity = (
   const expireTime = time + 1000 * 36000 * 7;
   now.setTime(expireTime);
 
-  document.cookie = `${username}=${token}:${
+  document.cookie = `${username}_${password}=${token}:${
     serverStartTime.secs_since_epoch
   };expires=${now.toUTCString()}`;
 };
@@ -66,9 +67,14 @@ export const loadIdentities = (
     .filter((s) => s.length > 0)
     .filter((s) => s.includes("="))
     .map((pair) => pair.split("="))
-    .map(([username, token]) => [username, token.split(":") as string[]])
+    .map(([username, token]) => [...username.split("_"), token])
+    .map(([username, password, token]) => [
+      username,
+      password,
+      token.split(":") as string[],
+    ])
     .reduce(
-      (map, [username, token]) => {
+      (map, [username, password, token]) => {
         const [tokenValue, effectiveDate, ..._]: string[] = Array.isArray(token)
           ? token
           : [token, "0"];
@@ -87,7 +93,11 @@ export const loadIdentities = (
         return {
           users: {
             ...map.users,
-            [username as string]: { username: username, token: tokenValue },
+            [username as string]: {
+              username: username,
+              password: password,
+              token: tokenValue,
+            },
           },
         };
       },
