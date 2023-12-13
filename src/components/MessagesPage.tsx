@@ -90,6 +90,8 @@ export const MessagesPage = ({ to }: { to?: string }) => {
           };
         }
 
+        if (!kp) return { ...msg };
+
         const dec = decrypt(msg.text, msg.message_id, activeKeypair, kp);
 
         return {
