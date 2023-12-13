@@ -60,7 +60,9 @@ export const removeIdentity = (username: string) => {
 export const loadIdentities = (
   serverStartTime: Timestamp
 ): {
-  users: { [username: string]: User };
+  users: {
+    [username: string]: { username: string; token: string; password: string };
+  };
 } =>
   document.cookie
     .split("; ")
