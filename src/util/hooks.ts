@@ -10,7 +10,7 @@ import {
 } from "react";
 
 export const WebsocketContext = createContext<
-  [WebSocket | null, Dispatch<SetStateAction<WebSocket>>]
+  [WebSocket | null, Dispatch<SetStateAction<WebSocket | null>>]
 >([null, () => {}]);
 
 export const useSocket = () => {
