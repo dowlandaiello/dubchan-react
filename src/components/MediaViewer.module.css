@@ -1,7 +1,5 @@
 .viewer {
   border-radius: 5px;
-  overflow: clip;
-  position: relative;
   height: 100%;
 }
 

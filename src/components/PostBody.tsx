@@ -93,8 +93,11 @@ export const PostBody = ({
 
       const elem = thumbnailRef.current;
       let elementWidth = elem.clientWidth;
+      let elementHeight = elem.clientHeight;
 
-      setPreviewDims(compact ? [elementWidth * 1, 0] : [elementWidth * 0.3, 0]);
+      setPreviewDims(
+        compact ? [elementWidth * 1, 0] : [elementWidth * 0.5, elementHeight]
+      );
     };
 
     window.addEventListener("resize", resizeListener);

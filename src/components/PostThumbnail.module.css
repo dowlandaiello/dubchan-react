@@ -144,7 +144,8 @@
 
 .mediaContainer {
   overflow: clip;
-  width: 30%;
+  width: 50%;
+  height: 30vh;
   border-radius: 5px;
 
   position: relative;
