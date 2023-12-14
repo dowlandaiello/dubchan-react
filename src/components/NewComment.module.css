@@ -82,3 +82,10 @@
   padding: 0.25em;
   border-radius: 5px;
 }
+
+@media screen and (max-width: 1031px) {
+  .preview {
+    width: 100%;
+    min-height: 20vh;
+  }
+}
