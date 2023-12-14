@@ -33,6 +33,8 @@ export const MediaViewer = ({
   let content = (
     <video
       className={loaded ? styles.loaded : styles.unloaded}
+      height={height ?? 315}
+      width={width ?? 560}
       onLoadedData={() => setLoaded(true)}
       controls
     >
