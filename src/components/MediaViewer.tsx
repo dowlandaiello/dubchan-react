@@ -53,7 +53,8 @@ export const MediaViewer = ({
     src.includes("base64") ||
     src.includes("png") ||
     src.includes("jpeg") ||
-    src.includes("jpg")
+    src.includes("jpg") ||
+    src.includes("gif")
   ) {
     content = (
       <img

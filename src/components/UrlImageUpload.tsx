@@ -21,7 +21,7 @@ export const UrlImageUpload = ({
   const edit = () => {
     setModal({
       title: "Link an Image",
-      description: "Attach a link ending with .png, .jpg, or .jpeg.",
+      description: "Attach a link ending with .png, .jpg, .jpeg, or .gif.",
       placeholder: "https://",
       active: true,
       onSubmit: onSubmit,
