@@ -6,6 +6,20 @@
   margin-bottom: 1em;
 }
 
+.line {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.line a {
+  color: white;
+  border-bottom: 1px solid var(--accent);
+  text-decoration: none;
+}
+
 .line:not(:last-child) {
   margin-bottom: 1em;
 }
