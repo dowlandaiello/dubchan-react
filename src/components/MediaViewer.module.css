@@ -1,6 +1,7 @@
 .viewer {
   border-radius: 5px;
   height: 100%;
+  position: relative;
 }
 
 .viewer img:first-child {
