@@ -33,11 +33,17 @@ export const MediaViewer = ({
   let content = (
     <video
       className={loaded ? styles.loaded : styles.unloaded}
-      onLoad={() => setLoaded(true)}
-      src={src}
-    />
+      onLoadedData={() => setLoaded(true)}
+      controls
+    >
+      <source src={src} type="video/mp4" />
+    </video>
   );
-  let modalContent = <video className={styles.modalContent} src={src} />;
+  let modalContent = (
+    <video className={styles.modalContent} controls>
+      <source src={src} type="video/mp4" />
+    </video>
+  );
 
   // This is a normal-ass image.
   if (
