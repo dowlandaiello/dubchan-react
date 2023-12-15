@@ -1,5 +1,5 @@
 import { Post } from "../model/post";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import { useUiRoute, route } from "../util/http";
 import { VoteContext } from "../util/cookie";
 import { Tag } from "./Tag";
@@ -56,6 +56,7 @@ export const PostBody = ({
   const blurred = initBlurred !== startingBlurred ? initBlurred : blurredLocal;
   const keypair = useKeypair(post?.user_id ?? undefined);
   const postUrl = useUiRoute(`?post=${post?.id ?? 0}`);
+  const [isLeftAligned, setIsLeftAligned] = useState<boolean>(false);
 
   const [votes, addVote, removeVote] = useContext(VoteContext);
 
@@ -107,6 +108,41 @@ export const PostBody = ({
     return () => {
       window.removeEventListener("resize", resizeListener);
     };
+  }, []);
+
+  const renderedRef = useCallback((node: HTMLDivElement) => {
+    if (!node) return;
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!thumbnailRef.current) return;
+      if (expandedText) return;
+
+      for (const entry of entries) {
+        if (entry.contentBoxSize) {
+          if (
+            entry.target.clientHeight <
+            0.4 * thumbnailRef.current.clientHeight
+          ) {
+            setPreviewDims([
+              thumbnailRef.current.clientWidth * 0.3,
+              thumbnailRef.current.clientHeight,
+            ]);
+            setIsLeftAligned(true);
+          }
+        } else {
+          if (
+            entry.target.clientHeight <
+            0.4 * thumbnailRef.current.clientHeight
+          ) {
+            setPreviewDims([
+              thumbnailRef.current.clientWidth * 0.3,
+              thumbnailRef.current.clientHeight,
+            ]);
+            setIsLeftAligned(true);
+          }
+        }
+      }
+    });
+    resizeObserver.observe(node);
   }, []);
 
   const formatViews = (views: number): string => {
@@ -195,9 +231,50 @@ export const PostBody = ({
       {post && post.id === 258 && (
         <Disclaimer text="This post is not endorsed by or affiliated with DubChan in any way." />
       )}
-      {post ? <GreenText>{post.text}</GreenText> : <Skeleton count={3} />}
+      {isLeftAligned && post && post.src && (
+        <div className={style.contentArea}>
+          {post.src && (
+            <div
+              className={`${style.leftMedia} ${
+                compact ? style.bigMediaContainer : style.mediaContainer
+              }`}
+              onClick={() => setBlurred(!blurred)}
+            >
+              {blurred && (
+                <div className={style.iconContainer}>
+                  <Image
+                    className={`${style.hideIcon} ${clickable.clickable}`}
+                    src="/hide.svg"
+                    height={30}
+                    width={30}
+                    alt="Hide icon."
+                  />
+                </div>
+              )}
+              <MediaViewer
+                expandable
+                title={post.title}
+                className={`${mediaClassName} ${style.media} ${
+                  blurred ? style.blurred : ""
+                }`}
+                src={post.src}
+                height={previewHeight == 0 ? undefined : previewHeight}
+                width={previewWidth == 0 ? undefined : previewWidth}
+              />
+            </div>
+          )}
+          <div className={style.postText}>
+            <GreenText>{post.text}</GreenText>
+          </div>
+        </div>
+      )}
+      {post ? (
+        !isLeftAligned && <GreenText>{post.text}</GreenText>
+      ) : (
+        <Skeleton count={3} />
+      )}
       {(post &&
-        ((post.src && (
+        ((post.src && !isLeftAligned && (
           <div
             className={`${style.media} ${
               compact ? style.bigMediaContainer : style.mediaContainer
@@ -215,16 +292,19 @@ export const PostBody = ({
                 />
               </div>
             )}
-            <MediaViewer
-              expandable
-              title={post.title}
-              className={`${mediaClassName} ${style.media} ${
-                blurred ? style.blurred : ""
-              }`}
-              src={post.src}
-              height={previewHeight == 0 ? undefined : previewHeight}
-              width={previewWidth == 0 ? undefined : previewWidth}
-            />
+            {!isLeftAligned && (
+              <MediaViewer
+                ref={renderedRef}
+                expandable
+                title={post.title}
+                className={`${mediaClassName} ${style.media} ${
+                  blurred ? style.blurred : ""
+                }`}
+                src={post.src}
+                height={previewHeight == 0 ? undefined : previewHeight}
+                width={previewWidth == 0 ? undefined : previewWidth}
+              />
+            )}
           </div>
         )) || <></>)) || (
         <Skeleton containerClassName={style.imageSkeleton} height="100%" />

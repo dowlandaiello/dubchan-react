@@ -109,6 +109,35 @@
   cursor: pointer;
 }
 
+.contentArea {
+  display: flex;
+
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  gap: 1em;
+
+  flex-grow: 1;
+}
+
+.postText {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.leftMedia {
+  min-width: 30%;
+  max-width: 30%;
+  min-height: 100% !important;
+  flex-grow: 1;
+  align-self: flex-start;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 .post.expanded {
   height: 100vh;
 }
