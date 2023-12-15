@@ -8,7 +8,19 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 /// A component rendering videos, images, and embeds.
-export const MediaViewer = forwardRef(
+export const MediaViewer = forwardRef<
+  HTMLDivElement,
+  {
+    title?: string;
+    style?: CSSProperties;
+    src: string;
+    width?: number;
+    height?: number;
+    className?: string | undefined;
+    onClick?: () => void | undefined;
+    expandable?: boolean;
+  }
+>(
   (
     {
       title,
@@ -113,7 +125,7 @@ export const MediaViewer = forwardRef(
     return (
       <div
         className={`${styles.viewer} ${className ? className : ""}`}
-        ref={ref}
+        ref={ref ?? undefined}
         onClick={onClick}
         style={style}
       >
