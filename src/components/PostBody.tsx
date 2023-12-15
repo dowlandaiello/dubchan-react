@@ -120,7 +120,7 @@ export const PostBody = ({
         if (entry.contentBoxSize) {
           if (
             entry.target.clientHeight <
-            0.4 * thumbnailRef.current.clientHeight
+            0.3 * thumbnailRef.current.clientHeight
           ) {
             setPreviewDims([
               thumbnailRef.current.clientWidth * 0.3,
@@ -131,7 +131,7 @@ export const PostBody = ({
         } else {
           if (
             entry.target.clientHeight <
-            0.4 * thumbnailRef.current.clientHeight
+            0.3 * thumbnailRef.current.clientHeight
           ) {
             setPreviewDims([
               thumbnailRef.current.clientWidth * 0.3,
