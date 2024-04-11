@@ -21,7 +21,8 @@ export const UrlImageUpload = ({
   const edit = () => {
     setModal({
       title: "Link an Image",
-      description: "Attach a link ending with .png, .jpg, .jpeg, or .gif.",
+      description:
+        "Attach a link ending with .png, .jpg, .jpeg, or .gif from files.catbox.moe, imgur.com, media.discordapp.net, or youtube.com.",
       placeholder: "https://",
       active: true,
       onSubmit: onSubmit,

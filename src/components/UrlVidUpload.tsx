@@ -21,7 +21,8 @@ export const UrlVidUpload = ({
   const edit = () => {
     setModal({
       title: "Link a Video",
-      description: "Attach YouTube links, or links ending with .mp4.",
+      description:
+        "Attach YouTube links, or links ending with .mp4 from files.catbox.moe, imgur.com, or media.discordapp.net.",
       placeholder: "https://",
       active: true,
       onSubmit: onSubmit,
