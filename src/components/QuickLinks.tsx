@@ -11,7 +11,6 @@ export const QuickLinks = () => {
 
   const links = [
     { text: "About", postId: 1 },
-    { text: "Discord", postId: 35 },
     { text: "Account Privacy & Moderation", postId: 10 },
     { text: "Bug Reports / Features", postId: 4 },
   ];
