@@ -67,7 +67,6 @@
 
   background-color: var(--bg-lighter);
   border: 1px solid var(--accent);
-  border-radius: 5px;
 
   margin-bottom: 2em;
 
@@ -102,7 +101,6 @@
 
   background-color: var(--bg-lightest);
   padding: 1em;
-  border-radius: 5px;
 }
 
 .dataLabel {

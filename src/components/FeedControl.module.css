@@ -11,13 +11,12 @@
 .searchBar {
   background-color: var(--bg-lightest);
   border: 1px solid var(--accent);
-  border-radius: 5px;
   padding: 0.5em;
 
   flex-grow: 1;
 }
 
-.searchBar img:first-child {
+.searchBar img {
   filter: invert(1);
 }
 
@@ -48,7 +47,6 @@
 
   background-color: var(--bg-lightest);
   border: 1px solid var(--accent);
-  border-radius: 5px;
 }
 
 .leftToggle {
@@ -76,12 +74,10 @@
 
 .leftToggle.active {
   background-color: var(--accent);
-  border-radius: 5px 0px 0px 5px;
 }
 
 .rightToggle.active {
   background-color: var(--accent);
-  border-radius: 0px 5px 5px 0px;
 }
 
 .returnButton {

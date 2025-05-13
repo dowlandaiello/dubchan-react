@@ -1,5 +1,4 @@
 .section {
-  border-radius: 5px;
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;

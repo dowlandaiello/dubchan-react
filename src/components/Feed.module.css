@@ -24,7 +24,7 @@
 
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: auto;
-  grid-auto-rows: 40vh;
+  grid-auto-rows: minmax(auto, 40vh);
 
   overflow: auto;
 
@@ -55,7 +55,8 @@
 
 @media screen and (max-width: 663px) {
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-flow: column nowrap;
   }
 
   .gridHeader {

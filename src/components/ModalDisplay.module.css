@@ -39,7 +39,6 @@
   align-items: stretch;
 
   background-color: var(--bg-lightest);
-  border-radius: 5px;
   border: 1px solid var(--accent);
 
   max-height: 100%;

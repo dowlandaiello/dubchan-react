@@ -8,7 +8,6 @@
 
 .parentBody {
   border: 1px solid var(--accent);
-  border-radius: 5px;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;

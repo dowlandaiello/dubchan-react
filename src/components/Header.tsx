@@ -37,7 +37,7 @@ export const Header = () => {
         <img src={logo} width={156} height={74.883} alt="DubChan logo" />
         <div className={style.headerText}>
           <div className={style.headerTitleLine}>
-            <h1>DubChan</h1>
+              <h1><span className="">Dub</span><span>Chan</span></h1>
             <p className={style.betaMarker}>Beta</p>
           </div>
           <p>Anonymous. Unmoderated.</p>

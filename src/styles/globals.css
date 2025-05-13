@@ -1,15 +1,14 @@
 :root {
-  --bg-lightest: #1a1837;
-  --bg: #09071c;
-  --accent: #6358FF;
-  --accent-rgb: 99, 88, 255;
-  --svg-accent: invert(45%) sepia(95%) saturate(5136%) hue-rotate(234deg) brightness(102%) contrast(101%);
-  --bg-lighter: #110f25;
+  --bg-lightest: #1f1336;
+  --bg: #05050f;
+  --accent: #6131bd;
+  --accent-rgb: 97, 49, 189;
+  --bg-lighter: #100a1c;
   --bg-error: #371818;
   --accent-error: #ff5858;
 
   color: white;
-  font-family: "Arial", "Helvetica", "sans-serif";
+  font-family: "Tahoma", "sans-serif";
 }
 
 body {

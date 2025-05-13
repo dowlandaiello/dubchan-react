@@ -5,8 +5,6 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  border-radius: 20px;
-
   z-index: 3;
 }
 
@@ -37,10 +35,6 @@
   background-color: var(--bg-lighter);
 }
 
-.drawerContainer>*:last-child {
-  border-radius: 0px 0px 20px 20px;
-}
-
 .loginButton {
   display: flex;
 
@@ -54,8 +48,6 @@
   padding: 0.5em;
 
   cursor: pointer;
-
-  border-radius: 20px;
 
   width: calc(100% - 1em);
 }

@@ -5,6 +5,5 @@
 .godLabel {
   color: white;
   background-color: var(--accent);
-  border-radius: 5px;
   padding: 0.25em;
 }

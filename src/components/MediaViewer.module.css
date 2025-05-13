@@ -1,5 +1,4 @@
 .viewer {
-  border-radius: 5px;
   height: 100%;
   position: relative;
 }
@@ -17,7 +16,6 @@
   right: 0.5em;
 
   background-color: var(--accent);
-  border-radius: 5px;
 }
 
 .modalContentContainer {
@@ -33,7 +31,6 @@
   max-width: 100%;
   max-height: 100%;
   margin: auto;
-  border-radius: 5px;
 }
 
 .skeleton {

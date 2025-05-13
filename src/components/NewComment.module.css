@@ -28,7 +28,7 @@
   font-size: 1em;
   width: 100%;
   background-color: transparent;
-  font-family: Arial, Helvetica, "sans-serif";
+  font-family: Tahoma, "sans-serif";
 }
 
 .attachLine {
@@ -80,7 +80,6 @@
 .trashIcon {
   background-color: var(--accent-error);
   padding: 0.25em;
-  border-radius: 5px;
 }
 
 @media screen and (max-width: 1031px) {

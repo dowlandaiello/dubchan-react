@@ -4,15 +4,14 @@
   justify-content: flex-start;
   align-items: stretch;
 
-  border-radius: 5px;
   border: 1px solid var(--accent);
   background-color: var(--bg-lighter);
-
-  padding: 0.5em;
 }
 
 .post .postBody {
   height: 100%;
+
+  padding: 0.5em;
 }
 
 .postBody {
@@ -148,23 +147,25 @@
 }
 
 .commentViewButton {
-  color: var(--accent);
+  background-color: var(--accent);
   font-weight: bold;
   margin-top: auto;
+  padding: 0.25em;
 }
 
 .commentViewButton a {
+  opacity: 0.75;
   text-decoration: none;
-  color: var(--accent);
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .commentViewButton img {
-  filter: var(--svg-accent);
   margin-right: 0.5em;
+  filter: invert(1);
 }
 
 .blurred {
@@ -175,14 +176,12 @@
   overflow: clip;
   width: 50%;
   height: 30vh;
-  border-radius: 5px;
 
   position: relative;
 }
 
 .bigMediaContainer {
   overflow: clip;
-  border-radius: 5px;
 
   position: relative;
 
@@ -206,7 +205,6 @@
   z-index: 2;
 
   background-color: var(--accent);
-  border-radius: 5px;
 }
 
 .iconContainer {
@@ -248,7 +246,6 @@
 .removeIcon {
   background-color: var(--accent-error);
   padding: 0.25em;
-  border-radius: 5px;
 }
 
 .viewsLabel {

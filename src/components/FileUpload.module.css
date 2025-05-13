@@ -28,5 +28,5 @@
 }
 
 .buttonLabel img {
-  filter: var(--svg-accent);
+  filter: invert(1);
 }

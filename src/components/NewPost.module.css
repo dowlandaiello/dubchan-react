@@ -3,8 +3,6 @@
   background-color: var(--bg-lightest);
   padding: 1em;
 
-  border-radius: 5px;
-
   display: flex;
 
   flex-flow: row wrap-reverse;
@@ -92,7 +90,7 @@
   font-size: 1em;
   width: 100%;
   background-color: transparent;
-  font-family: Arial, Helvetica, "sans-serif";
+  font-family: Tahoma, "sans-serif";
 }
 
 .attachLine {
