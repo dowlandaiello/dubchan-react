@@ -19,7 +19,7 @@ export const FileUpload = ({
       <input
         className={`${className}`}
         type="file"
-        accept=".jpeg, .jpg, .png"
+        accept=".jpeg, .jpg, .png, .webp"
         onChange={onChange}
       />
       <div className={style.buttonLabel}>
